@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="150deae4-e840-42e3-b119-d5452a5c2fc1" name="Default Changelist" comment="修改">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -134,7 +135,8 @@
       <workItem from="1580297192052" duration="985000" />
       <workItem from="1580355736239" duration="2841000" />
       <workItem from="1580645254281" duration="614000" />
-      <workItem from="1580796831858" duration="2016000" />
+      <workItem from="1580796831858" duration="2127000" />
+      <workItem from="1580799770875" duration="210000" />
     </task>
     <task id="LOCAL-00001" summary="first">
       <created>1580798817351</created>
@@ -163,10 +165,10 @@
       <screen x="0" y="23" width="1280" height="777" />
     </state>
     <state x="489" y="318" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.23.1280.777@0.23.1280.777" timestamp="1580799522870" />
-    <state x="107" y="23" width="833" height="777" key="CommitChangelistDialog2" timestamp="1580799366661">
+    <state x="107" y="23" width="833" height="777" key="CommitChangelistDialog2" timestamp="1580799908789">
       <screen x="0" y="23" width="1280" height="777" />
     </state>
-    <state x="107" y="23" width="833" height="777" key="CommitChangelistDialog2/0.23.1280.777@0.23.1280.777" timestamp="1580799366661" />
+    <state x="107" y="23" width="833" height="777" key="CommitChangelistDialog2/0.23.1280.777@0.23.1280.777" timestamp="1580799908789" />
     <state width="1238" height="197" key="GridCell.Tab.0.bottom" timestamp="1580382856994">
       <screen x="0" y="23" width="1280" height="777" />
     </state>
