@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="150deae4-e840-42e3-b119-d5452a5c2fc1" name="Default Changelist" comment="first" />
+    <list default="true" id="150deae4-e840-42e3-b119-d5452a5c2fc1" name="Default Changelist" comment="修改">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -132,7 +134,7 @@
       <workItem from="1580297192052" duration="985000" />
       <workItem from="1580355736239" duration="2841000" />
       <workItem from="1580645254281" duration="614000" />
-      <workItem from="1580796831858" duration="1742000" />
+      <workItem from="1580796831858" duration="2016000" />
     </task>
     <task id="LOCAL-00001" summary="first">
       <created>1580798817351</created>
@@ -149,13 +151,18 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="first" />
-    <option name="LAST_COMMIT_MESSAGE" value="first" />
+    <MESSAGE value="修改" />
+    <option name="LAST_COMMIT_MESSAGE" value="修改" />
   </component>
   <component name="WindowStateProjectService">
     <state x="453" y="102" key="#com.intellij.ide.util.MemberChooser" timestamp="1580355785907">
       <screen x="0" y="23" width="1280" height="777" />
     </state>
     <state x="453" y="102" key="#com.intellij.ide.util.MemberChooser/0.23.1280.777@0.23.1280.777" timestamp="1580355785907" />
+    <state x="489" y="318" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog" timestamp="1580799522870">
+      <screen x="0" y="23" width="1280" height="777" />
+    </state>
+    <state x="489" y="318" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.23.1280.777@0.23.1280.777" timestamp="1580799522870" />
     <state x="107" y="23" width="833" height="777" key="CommitChangelistDialog2" timestamp="1580799366661">
       <screen x="0" y="23" width="1280" height="777" />
     </state>
