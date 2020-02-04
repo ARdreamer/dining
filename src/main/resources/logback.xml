@@ -35,7 +35,7 @@
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
         <encoder>
-            <pattern>【%d】  - 【%m】%n</pattern>
+            <pattern>[ERROR]【%d】  - 【%m】%n</pattern>
             <charset>UTF-8</charset>
         </encoder>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">

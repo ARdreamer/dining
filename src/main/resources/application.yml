@@ -1,11 +1,13 @@
-#spring:
-#  datasource:
-#    driver-class-name: com.mysql.jdbc.Driver
-#    username: root
-#    password: 123456
-#    url: jdbc:mysql://127.0.0.1:3306/order_dining?characterEncoding=utf-8&useSSL=false
-#  jpa:
-#    show-sql: true
-#server:
-#  servlet:
-#    context-path: /dining
+server:
+  port: 8080
+  servlet:
+    context-path: /dining
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: 111
+    url: jdbc:mysql://127.0.0.1:3306/order_dining?characterEncoding=utf-8&useSSL=false
+mybatis:
+  mapper-locations: classpath:mappers/*Mappers.xml
+  type-aliases-package: com.order.dining.domain
