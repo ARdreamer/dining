@@ -182,4 +182,12 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where product_id = #{productId,jdbcType=VARCHAR}
   </update>
+
+  <select id="findByProductStatus" parameterType="java.lang.Byte" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from product_info
+    where product_status = #{productStatus,jdbcType=TINYINT}
+  </select>
+
 </mapper>

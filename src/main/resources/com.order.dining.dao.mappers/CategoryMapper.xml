@@ -122,4 +122,23 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where category_id = #{categoryId,jdbcType=INTEGER}
   </update>
+
+  <select id="selectAll"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from category
+  </select>
+
+  <select id="findByCategoryNo" parameterType="list"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from category
+    where
+    category_no in
+    <foreach item="item" collection="list" separator="," open="(" close=")" index="">
+      #{item.categoryNo, jdbcType=NUMERIC}
+    </foreach>
+
+  </select>
+
 </mapper>
