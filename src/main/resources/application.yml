@@ -6,8 +6,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
-    password: 111
-    url: jdbc:mysql://127.0.0.1:3306/order_dining?characterEncoding=utf-8&useSSL=false
+    password: 123456
+    url: jdbc:mysql://192.168.0.108:3306/order_dining?characterEncoding=utf-8&useSSL=false
 mybatis:
-  mapper-locations: classpath:mappers/*Mappers.xml
+  mapper-locations: classpath:com.order.dining.dao.mappers/*Mapper.xml
   type-aliases-package: com.order.dining.domain

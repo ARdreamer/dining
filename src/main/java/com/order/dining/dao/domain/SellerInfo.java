@@ -200,4 +200,16 @@ public class SellerInfo {
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
+
+    @Override
+    public String toString() {
+        return "SellerInfo{" +
+                "sellerId='" + sellerId + '\'' +
+                ", username='" + username + '\'' +
+                ", pwd='" + pwd + '\'' +
+                ", openid='" + openid + '\'' +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                '}';
+    }
 }
