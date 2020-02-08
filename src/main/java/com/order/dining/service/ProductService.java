@@ -11,10 +11,17 @@ import java.util.List;
  */
 public interface ProductService {
 
+    /**
+     * 根据商品id查询商品信息
+     *
+     * @param productId 商品id
+     * @return 商品信息
+     */
     ProductInfo findOne(String productId);
 
     /**
      * 查询上架商品列表
+     *
      * @return 商品列表
      */
     List<ProductInfo> findOnLine();
