@@ -1,5 +1,7 @@
 package com.order.dining.dao.domain;
 
+import com.order.dining.enums.EOrderStatus;
+import com.order.dining.enums.EPayOrderStatus;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -67,8 +69,9 @@ public class Order {
      * This field corresponds to the database column order.order_status
      *
      * @mbg.generated
+     * 订单状态，默认为新订单:0
      */
-    private Byte orderStatus;
+    private Byte orderStatus = EOrderStatus.NEW.getCode().byteValue();
 
     /**
      *
@@ -76,8 +79,9 @@ public class Order {
      * This field corresponds to the database column order.pay_status
      *
      * @mbg.generated
+     * 支付状态，默认为未支付:0
      */
-    private Byte payStatus;
+    private Byte payStatus = EPayOrderStatus.NO_PAY.getCode().byteValue();
 
     /**
      *

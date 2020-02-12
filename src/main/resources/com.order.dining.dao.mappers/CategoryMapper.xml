@@ -136,7 +136,7 @@
     where
     category_no in
     <foreach item="item" collection="list" separator="," open="(" close=")" index="">
-      #{item.categoryNo, jdbcType=NUMERIC}
+      #{item, jdbcType=NUMERIC}
     </foreach>
 
   </select>

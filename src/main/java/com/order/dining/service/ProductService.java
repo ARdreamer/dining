@@ -1,7 +1,8 @@
 package com.order.dining.service;
 
+import com.order.dining.common.PageRequest;
+import com.order.dining.common.PageResult;
 import com.order.dining.dao.domain.ProductInfo;
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
 
 import java.util.List;
 
@@ -26,10 +27,14 @@ public interface ProductService {
      */
     List<ProductInfo> findOnLine();
 
-    //TODO 改为Page Object
-    List<ProductInfo> findAll(SpringDataWebProperties.Pageable pageable);
+    /**
+     * 分页查询商品列表
+     *
+     * @param pageRequest 查询请求
+     * @return 查询结果
+     */
+    PageResult findAll(PageRequest pageRequest);
 
     Integer insert(ProductInfo productInfo);
-
 
 }

@@ -4,25 +4,24 @@ import lombok.Getter;
 
 /**
  * @Author: baojx
- * @Date: 2020/2/6 17:37
+ * @Date: 2020/2/12 13:09
  */
 @Getter
-public enum EProductInfo {
-
+public enum EPayOrderStatus {
     /**
-     * 商品已上架
+     * 未支付
      */
-    ON_LINE(0, "上架"),
+    NO_PAY(0, "未支付"),
     /**
-     * 商品已下架
+     * 支付成功
      */
-    OFF_LINE(1, "下架");
+    SUCCESS(1, "支付成功");
 
     private Integer code;
 
     private String decs;
 
-    EProductInfo(Integer code, String decs) {
+    EPayOrderStatus(Integer code, String decs) {
         this.code = code;
         this.decs = decs;
     }

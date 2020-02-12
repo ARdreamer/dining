@@ -190,4 +190,10 @@
     where product_status = #{productStatus,jdbcType=TINYINT}
   </select>
 
+  <select id="findAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from product_info
+  </select>
+
 </mapper>

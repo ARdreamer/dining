@@ -4,6 +4,7 @@ import com.order.dining.dao.domain.Category;
 import com.order.dining.dao.mappers.CategoryMapper;
 import com.order.dining.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -11,10 +12,12 @@ import java.util.List;
  * @Author: baojx
  * @Date: 2020/2/6 17:08
  */
+@Service
 public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
     private CategoryMapper categoryMapper;
+
     @Override
     public Category findOne(Integer categoryId) {
         return categoryMapper.selectByPrimaryKey(categoryId);
