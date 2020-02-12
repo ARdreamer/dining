@@ -1,22 +1,15 @@
 package com.order.dining.controller.buyer;
 
-import com.order.dining.common.Constants;
 import com.order.dining.common.Result;
-import com.order.dining.dao.domain.Category;
-import com.order.dining.dao.domain.ProductInfo;
-import com.order.dining.service.CategoryService;
-import com.order.dining.service.ProductService;
-import com.order.dining.utils.ResultUtil;
-import com.order.dining.vo.ProductInfoVO;
-import com.order.dining.vo.ProductVO;
-import org.springframework.beans.BeanUtils;
+import com.order.dining.dao.domain.*;
+import com.order.dining.service.*;
+import com.order.dining.utils.*;
+import com.order.dining.vo.*;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.beans.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,7 +34,7 @@ public class ProductController {
 
         //2. 查询商品类目
         List<Integer> categoryNoList = productInfoList.stream()
-                .map(e -> e.getCategoryNo())
+                .map(ProductInfo::getCategoryNo)
                 .collect(Collectors.toList());
         List<Category> categoryList = categoryService.findByCategoryNo(categoryNoList);
 

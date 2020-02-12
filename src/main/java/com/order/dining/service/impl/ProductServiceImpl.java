@@ -1,12 +1,10 @@
 package com.order.dining.service.impl;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import com.order.dining.common.PageRequest;
-import com.order.dining.common.PageResult;
-import com.order.dining.dao.domain.ProductInfo;
-import com.order.dining.dao.mappers.ProductInfoMapper;
-import com.order.dining.enums.EProductInfo;
+import com.github.pagehelper.*;
+import com.order.dining.common.*;
+import com.order.dining.dao.domain.*;
+import com.order.dining.dao.mappers.*;
+import com.order.dining.enums.*;
 import com.order.dining.service.ProductService;
 import com.order.dining.utils.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;

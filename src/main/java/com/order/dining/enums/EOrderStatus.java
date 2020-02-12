@@ -1,6 +1,5 @@
 package com.order.dining.enums;
 
-import lombok.Data;
 import lombok.Getter;
 
 /**
