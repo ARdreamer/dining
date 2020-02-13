@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 /**
  * @Author: baojx
  * @Date: 2020/2/6 17:54
+ * @Desc: 商品信息返回封装
  */
 @Data
 public class ProductInfoVO {

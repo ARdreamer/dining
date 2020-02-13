@@ -5,6 +5,7 @@ import lombok.Data;
 /**
  * @Author: baojx
  * @Date: 2020/2/6 17:47
+ * @Desc: 返回值封装
  */
 @Data
 public class Result<T> {

@@ -8,6 +8,7 @@ import java.util.List;
 /**
  * @Author: baojx
  * @Date: 2020/2/6 17:52
+ * @Desc: 商品类型：包含商品信息列表
  */
 @Data
 public class ProductVO {

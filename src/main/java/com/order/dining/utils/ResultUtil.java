@@ -6,6 +6,7 @@ import com.order.dining.common.Result;
 /**
  * @Author: baojx
  * @Date: 2020/2/12 12:04
+ * @Desc: 返回工具类
  */
 public class ResultUtil {
 

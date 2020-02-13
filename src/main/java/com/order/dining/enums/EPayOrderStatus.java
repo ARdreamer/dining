@@ -5,6 +5,7 @@ import lombok.Getter;
 /**
  * @Author: baojx
  * @Date: 2020/2/12 13:09
+ * @Desc: 支付状态枚举类型
  */
 @Getter
 public enum EPayOrderStatus {

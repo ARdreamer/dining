@@ -7,6 +7,7 @@ import com.order.dining.common.PageResult;
 /**
  * @Author: baojx
  * @Date: 2020/2/12 13:23
+ * @Desc: 分页工具类
  */
 public class PageUtil {
     /**

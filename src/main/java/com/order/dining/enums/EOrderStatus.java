@@ -5,6 +5,7 @@ import lombok.Getter;
 /**
  * @Author: baojx
  * @Date: 2020/2/12 13:04
+ * @Desc: 订单状态枚举类型
  */
 @Getter
 public enum EOrderStatus {

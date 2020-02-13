@@ -7,6 +7,7 @@ import java.util.List;
 /**
  * @Author: baojx
  * @Date: 2020/2/12 13:22
+ * @Desc: 分页结果封装
  */
 @Data
 public class PageResult {

@@ -5,6 +5,7 @@ import lombok.Getter;
 /**
  * @Author: baojx
  * @Date: 2020/2/6 17:37
+ * @Desc: 商品信息枚举类型
  */
 @Getter
 public enum EProductInfo {

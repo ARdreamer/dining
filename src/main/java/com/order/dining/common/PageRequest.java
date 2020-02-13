@@ -5,6 +5,7 @@ import lombok.Data;
 /**
  * @Author: baojx
  * @Date: 2020/2/12 13:22
+ * @Desc: 分页请求封装
  */
 @Data
 public class PageRequest {
