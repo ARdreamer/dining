@@ -58,7 +58,7 @@ public class ProductServiceImpl implements ProductService {
             if (productInfo == null) {
                 throw new DiningException(EResultError.PRODUCT_NOT_EXIST);
             }
-            Integer result = productInfo.getProductStock() - cartDTO.getProductQuantity();
+            int result = productInfo.getProductStock() - cartDTO.getProductQuantity();
             if (result < 0) {
                 throw new DiningException(EResultError.PRODUCT_STOCK_ERROR);
             }
@@ -70,15 +70,15 @@ public class ProductServiceImpl implements ProductService {
     /**
      * 调用分页插件完成分页
      *
-     * @param pageRequest
-     * @return
+     * @param pageRequest 分页请求
+     * @return 分页结果
      */
     private PageInfo<ProductInfo> getPageInfo(PageRequest pageRequest) {
         int pageNum = pageRequest.getPageNum();
         int pageSize = pageRequest.getPageSize();
         PageHelper.startPage(pageNum, pageSize);
         List<ProductInfo> productInfoList = productInfoMapper.selectAll();
-        return new PageInfo<ProductInfo>(productInfoList);
+        return new PageInfo<>(productInfoList);
     }
 
 }
