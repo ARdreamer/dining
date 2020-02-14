@@ -3,9 +3,9 @@ package com.order.dining.service.impl;
 import com.order.dining.dao.domain.Category;
 import com.order.dining.dao.mappers.CategoryMapper;
 import com.order.dining.service.CategoryService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -15,7 +15,7 @@ import java.util.List;
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
-    @Autowired
+    @Resource
     private CategoryMapper categoryMapper;
 
     @Override

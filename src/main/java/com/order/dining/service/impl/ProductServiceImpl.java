@@ -9,10 +9,10 @@ import com.order.dining.enums.*;
 import com.order.dining.exception.DiningException;
 import com.order.dining.service.ProductService;
 import com.order.dining.utils.PageUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -22,7 +22,7 @@ import java.util.List;
 @Service
 public class ProductServiceImpl implements ProductService {
 
-    @Autowired
+    @Resource
     private ProductInfoMapper productInfoMapper;
 
     @Override

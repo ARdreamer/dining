@@ -12,11 +12,11 @@ import com.order.dining.service.*;
 import com.order.dining.utils.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.*;
@@ -30,17 +30,17 @@ import java.util.stream.Collectors;
 @Slf4j
 public class PayOrderServiceImpl implements PayOrderService {
 
-    @Autowired
+    @Resource
     private PayOrderMapper payOrderMapper;
 
-    @Autowired
+    @Resource
     private ProductService productService;
 
-    @Autowired
+    @Resource
     private OrderDetailMapper orderDetailMapper;
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = RuntimeException.class)
     public OrderDTO create(OrderDTO orderDTO) {
         String orderId = KeyUtil.genUniqueKey();
         BigDecimal orderAmount = new BigDecimal(BigInteger.ZERO);

@@ -6,10 +6,10 @@ import com.order.dining.service.PayOrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +24,7 @@ import java.util.List;
 @Slf4j
 public class PayPayOrderServiceImplTest {
 
-    @Autowired
+    @Resource
     private PayOrderService payOrderService;
 
     @Test

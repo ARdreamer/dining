@@ -7,8 +7,8 @@ import com.order.dining.utils.*;
 import com.order.dining.vo.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.*;
-import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,10 +21,10 @@ import java.util.stream.Collectors;
 @RequestMapping("/buyer/product")
 public class ProductController {
 
-    @Autowired
+    @Resource
     private ProductService productService;
 
-    @Autowired
+    @Resource
     private CategoryService categoryService;
 
     @GetMapping("list")
