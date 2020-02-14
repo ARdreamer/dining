@@ -129,7 +129,7 @@
     from category
   </select>
 
-  <select id="findByCategoryNo" parameterType="list"  resultMap="BaseResultMap">
+  <select id="selectByCategoryNo" parameterType="list" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from category

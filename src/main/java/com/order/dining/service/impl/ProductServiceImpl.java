@@ -4,11 +4,14 @@ import com.github.pagehelper.*;
 import com.order.dining.common.*;
 import com.order.dining.dao.domain.*;
 import com.order.dining.dao.mappers.*;
+import com.order.dining.dto.CartDTO;
 import com.order.dining.enums.*;
+import com.order.dining.exception.DiningException;
 import com.order.dining.service.ProductService;
 import com.order.dining.utils.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -23,23 +26,45 @@ public class ProductServiceImpl implements ProductService {
     private ProductInfoMapper productInfoMapper;
 
     @Override
-    public ProductInfo findOne(String productId) {
+    public ProductInfo selectOne(String productId) {
         return productInfoMapper.selectByPrimaryKey(productId);
     }
 
     @Override
-    public List<ProductInfo> findOnLine() {
-        return productInfoMapper.findByProductStatus(EProductInfo.ON_LINE.getCode().byteValue());
+    public List<ProductInfo> selectOnLine() {
+        return productInfoMapper.selectByProductStatus(EProductInfo.ON_LINE.getCode().byteValue());
     }
 
     @Override
-    public PageResult findAll(PageRequest pageRequest) {
+    public PageResult selectAll(PageRequest pageRequest) {
         return PageUtil.getPageResult(pageRequest, getPageInfo(pageRequest));
     }
 
     @Override
     public Integer insert(ProductInfo productInfo) {
         return productInfoMapper.insert(productInfo);
+    }
+
+    @Override
+    public void incrStock(List<CartDTO> cartDTOList) {
+
+    }
+
+    @Override
+    @Transactional(rollbackFor = RuntimeException.class)
+    public void decrStock(List<CartDTO> cartDTOList) {
+        for (CartDTO cartDTO : cartDTOList) {
+            ProductInfo productInfo = productInfoMapper.selectByPrimaryKey(cartDTO.getProductId());
+            if (productInfo == null) {
+                throw new DiningException(EResultError.PRODUCT_NOT_EXIST);
+            }
+            Integer result = productInfo.getProductStock() - cartDTO.getProductQuantity();
+            if (result < 0) {
+                throw new DiningException(EResultError.PRODUCT_STOCK_ERROR);
+            }
+            productInfo.setProductStock(result);
+            productInfoMapper.updateByPrimaryKeySelective(productInfo);
+        }
     }
 
     /**
@@ -52,7 +77,7 @@ public class ProductServiceImpl implements ProductService {
         int pageNum = pageRequest.getPageNum();
         int pageSize = pageRequest.getPageSize();
         PageHelper.startPage(pageNum, pageSize);
-        List<ProductInfo> productInfoList = productInfoMapper.findAll();
+        List<ProductInfo> productInfoList = productInfoMapper.selectAll();
         return new PageInfo<ProductInfo>(productInfoList);
     }
 

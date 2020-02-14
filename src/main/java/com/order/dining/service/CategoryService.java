@@ -10,11 +10,11 @@ import java.util.List;
  */
 public interface CategoryService {
 
-    public Category findOne(Integer categoryId);
+    public Category selectOne(Integer categoryId);
 
-    public List<Category> findAll();
+    public List<Category> selectAll();
 
-    public List<Category> findByCategoryNo(List<Integer> categoryTypeList);
+    public List<Category> selectByCategoryNo(List<Integer> categoryTypeList);
 
     public Integer insert(Category category);
 }

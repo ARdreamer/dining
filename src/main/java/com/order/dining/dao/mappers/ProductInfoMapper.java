@@ -53,7 +53,7 @@ public interface ProductInfoMapper {
      */
     int updateByPrimaryKey(ProductInfo record);
 
-    List<ProductInfo> findByProductStatus(Byte productStatus);
+    List<ProductInfo> selectByProductStatus(Byte productStatus);
 
-    List<ProductInfo> findAll();
+    List<ProductInfo> selectAll();
 }

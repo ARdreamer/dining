@@ -30,13 +30,13 @@ public class ProductController {
     @GetMapping("list")
     public Result list() {
         //1. 查找所有上架商品
-        List<ProductInfo> productInfoList = productService.findOnLine();
+        List<ProductInfo> productInfoList = productService.selectOnLine();
 
         //2. 查询商品类目
         List<Integer> categoryNoList = productInfoList.stream()
                 .map(ProductInfo::getCategoryNo)
                 .collect(Collectors.toList());
-        List<Category> categoryList = categoryService.findByCategoryNo(categoryNoList);
+        List<Category> categoryList = categoryService.selectByCategoryNo(categoryNoList);
 
         //3. 拼装数据
         List<ProductVO> productVOList = new ArrayList<>();

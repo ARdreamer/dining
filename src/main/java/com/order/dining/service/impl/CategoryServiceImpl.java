@@ -19,18 +19,18 @@ public class CategoryServiceImpl implements CategoryService {
     private CategoryMapper categoryMapper;
 
     @Override
-    public Category findOne(Integer categoryId) {
+    public Category selectOne(Integer categoryId) {
         return categoryMapper.selectByPrimaryKey(categoryId);
     }
 
     @Override
-    public List<Category> findAll() {
+    public List<Category> selectAll() {
         return categoryMapper.selectAll();
     }
 
     @Override
-    public List<Category> findByCategoryNo(List<Integer> categoryNoList) {
-        return categoryMapper.findByCategoryNo(categoryNoList);
+    public List<Category> selectByCategoryNo(List<Integer> categoryNoList) {
+        return categoryMapper.selectByCategoryNo(categoryNoList);
     }
 
     @Override

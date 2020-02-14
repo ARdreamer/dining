@@ -3,6 +3,7 @@ package com.order.dining.service;
 import com.order.dining.common.PageRequest;
 import com.order.dining.common.PageResult;
 import com.order.dining.dao.domain.ProductInfo;
+import com.order.dining.dto.CartDTO;
 
 import java.util.List;
 
@@ -18,14 +19,14 @@ public interface ProductService {
      * @param productId 商品id
      * @return 商品信息
      */
-    ProductInfo findOne(String productId);
+    ProductInfo selectOne(String productId);
 
     /**
      * 查询上架商品列表
      *
      * @return 商品列表
      */
-    List<ProductInfo> findOnLine();
+    List<ProductInfo> selectOnLine();
 
     /**
      * 分页查询商品列表
@@ -33,8 +34,11 @@ public interface ProductService {
      * @param pageRequest 查询请求
      * @return 查询结果
      */
-    PageResult findAll(PageRequest pageRequest);
+    PageResult selectAll(PageRequest pageRequest);
 
     Integer insert(ProductInfo productInfo);
 
+    void incrStock(List<CartDTO> cartDTOList);
+
+    void decrStock(List<CartDTO> cartDTOList);
 }

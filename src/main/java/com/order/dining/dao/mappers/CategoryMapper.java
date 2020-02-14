@@ -55,5 +55,5 @@ public interface CategoryMapper {
 
     List<Category> selectAll();
 
-    List<Category> findByCategoryNo(List<Integer> categoryNoList);
+    List<Category> selectByCategoryNo(List<Integer> categoryNoList);
 }
