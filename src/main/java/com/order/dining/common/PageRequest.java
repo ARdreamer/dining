@@ -1,5 +1,6 @@
 package com.order.dining.common;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
@@ -8,6 +9,7 @@ import lombok.Data;
  * @Desc: 分页请求封装
  */
 @Data
+@AllArgsConstructor
 public class PageRequest {
     /**
      * 当前页码

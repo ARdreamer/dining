@@ -2,6 +2,7 @@ package com.order.dining.service.impl;
 
 import com.github.pagehelper.*;
 import com.order.dining.common.*;
+import com.order.dining.converter.PayOrder2OrderDtoConverter;
 import com.order.dining.dao.domain.*;
 import com.order.dining.dao.mappers.*;
 import com.order.dining.dto.CartDTO;
@@ -11,6 +12,7 @@ import com.order.dining.exception.DiningException;
 import com.order.dining.service.*;
 import com.order.dining.utils.*;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -89,19 +91,21 @@ public class PayOrderServiceImpl implements PayOrderService {
 
     @Override
     public OrderDTO selectOne(String orderId) {
+        //1. 查询数据库订单，判断是否为空
         PayOrder payOrder = payOrderMapper.selectByPrimaryKey(orderId);
         if (payOrder == null) {
             throw new DiningException(EResultError.ORDER_NOT_EXIST);
         }
-
+        //2. 根据订单id查询订单详情
         List<OrderDetail> orderDetailList = orderDetailMapper.selectByOrderId(orderId);
         if (CollectionUtils.isEmpty(orderDetailList)) {
             throw new DiningException(EResultError.ORDER_DETAIL_NOT_EXIST);
         }
-
+        //3. 封装dto
         OrderDTO orderDTO = new OrderDTO();
         BeanUtils.copyProperties(payOrder, orderDTO);
         orderDTO.setOrderDetailList(orderDetailList);
+        //4. 日志记录
         log.info("【查询订单】:{}", orderDTO);
         return orderDTO;
     }
@@ -112,8 +116,36 @@ public class PayOrderServiceImpl implements PayOrderService {
     }
 
     @Override
+    @Transactional(rollbackFor = RuntimeException.class)
     public OrderDTO cancel(OrderDTO orderDTO) {
-        return null;
+        PayOrder payOrder = new PayOrder();
+        //1. 判断订单状态
+        if (!orderDTO.getOrderStatus().equals(EOrderStatus.NEW.getCode().byteValue())) {
+            log.error("【取消订单】订单状态不正确，orderId={}, orderSts={}", orderDTO.getOrderId(), orderDTO.getOrderStatus());
+            throw new DiningException(EResultError.ORDER_STATUS_ERROR);
+        }
+        //2. 修改订单状态
+        orderDTO.setOrderStatus(EOrderStatus.CANCEL.getCode().byteValue());
+        BeanUtils.copyProperties(orderDTO, payOrder);
+        int i = payOrderMapper.updateByPrimaryKeySelective(payOrder);
+        if (i <= 0) {
+            log.error("【取消订单】更新订单状态失败，order:{}", payOrder);
+            throw new DiningException(EResultError.ORDER_UPDATE_FAIL);
+        }
+        //3. 返回库存
+        if (CollectionUtils.isEmpty(orderDTO.getOrderDetailList())) {
+            log.error("【取消订单】订单中无商品详情，orderDTO:{}", orderDTO);
+            throw new DiningException(EResultError.ORDER_DETAIL_EMPTY);
+        }
+        List<CartDTO> cartDTOList = orderDTO.getOrderDetailList().stream()
+                .map(e -> new CartDTO(e.getProductId(), e.getProductNum()))
+                .collect(Collectors.toList());
+        productService.incrStock(cartDTOList);
+        //4. 若已支付，则退款
+        if (orderDTO.getPayStatus().equals(EPayOrderStatus.SUCCESS.getCode().byteValue())) {
+            //todo 待增加退款
+        }
+        return orderDTO;
     }
 
     @Override
@@ -133,12 +165,13 @@ public class PayOrderServiceImpl implements PayOrderService {
      * @param openId      用户openId
      * @return 分页信息
      */
-    private PageInfo<PayOrder> getPageInfo(PageRequest pageRequest, String openId) {
+    private PageInfo<OrderDTO> getPageInfo(PageRequest pageRequest, String openId) {
         int pageNum = pageRequest.getPageNum();
         int pageSize = pageRequest.getPageSize();
         PageHelper.startPage(pageNum, pageSize);
         List<PayOrder> payOrderList = payOrderMapper.selectByBuyerOpenId(openId);
-        log.error("【分页查询】：{}", payOrderList);
-        return new PageInfo<>(payOrderList);
+        List<OrderDTO> convert = PayOrder2OrderDtoConverter.convert(payOrderList);
+        log.error("【分页查询】：{}", convert);
+        return new PageInfo<>(convert);
     }
 }

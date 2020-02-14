@@ -46,7 +46,17 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional(rollbackFor = RuntimeException.class)
     public void incrStock(List<CartDTO> cartDTOList) {
+        for (CartDTO cartDTO : cartDTOList) {
+            ProductInfo productInfo = productInfoMapper.selectByPrimaryKey(cartDTO.getProductId());
+            if (productInfo == null) {
+                throw new DiningException(EResultError.PRODUCT_NOT_EXIST);
+            }
+            int result = productInfo.getProductStock() + cartDTO.getProductQuantity();
+            productInfo.setProductStock(result);
+            productInfoMapper.updateByPrimaryKeySelective(productInfo);
+        }
 
     }
 

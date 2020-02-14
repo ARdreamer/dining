@@ -1,5 +1,7 @@
 package com.order.dining.service.impl;
 
+import com.order.dining.common.PageRequest;
+import com.order.dining.common.PageResult;
 import com.order.dining.dao.domain.OrderDetail;
 import com.order.dining.dto.OrderDTO;
 import com.order.dining.service.PayOrderService;
@@ -57,6 +59,9 @@ public class PayPayOrderServiceImplTest {
 
     @Test
     public void selectByBuyerOpenId() {
+        PageRequest pageRequest = new PageRequest(0,2);
+        PageResult pageResult = payOrderService.selectByBuyerOpenId(pageRequest, "1234");
+        System.out.println(pageResult);
     }
 
     @Test
