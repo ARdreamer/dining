@@ -45,12 +45,12 @@ public interface PayOrderService {
     OrderDTO cancel(OrderDTO orderDTO);
 
     /**
-     * 完成订单
+     * 关闭订单
      *
      * @param orderDTO 订单传输对象
      * @return 订单传输对象
      */
-    OrderDTO finish(OrderDTO orderDTO);
+    OrderDTO close(OrderDTO orderDTO);
 
     /**
      * 订单支付

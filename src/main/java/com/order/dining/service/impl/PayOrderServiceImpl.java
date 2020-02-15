@@ -96,15 +96,18 @@ public class PayOrderServiceImpl implements PayOrderService {
         if (payOrder == null) {
             throw new DiningException(EResultError.ORDER_NOT_EXIST);
         }
+
         //2. 根据订单id查询订单详情
         List<OrderDetail> orderDetailList = orderDetailMapper.selectByOrderId(orderId);
         if (CollectionUtils.isEmpty(orderDetailList)) {
             throw new DiningException(EResultError.ORDER_DETAIL_NOT_EXIST);
         }
+
         //3. 封装dto
         OrderDTO orderDTO = new OrderDTO();
         BeanUtils.copyProperties(payOrder, orderDTO);
         orderDTO.setOrderDetailList(orderDetailList);
+
         //4. 日志记录
         log.info("【查询订单】:{}", orderDTO);
         return orderDTO;
@@ -124,6 +127,7 @@ public class PayOrderServiceImpl implements PayOrderService {
             log.error("【取消订单】订单状态不正确，orderId={}, orderSts={}", orderDTO.getOrderId(), orderDTO.getOrderStatus());
             throw new DiningException(EResultError.ORDER_STATUS_ERROR);
         }
+
         //2. 修改订单状态
         orderDTO.setOrderStatus(EOrderStatus.CANCEL.getCode().byteValue());
         BeanUtils.copyProperties(orderDTO, payOrder);
@@ -132,6 +136,7 @@ public class PayOrderServiceImpl implements PayOrderService {
             log.error("【取消订单】更新订单状态失败，order:{}", payOrder);
             throw new DiningException(EResultError.ORDER_UPDATE_FAIL);
         }
+
         //3. 返回库存
         if (CollectionUtils.isEmpty(orderDTO.getOrderDetailList())) {
             log.error("【取消订单】订单中无商品详情，orderDTO:{}", orderDTO);
@@ -141,21 +146,62 @@ public class PayOrderServiceImpl implements PayOrderService {
                 .map(e -> new CartDTO(e.getProductId(), e.getProductNum()))
                 .collect(Collectors.toList());
         productService.incrStock(cartDTOList);
+
         //4. 若已支付，则退款
         if (orderDTO.getPayStatus().equals(EPayOrderStatus.SUCCESS.getCode().byteValue())) {
             //todo 待增加退款
         }
+
         return orderDTO;
     }
 
     @Override
-    public OrderDTO finish(OrderDTO orderDTO) {
-        return null;
+    @Transactional(rollbackFor = RuntimeException.class)
+    public OrderDTO close(OrderDTO orderDTO) {
+        //1. 判断订单状态
+        if (!orderDTO.getOrderStatus().equals(EOrderStatus.NEW.getCode().byteValue())) {
+            log.error("【关闭订单】订单状态不正确，orderId={}, orderSts={}", orderDTO.getOrderId(), orderDTO.getOrderStatus());
+            throw new DiningException(EResultError.ORDER_STATUS_ERROR);
+        }
+
+        //2. 修改订单状态
+        orderDTO.setOrderStatus(EOrderStatus.CLOSE.getCode().byteValue());
+        PayOrder payOrder = new PayOrder();
+        BeanUtils.copyProperties(orderDTO, payOrder);
+        int i = payOrderMapper.updateByPrimaryKeySelective(payOrder);
+        if (i <= 0) {
+            log.error("【关闭订单】更新订单状态失败，order:{}", payOrder);
+            throw new DiningException(EResultError.ORDER_UPDATE_FAIL);
+        }
+
+        return orderDTO;
     }
 
     @Override
+    @Transactional(rollbackFor = RuntimeException.class)
     public OrderDTO payOrder(OrderDTO orderDTO) {
-        return null;
+        //1. 判断订单状态
+        if (!orderDTO.getOrderStatus().equals(EOrderStatus.NEW.getCode().byteValue())) {
+            log.error("【支付订单】订单状态不正确，orderId={}, orderSts={}", orderDTO.getOrderId(), orderDTO.getOrderStatus());
+            throw new DiningException(EResultError.ORDER_STATUS_ERROR);
+        }
+
+        //2. 判断支付状态
+        if (!orderDTO.getPayStatus().equals(EPayOrderStatus.NO_PAY.getCode().byteValue())) {
+            log.error("【支付订单】订单支付状态不正确，orderId={}, paySts={}", orderDTO.getOrderId(), orderDTO.getPayStatus());
+            throw new DiningException(EResultError.ORDER_PAY_STATUS_ERROR);
+        }
+        //3. 修改支付状态
+        orderDTO.setPayStatus(EPayOrderStatus.SUCCESS.getCode().byteValue());
+        PayOrder payOrder = new PayOrder();
+        BeanUtils.copyProperties(orderDTO, payOrder);
+        int i = payOrderMapper.updateByPrimaryKeySelective(payOrder);
+        if (i <= 0) {
+            log.error("【支付订单】更新订单状态失败，order:{}", payOrder);
+            throw new DiningException(EResultError.ORDER_UPDATE_FAIL);
+        }
+
+        return orderDTO;
     }
 
     /**

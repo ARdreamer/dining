@@ -15,10 +15,12 @@ public enum EOrderStatus {
     NEW(0, "新订单"),
     /**
      * 订单完成状态
+     * 订单终态
      */
-    FINISHED(0, "完成"),
+    CLOSE(0, "完成"),
     /**
      * 订单取消状态
+     * 订单终态
      */
     CANCEL(0, "已取消");
 
