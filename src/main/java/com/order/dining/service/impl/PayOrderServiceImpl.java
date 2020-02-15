@@ -12,7 +12,6 @@ import com.order.dining.exception.DiningException;
 import com.order.dining.service.*;
 import com.order.dining.utils.*;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -137,7 +136,7 @@ public class PayOrderServiceImpl implements PayOrderService {
             throw new DiningException(EResultError.ORDER_UPDATE_FAIL);
         }
 
-        //3. 返回库存
+        //3. 修改库存
         if (CollectionUtils.isEmpty(orderDTO.getOrderDetailList())) {
             log.error("【取消订单】订单中无商品详情，orderDTO:{}", orderDTO);
             throw new DiningException(EResultError.ORDER_DETAIL_EMPTY);

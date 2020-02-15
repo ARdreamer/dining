@@ -1,5 +1,8 @@
 package com.order.dining.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.order.dining.converter.Date2LongSerializer;
 import com.order.dining.dao.domain.OrderDetail;
 import lombok.Data;
 
@@ -30,8 +33,10 @@ public class OrderDTO {
 
     private Byte payStatus;
 
+    @JsonSerialize(using = Date2LongSerializer.class)
     private Date createTime;
 
+    @JsonSerialize(using = Date2LongSerializer.class)
     private Date updateTime;
 
     List<OrderDetail> orderDetailList;

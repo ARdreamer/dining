@@ -23,4 +23,5 @@ public class Result<T> {
      * 返回数据
      */
     T data;
+    //todo construct 封装
 }
