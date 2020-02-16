@@ -18,3 +18,7 @@ pagehelper:
   reasonable: true
   support-methods-arguments: true
   params: countSql
+
+wechat:
+  mpAppId: wx4a51c29bfe2ee580
+  mpAppSecret: 2ba2b15193247c0e28fff1b4fa985fa1
