@@ -10,7 +10,6 @@ import com.order.dining.exception.DiningException;
 import com.order.dining.form.OrderForm;
 import com.order.dining.service.BuyerService;
 import com.order.dining.service.PayOrderService;
-import com.order.dining.utils.ResultUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
@@ -22,6 +21,7 @@ import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @Author: baojx
@@ -43,7 +43,7 @@ public class OrderController {
 
         if (bindingResult.hasErrors()) {
             log.error("【创建订单】参数错误，orderForm={}", orderForm);
-            throw new DiningException(EResultError.PARAM_ERROR.getCode(), bindingResult.getFieldError().getDefaultMessage());
+            throw new DiningException(EResultError.PARAM_ERROR.getCode(), Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
         }
 
         OrderDTO orderDTO = OrderForm2OrderDTOConverter.convert(orderForm);
@@ -54,10 +54,10 @@ public class OrderController {
 
         OrderDTO result = payOrderService.create(orderDTO);
 
-        Map<String, String> map = new HashMap<>();
+        Map<String, String> map = new HashMap<>(4);
         map.put("orderId", result.getOrderId());
 
-        return ResultUtil.success(map);
+        return new Result<>(map);
     }
 
     @GetMapping("/list")
@@ -71,20 +71,25 @@ public class OrderController {
 
         PageRequest pageRequest = new PageRequest(page, size);
         PageResult pageResult = payOrderService.selectByBuyerOpenId(pageRequest, openId);
-
-        return ResultUtil.success(pageResult.getContent());
+        List<OrderDTO> orderDTOList = null;
+        try {
+            orderDTOList = (List<OrderDTO>) pageResult.getContent();
+        } catch (Exception e) {
+            log.error("【查询订单列表】格式转换失败");
+        }
+        return new Result<>(orderDTOList);
     }
 
     @GetMapping("/detail")
     public Result<OrderDTO> detail(@RequestParam("openid") String openId, @RequestParam("orderId") String orderId) {
         OrderDTO orderDTO = buyerService.selectOneOrder(openId, orderId);
-        return ResultUtil.success(orderDTO);
+        return new Result<>(orderDTO);
     }
 
     @PostMapping("/cancel")
-    public Result cancel(@RequestParam("openid") String openId, @RequestParam("orderId") String orderId) {
+    public Result<Object> cancel(@RequestParam("openid") String openId, @RequestParam("orderId") String orderId) {
         buyerService.cancelOrder(openId, orderId);
-        return ResultUtil.success();
+        return new Result<>();
     }
 
 }

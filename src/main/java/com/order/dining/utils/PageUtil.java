@@ -13,9 +13,9 @@ public class PageUtil {
     /**
      * 将分页信息封装到统一的接口
      *
-     * @param pageRequest
-     * @param pageInfo
-     * @return
+     * @param pageRequest 分页请求
+     * @param pageInfo 分页信息
+     * @return 分页结果
      */
     public static PageResult getPageResult(PageRequest pageRequest, PageInfo<?> pageInfo) {
         PageResult pageResult = new PageResult();

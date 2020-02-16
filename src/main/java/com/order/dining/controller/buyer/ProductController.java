@@ -3,7 +3,6 @@ package com.order.dining.controller.buyer;
 import com.order.dining.common.Result;
 import com.order.dining.dao.domain.*;
 import com.order.dining.service.*;
-import com.order.dining.utils.*;
 import com.order.dining.vo.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.*;
@@ -28,7 +27,7 @@ public class ProductController {
     private CategoryService categoryService;
 
     @GetMapping("list")
-    public Result list() {
+    public Result<List<ProductVO>> list() {
         //1. 查找所有上架商品
         List<ProductInfo> productInfoList = productService.selectOnLine();
 
@@ -56,6 +55,6 @@ public class ProductController {
             productVO.setProductInfoVOList(productInfoVOList);
             productVOList.add(productVO);
         }
-        return ResultUtil.success(productVOList);
+        return new Result<>(productVOList);
     }
 }
