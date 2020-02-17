@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -55,6 +56,7 @@ public class ProductServiceImpl implements ProductService {
             }
             int result = productInfo.getProductStock() + cartDTO.getProductQuantity();
             productInfo.setProductStock(result);
+            productInfo.setUpdateTime(new Date());
             productInfoMapper.updateByPrimaryKeySelective(productInfo);
         }
 
@@ -73,6 +75,7 @@ public class ProductServiceImpl implements ProductService {
                 throw new DiningException(EResultError.PRODUCT_STOCK_ERROR);
             }
             productInfo.setProductStock(result);
+            productInfo.setUpdateTime(new Date());
             productInfoMapper.updateByPrimaryKeySelective(productInfo);
         }
     }
