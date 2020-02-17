@@ -17,12 +17,12 @@ public enum EOrderStatus {
      * 订单完成状态
      * 订单终态
      */
-    CLOSE(0, "完成"),
+    CLOSE(1, "完成"),
     /**
      * 订单取消状态
      * 订单终态
      */
-    CANCEL(0, "已取消");
+    CANCEL(2, "已取消");
 
     private Integer code;
 

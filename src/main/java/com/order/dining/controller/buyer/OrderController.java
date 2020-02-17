@@ -1,5 +1,6 @@
 package com.order.dining.controller.buyer;
 
+import com.alibaba.fastjson.JSON;
 import com.order.dining.common.PageRequest;
 import com.order.dining.common.PageResult;
 import com.order.dining.common.Result;
@@ -42,13 +43,13 @@ public class OrderController {
     public Result<Map<String, String>> create(@Valid OrderForm orderForm, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
-            log.error("【创建订单】参数错误，orderForm={}", orderForm);
+            log.error("【创建订单】参数错误，orderForm={}", JSON.toJSONString(orderForm));
             throw new DiningException(EResultError.PARAM_ERROR.getCode(), Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
         }
 
         OrderDTO orderDTO = OrderForm2OrderDTOConverter.convert(orderForm);
         if (CollectionUtils.isEmpty(orderDTO.getOrderDetailList())) {
-            log.error("【创建订单】购物车为空，orderDTO={}", orderDTO);
+            log.error("【创建订单】购物车为空，orderDTO={}", JSON.toJSONString(orderDTO));
             throw new DiningException(EResultError.CART_EMPTY);
         }
 

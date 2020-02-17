@@ -53,7 +53,7 @@ public interface PayOrderService {
     OrderDTO close(OrderDTO orderDTO);
 
     /**
-     * 订单支付
+     * 订单支付修改状态
      *
      * @param orderDTO 订单传输对象
      * @return 订单传输对象

@@ -1,5 +1,6 @@
 package com.order.dining.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.order.dining.dto.OrderDTO;
 import com.order.dining.enums.EResultError;
 import com.order.dining.exception.DiningException;
@@ -45,7 +46,7 @@ public class BuyerServiceImpl implements BuyerService {
             return null;
         }
         if (!StringUtils.equals(openId, orderDTO.getBuyerOpenid())) {
-            log.error("【查询订单】订单openId不一致。openId={}, orderDTO={}", openId, orderDTO);
+            log.error("【查询订单】订单openId不一致。openId={}, orderDTO={}", openId, JSON.toJSONString(orderDTO));
             throw new DiningException(EResultError.ORDER_OWNER_ERROR);
         }
         return orderDTO;

@@ -14,4 +14,9 @@ public class Constants {
     public static class ReturnMsg {
         public static final String SUCCESS_MSG = "成功";
     }
+
+    public static class Pay {
+        public static String ORDER_NAME = "微信点餐";
+        public static double DOUBLE_VALUE = 0.01;
+    }
 }

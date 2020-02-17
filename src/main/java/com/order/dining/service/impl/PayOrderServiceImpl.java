@@ -1,5 +1,6 @@
 package com.order.dining.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.*;
 import com.order.dining.common.*;
 import com.order.dining.converter.PayOrder2OrderDtoConverter;
@@ -40,6 +41,9 @@ public class PayOrderServiceImpl implements PayOrderService {
     @Resource
     private OrderDetailMapper orderDetailMapper;
 
+    @Resource
+    private PayService payService;
+
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
     public OrderDTO create(OrderDTO orderDTO) {
@@ -65,7 +69,7 @@ public class PayOrderServiceImpl implements PayOrderService {
             orderDetail.setCreateTime(new Date());
             orderDetail.setUpdateTime(new Date());
             orderDetailMapper.insert(orderDetail);
-            log.info("【订单详情插入】:{}", orderDetail);
+            log.info("【订单详情插入】:{}", JSON.toJSONString(orderDetail));
         }
 
         //2. 写数据库（order和orderDetail）
@@ -77,7 +81,7 @@ public class PayOrderServiceImpl implements PayOrderService {
         payOrder.setOrderAmount(orderAmount);
         payOrder.setOrderStatus(EOrderStatus.NEW.getCode().byteValue());
         payOrder.setPayStatus(EPayOrderStatus.NO_PAY.getCode().byteValue());
-        log.error("【插入订单】:{}", payOrder);
+        log.error("【插入订单】:{}", JSON.toJSONString(payOrder));
         payOrderMapper.insert(payOrder);
 
         //3. 扣库存
@@ -108,7 +112,7 @@ public class PayOrderServiceImpl implements PayOrderService {
         orderDTO.setOrderDetailList(orderDetailList);
 
         //4. 日志记录
-        log.info("【查询订单】:{}", orderDTO);
+        log.info("【查询订单】:{}", JSON.toJSONString(orderDTO));
         return orderDTO;
     }
 
@@ -130,15 +134,16 @@ public class PayOrderServiceImpl implements PayOrderService {
         //2. 修改订单状态
         orderDTO.setOrderStatus(EOrderStatus.CANCEL.getCode().byteValue());
         BeanUtils.copyProperties(orderDTO, payOrder);
+        payOrder.setUpdateTime(new Date());
         int i = payOrderMapper.updateByPrimaryKeySelective(payOrder);
         if (i <= 0) {
-            log.error("【取消订单】更新订单状态失败，order:{}", payOrder);
+            log.error("【取消订单】更新订单状态失败，order:{}", JSON.toJSONString(payOrder));
             throw new DiningException(EResultError.ORDER_UPDATE_FAIL);
         }
 
         //3. 修改库存
         if (CollectionUtils.isEmpty(orderDTO.getOrderDetailList())) {
-            log.error("【取消订单】订单中无商品详情，orderDTO:{}", orderDTO);
+            log.error("【取消订单】订单中无商品详情，orderDTO:{}", JSON.toJSONString(orderDTO));
             throw new DiningException(EResultError.ORDER_DETAIL_EMPTY);
         }
         List<CartDTO> cartDTOList = orderDTO.getOrderDetailList().stream()
@@ -148,7 +153,7 @@ public class PayOrderServiceImpl implements PayOrderService {
 
         //4. 若已支付，则退款
         if (orderDTO.getPayStatus().equals(EPayOrderStatus.SUCCESS.getCode().byteValue())) {
-            //todo 待增加退款
+            payService.refund(orderDTO);
         }
 
         return orderDTO;
@@ -167,9 +172,10 @@ public class PayOrderServiceImpl implements PayOrderService {
         orderDTO.setOrderStatus(EOrderStatus.CLOSE.getCode().byteValue());
         PayOrder payOrder = new PayOrder();
         BeanUtils.copyProperties(orderDTO, payOrder);
+        payOrder.setUpdateTime(new Date());
         int i = payOrderMapper.updateByPrimaryKeySelective(payOrder);
         if (i <= 0) {
-            log.error("【关闭订单】更新订单状态失败，order:{}", payOrder);
+            log.error("【关闭订单】更新订单状态失败，order:{}", JSON.toJSONString(payOrder));
             throw new DiningException(EResultError.ORDER_UPDATE_FAIL);
         }
 
@@ -194,9 +200,10 @@ public class PayOrderServiceImpl implements PayOrderService {
         orderDTO.setPayStatus(EPayOrderStatus.SUCCESS.getCode().byteValue());
         PayOrder payOrder = new PayOrder();
         BeanUtils.copyProperties(orderDTO, payOrder);
+        payOrder.setUpdateTime(new Date());
         int i = payOrderMapper.updateByPrimaryKeySelective(payOrder);
         if (i <= 0) {
-            log.error("【支付订单】更新订单状态失败，order:{}", payOrder);
+            log.error("【支付订单】更新订单状态失败，order:{}", JSON.toJSONString(payOrder));
             throw new DiningException(EResultError.ORDER_UPDATE_FAIL);
         }
 
@@ -216,7 +223,7 @@ public class PayOrderServiceImpl implements PayOrderService {
         PageHelper.startPage(pageNum, pageSize);
         List<PayOrder> payOrderList = payOrderMapper.selectByBuyerOpenId(openId);
         List<OrderDTO> convert = PayOrder2OrderDtoConverter.convert(payOrderList);
-        log.error("【分页查询】：{}", convert);
+        log.error("【分页查询】：{}", JSON.toJSONString(convert));
         return new PageInfo<>(convert);
     }
 }

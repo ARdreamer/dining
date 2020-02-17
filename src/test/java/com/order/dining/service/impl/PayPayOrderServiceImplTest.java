@@ -1,5 +1,6 @@
 package com.order.dining.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.order.dining.common.PageRequest;
 import com.order.dining.common.PageResult;
 import com.order.dining.dao.domain.OrderDetail;
@@ -35,7 +36,7 @@ public class PayPayOrderServiceImplTest {
         orderDTO.setBuyerName("baojx");
         orderDTO.setBuyerOpenid("1234");
         orderDTO.setBuyerPhone("11111111");
-        orderDTO.setBuyerAddress("1234");
+        orderDTO.setBuyerAddress("1111");
 
         List<OrderDetail> orderDetailList = new ArrayList<>();
         OrderDetail orderDetail = new OrderDetail();
@@ -50,7 +51,7 @@ public class PayPayOrderServiceImplTest {
         orderDTO.setOrderDetailList(orderDetailList);
 
         OrderDTO orderDTO1 = payOrderService.create(orderDTO);
-        log.info("【创建】：{}", orderDTO1);
+        log.info("【创建】：{}", JSON.toJSONString(orderDTO1));
     }
 
     @Test
@@ -69,7 +70,9 @@ public class PayPayOrderServiceImplTest {
     }
 
     @Test
-    public void finish() {
+    public void close() {
+        OrderDTO orderDTO = payOrderService.selectOne("1581919950012191423");
+        payOrderService.close(orderDTO);
     }
 
     @Test

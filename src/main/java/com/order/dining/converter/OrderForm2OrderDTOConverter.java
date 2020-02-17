@@ -33,7 +33,7 @@ public class OrderForm2OrderDTOConverter {
                     .map(e -> new OrderDetail(e.getProductId(), e.getProductQuantity()))
                     .collect(Collectors.toList());
         } catch (Exception e) {
-            log.error("【格式转换】data={}", orderForm.getItems());
+            log.error("【格式转换】data={}", JSON.toJSONString(orderForm.getItems()));
             throw new DiningException(EResultError.PARAM_ERROR);
         }
         orderDTO.setOrderDetailList(orderDetailList);
