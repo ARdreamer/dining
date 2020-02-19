@@ -3,7 +3,6 @@ package com.order.dining.controller.seller;
 import com.order.dining.common.PageRequest;
 import com.order.dining.common.PageResult;
 import com.order.dining.dto.OrderDTO;
-import com.order.dining.enums.EOrderStatus;
 import com.order.dining.enums.EResultError;
 import com.order.dining.exception.DiningException;
 import com.order.dining.service.PayOrderService;
