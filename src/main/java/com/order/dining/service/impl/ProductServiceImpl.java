@@ -38,7 +38,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public PageResult selectAll(PageRequest pageRequest) {
-        return PageUtil.getPageResult(pageRequest, getPageInfo(pageRequest));
+        return PageUtil.getPageResult(getPageInfo(pageRequest));
     }
 
     @Override

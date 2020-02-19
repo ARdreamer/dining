@@ -32,7 +32,7 @@ import java.util.Objects;
 @RestController
 @RequestMapping("/buyer/order")
 @Slf4j
-public class OrderController {
+public class PayOrderController {
 
     @Resource
     private PayOrderService payOrderService;
@@ -43,13 +43,13 @@ public class OrderController {
     public Result<Map<String, String>> create(@Valid OrderForm orderForm, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
-            log.error("【创建订单】参数错误，orderForm={}", JSON.toJSONString(orderForm));
+            log.error("【创建订单】参数错误，orderForm={}", JSON.toJSONString(orderForm, true));
             throw new DiningException(EResultError.PARAM_ERROR.getCode(), Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
         }
 
         OrderDTO orderDTO = OrderForm2OrderDTOConverter.convert(orderForm);
         if (CollectionUtils.isEmpty(orderDTO.getOrderDetailList())) {
-            log.error("【创建订单】购物车为空，orderDTO={}", JSON.toJSONString(orderDTO));
+            log.error("【创建订单】购物车为空，orderDTO={}", JSON.toJSONString(orderDTO, true));
             throw new DiningException(EResultError.CART_EMPTY);
         }
 

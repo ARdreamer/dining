@@ -53,10 +53,10 @@ public enum EResultError {
 
     private Integer code;
 
-    private String message;
+    private String desc;
 
-    EResultError(Integer code, String message) {
+    EResultError(Integer code, String dsce) {
         this.code = code;
-        this.message = message;
+        this.desc = desc;
     }
 }

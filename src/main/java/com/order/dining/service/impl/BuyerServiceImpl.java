@@ -46,7 +46,7 @@ public class BuyerServiceImpl implements BuyerService {
             return null;
         }
         if (!StringUtils.equals(openId, orderDTO.getBuyerOpenid())) {
-            log.error("【查询订单】订单openId不一致。openId={}, orderDTO={}", openId, JSON.toJSONString(orderDTO));
+            log.error("【查询订单】订单openId不一致。openId={}, orderDTO={}", openId, JSON.toJSONString(orderDTO, true));
             throw new DiningException(EResultError.ORDER_OWNER_ERROR);
         }
         return orderDTO;

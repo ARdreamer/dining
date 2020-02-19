@@ -14,7 +14,7 @@ public class DiningException extends RuntimeException{
     private Integer code;
 
     public DiningException(EResultError resultError) {
-        super(resultError.getMessage());
+        super(resultError.getDesc());
 
         this.code = resultError.getCode();
     }

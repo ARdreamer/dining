@@ -60,4 +60,11 @@ public interface PayOrderMapper {
      * @return
      */
     List<PayOrder> selectByBuyerOpenId(String openId);
+
+    /**
+     * 分页查找用户订单信息
+     *
+     * @return
+     */
+    List<PayOrder> selectAll();
 }

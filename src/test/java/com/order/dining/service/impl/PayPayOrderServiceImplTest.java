@@ -32,26 +32,26 @@ public class PayPayOrderServiceImplTest {
 
     @Test
     public void create() {
-        OrderDTO orderDTO = new OrderDTO();
-        orderDTO.setBuyerName("baojx");
-        orderDTO.setBuyerOpenid("1234");
-        orderDTO.setBuyerPhone("11111111");
-        orderDTO.setBuyerAddress("1111");
+        for (int i = 0; i < 50; i++) {
+            OrderDTO orderDTO = new OrderDTO();
+            orderDTO.setBuyerName("baojx:" + i);
+            orderDTO.setBuyerOpenid("1234");
+            orderDTO.setBuyerPhone("11111111");
+            orderDTO.setBuyerAddress("1111");
 
-        List<OrderDetail> orderDetailList = new ArrayList<>();
-        OrderDetail orderDetail = new OrderDetail();
-        orderDetail.setProductId("1");
-        orderDetail.setProductNum(2);
-        orderDetailList.add(orderDetail);
-        OrderDetail orderDetail1 = new OrderDetail();
-        orderDetail1.setProductId("2");
-        orderDetail1.setProductNum(3);
-        orderDetailList.add(orderDetail1);
+            List<OrderDetail> orderDetailList = new ArrayList<>();
 
-        orderDTO.setOrderDetailList(orderDetailList);
+            OrderDetail orderDetail = new OrderDetail();
+            orderDetail.setProductId(i % 4 + 1 + "");
+            orderDetail.setProductNum(2);
+            orderDetailList.add(orderDetail);
+            orderDTO.setOrderDetailList(orderDetailList);
 
-        OrderDTO orderDTO1 = payOrderService.create(orderDTO);
-        log.info("【创建】：{}", JSON.toJSONString(orderDTO1));
+            OrderDTO orderDTO1 = payOrderService.create(orderDTO);
+            log.info("【创建】：{}", JSON.toJSONString(orderDTO1, true));
+
+        }
+
     }
 
     @Test
@@ -60,7 +60,7 @@ public class PayPayOrderServiceImplTest {
 
     @Test
     public void selectByBuyerOpenId() {
-        PageRequest pageRequest = new PageRequest(0,2);
+        PageRequest pageRequest = new PageRequest(0, 2);
         PageResult pageResult = payOrderService.selectByBuyerOpenId(pageRequest, "1234");
         System.out.println(pageResult);
     }

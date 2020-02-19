@@ -42,18 +42,18 @@ public class PayServiceImpl implements PayService {
         payRequest.setOpenid(orderDTO.getOrderId());
         payRequest.setOrderName(Constants.Pay.ORDER_NAME);
         payRequest.setPayTypeEnum(BestPayTypeEnum.WXPAY_H5);
-        log.info("【微信：创建支付】微信支付请求req={}", JSON.toJSONString(payRequest));
+        log.info("【微信：创建支付】微信支付请求req={}", JSON.toJSONString(payRequest, true));
 
         //2. 发起支付获取响应结果
         PayResponse payResponse = bestPayService.pay(payRequest);
-        log.info("【微信：创建支付】微信支付响应结果rsp={}", JSON.toJSONString(payResponse));
+        log.info("【微信：创建支付】微信支付响应结果rsp={}", JSON.toJSONString(payResponse, true));
         return payResponse;
     }
 
     @Override
     public PayResponse notify(String data) {
         PayResponse payResponse = bestPayService.asyncNotify(data);
-        log.info("【微信：异步回调】payRsp={}", JSON.toJSONString(payResponse));
+        log.info("【微信：异步回调】payRsp={}", JSON.toJSONString(payResponse, true));
 
         //修改订单状态
         OrderDTO orderDTO = payOrderService.selectOne(payResponse.getOrderId());
@@ -78,9 +78,9 @@ public class PayServiceImpl implements PayService {
         refundRequest.setOrderAmount(orderDTO.getOrderAmount().doubleValue());
         refundRequest.setOrderId(orderDTO.getOrderId());
         refundRequest.setPayTypeEnum(BestPayTypeEnum.WXPAY_H5);
-        log.info("【微信：退款】微信退款请求req={}", JSON.toJSONString(refundRequest));
+        log.info("【微信：退款】微信退款请求req={}", JSON.toJSONString(refundRequest, true));
         RefundResponse refundResponse = bestPayService.refund(refundRequest);
-        log.info("【微信：退款】微信退款响应结果rsp={}", JSON.toJSONString(refundResponse));
+        log.info("【微信：退款】微信退款响应结果rsp={}", JSON.toJSONString(refundResponse, true));
 
         return refundResponse;
     }

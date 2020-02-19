@@ -1,9 +1,13 @@
 package com.order.dining.dto;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
+import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson.annotation.JSONType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.order.dining.converter.Date2LongSerializer;
 import com.order.dining.dao.domain.OrderDetail;
+import com.order.dining.enums.EOrderStatus;
+import com.order.dining.enums.EPayStatus;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -40,4 +44,15 @@ public class OrderDTO {
     private Date updateTime;
 
     List<OrderDetail> orderDetailList;
+
+    @JsonIgnore
+    @JSONField(serialize = false)
+    public EPayStatus getPayStatusEnum() {
+        return EPayStatus.getEPayStatus(Integer.valueOf(getPayStatus()));
+    }
+    @JsonIgnore
+    @JSONField(serialize = false)
+    public EOrderStatus getOrderStatusEnum() {
+        return EOrderStatus.getEOrderStatus(Integer.valueOf(getOrderStatus()));
+    }
 }

@@ -1,7 +1,7 @@
 package com.order.dining.dao.domain;
 
 import com.order.dining.enums.EOrderStatus;
-import com.order.dining.enums.EPayOrderStatus;
+import com.order.dining.enums.EPayStatus;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -81,7 +81,7 @@ public class PayOrder {
      * @mbg.generated
      * 支付状态，默认为未支付:0
      */
-    private Byte payStatus = EPayOrderStatus.NO_PAY.getCode().byteValue();
+    private Byte payStatus = EPayStatus.NO_PAY.getCode().byteValue();
 
     /**
      *

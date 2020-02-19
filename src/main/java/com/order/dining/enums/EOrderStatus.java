@@ -26,11 +26,20 @@ public enum EOrderStatus {
 
     private Integer code;
 
-    private String decs;
+    private String desc;
 
-    EOrderStatus(Integer code, String decs) {
+    EOrderStatus(Integer code, String desc) {
         this.code = code;
-        this.decs = decs;
+        this.desc = desc;
+    }
+
+    public static EOrderStatus getEOrderStatus(Integer code) {
+        for (EOrderStatus orderStatus : EOrderStatus.values()) {
+            if (orderStatus.getCode().equals(code)){
+                return orderStatus;
+            }
+        }
+        return null;
     }
 
 }

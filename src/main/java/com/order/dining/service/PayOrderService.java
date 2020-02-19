@@ -37,6 +37,14 @@ public interface PayOrderService {
     PageResult selectByBuyerOpenId(PageRequest pageRequest, String openId);
 
     /**
+     * 查找订单并分页
+     *
+     * @param pageRequest 分页请求
+     * @return 分页结果
+     */
+    PageResult selectAll(PageRequest pageRequest);
+
+    /**
      * 取消订单
      *
      * @param orderDTO 订单传输对象

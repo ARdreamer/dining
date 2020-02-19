@@ -13,6 +13,7 @@ import com.order.dining.exception.DiningException;
 import com.order.dining.service.*;
 import com.order.dining.utils.*;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -69,7 +70,7 @@ public class PayOrderServiceImpl implements PayOrderService {
             orderDetail.setCreateTime(new Date());
             orderDetail.setUpdateTime(new Date());
             orderDetailMapper.insert(orderDetail);
-            log.info("【订单详情插入】:{}", JSON.toJSONString(orderDetail));
+            log.info("【订单详情插入】:{}", JSON.toJSONString(orderDetail, true));
         }
 
         //2. 写数据库（order和orderDetail）
@@ -80,8 +81,8 @@ public class PayOrderServiceImpl implements PayOrderService {
         BeanUtils.copyProperties(orderDTO, payOrder);
         payOrder.setOrderAmount(orderAmount);
         payOrder.setOrderStatus(EOrderStatus.NEW.getCode().byteValue());
-        payOrder.setPayStatus(EPayOrderStatus.NO_PAY.getCode().byteValue());
-        log.error("【插入订单】:{}", JSON.toJSONString(payOrder));
+        payOrder.setPayStatus(EPayStatus.NO_PAY.getCode().byteValue());
+        log.error("【插入订单】:{}", JSON.toJSONString(payOrder, true));
         payOrderMapper.insert(payOrder);
 
         //3. 扣库存
@@ -112,13 +113,18 @@ public class PayOrderServiceImpl implements PayOrderService {
         orderDTO.setOrderDetailList(orderDetailList);
 
         //4. 日志记录
-        log.info("【查询订单】:{}", JSON.toJSONString(orderDTO));
+        log.info("【查询订单】:{}", JSON.toJSONString(orderDTO, true));
         return orderDTO;
     }
 
     @Override
     public PageResult selectByBuyerOpenId(PageRequest pageRequest, String openId) {
-        return PageUtil.getPageResult(pageRequest, getPageInfo(pageRequest, openId));
+        return PageUtil.getPageResult(getPageInfo(pageRequest, openId));
+    }
+
+    @Override
+    public PageResult selectAll(PageRequest pageRequest) {
+        return PageUtil.getPageResult(getPageInfo(pageRequest, null));
     }
 
     @Override
@@ -137,13 +143,13 @@ public class PayOrderServiceImpl implements PayOrderService {
         payOrder.setUpdateTime(new Date());
         int i = payOrderMapper.updateByPrimaryKeySelective(payOrder);
         if (i <= 0) {
-            log.error("【取消订单】更新订单状态失败，order:{}", JSON.toJSONString(payOrder));
+            log.error("【取消订单】更新订单状态失败，order:{}", JSON.toJSONString(payOrder, true));
             throw new DiningException(EResultError.ORDER_UPDATE_FAIL);
         }
 
         //3. 修改库存
         if (CollectionUtils.isEmpty(orderDTO.getOrderDetailList())) {
-            log.error("【取消订单】订单中无商品详情，orderDTO:{}", JSON.toJSONString(orderDTO));
+            log.error("【取消订单】订单中无商品详情，orderDTO:{}", JSON.toJSONString(orderDTO, true));
             throw new DiningException(EResultError.ORDER_DETAIL_EMPTY);
         }
         List<CartDTO> cartDTOList = orderDTO.getOrderDetailList().stream()
@@ -152,7 +158,7 @@ public class PayOrderServiceImpl implements PayOrderService {
         productService.incrStock(cartDTOList);
 
         //4. 若已支付，则退款
-        if (orderDTO.getPayStatus().equals(EPayOrderStatus.SUCCESS.getCode().byteValue())) {
+        if (orderDTO.getPayStatus().equals(EPayStatus.SUCCESS.getCode().byteValue())) {
             payService.refund(orderDTO);
         }
 
@@ -175,7 +181,7 @@ public class PayOrderServiceImpl implements PayOrderService {
         payOrder.setUpdateTime(new Date());
         int i = payOrderMapper.updateByPrimaryKeySelective(payOrder);
         if (i <= 0) {
-            log.error("【关闭订单】更新订单状态失败，order:{}", JSON.toJSONString(payOrder));
+            log.error("【关闭订单】更新订单状态失败，order:{}", JSON.toJSONString(payOrder, true));
             throw new DiningException(EResultError.ORDER_UPDATE_FAIL);
         }
 
@@ -192,18 +198,18 @@ public class PayOrderServiceImpl implements PayOrderService {
         }
 
         //2. 判断支付状态
-        if (!orderDTO.getPayStatus().equals(EPayOrderStatus.NO_PAY.getCode().byteValue())) {
+        if (!orderDTO.getPayStatus().equals(EPayStatus.NO_PAY.getCode().byteValue())) {
             log.error("【支付订单】订单支付状态不正确，orderId={}, paySts={}", orderDTO.getOrderId(), orderDTO.getPayStatus());
             throw new DiningException(EResultError.ORDER_PAY_STATUS_ERROR);
         }
         //3. 修改支付状态
-        orderDTO.setPayStatus(EPayOrderStatus.SUCCESS.getCode().byteValue());
+        orderDTO.setPayStatus(EPayStatus.SUCCESS.getCode().byteValue());
         PayOrder payOrder = new PayOrder();
         BeanUtils.copyProperties(orderDTO, payOrder);
         payOrder.setUpdateTime(new Date());
         int i = payOrderMapper.updateByPrimaryKeySelective(payOrder);
         if (i <= 0) {
-            log.error("【支付订单】更新订单状态失败，order:{}", JSON.toJSONString(payOrder));
+            log.error("【支付订单】更新订单状态失败，order:{}", JSON.toJSONString(payOrder, true));
             throw new DiningException(EResultError.ORDER_UPDATE_FAIL);
         }
 
@@ -221,9 +227,16 @@ public class PayOrderServiceImpl implements PayOrderService {
         int pageNum = pageRequest.getPageNum();
         int pageSize = pageRequest.getPageSize();
         PageHelper.startPage(pageNum, pageSize);
-        List<PayOrder> payOrderList = payOrderMapper.selectByBuyerOpenId(openId);
+        List<PayOrder> payOrderList;
+        if (StringUtils.isBlank(openId)) {
+            payOrderList = payOrderMapper.selectAll();
+        } else {
+            payOrderList = payOrderMapper.selectByBuyerOpenId(openId);
+        }
+        log.error("【分页查询】：{}", JSON.toJSONString(payOrderList, true));
+        PageInfo pageInfo = new PageInfo(payOrderList);
         List<OrderDTO> convert = PayOrder2OrderDtoConverter.convert(payOrderList);
-        log.error("【分页查询】：{}", JSON.toJSONString(convert));
-        return new PageInfo<>(convert);
+        pageInfo.setList(convert);
+        return pageInfo;
     }
 }
