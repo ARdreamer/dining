@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/buyer/product")
-public class ProductController {
+public class BuyerProductController {
 
     @Resource
     private ProductService productService;

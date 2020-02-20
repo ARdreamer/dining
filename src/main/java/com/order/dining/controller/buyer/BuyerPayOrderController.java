@@ -32,7 +32,7 @@ import java.util.Objects;
 @RestController
 @RequestMapping("/buyer/order")
 @Slf4j
-public class PayOrderController {
+public class BuyerPayOrderController {
 
     @Resource
     private PayOrderService payOrderService;

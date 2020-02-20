@@ -21,11 +21,20 @@ public enum EProductInfo {
 
     private Integer code;
 
-    private String decs;
+    private String desc;
 
-    EProductInfo(Integer code, String decs) {
+    EProductInfo(Integer code, String desc) {
         this.code = code;
-        this.decs = decs;
+        this.desc = desc;
     }
 
+    public static EProductInfo getEProductInfo(Integer code) {
+        for (EProductInfo eProductInfo : EProductInfo.values()) {
+            if (eProductInfo.getCode().equals(code)){
+                return eProductInfo;
+            }
+        }
+        return null;
+
+    }
 }

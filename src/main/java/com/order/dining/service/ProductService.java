@@ -41,4 +41,8 @@ public interface ProductService {
     void incrStock(List<CartDTO> cartDTOList);
 
     void decrStock(List<CartDTO> cartDTOList);
+
+    ProductInfo onLine(String productId);
+
+    ProductInfo offLine(String productId);
 }

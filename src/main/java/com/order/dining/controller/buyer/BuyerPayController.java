@@ -22,7 +22,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("/pay")
 @Slf4j
-public class PayController {
+public class BuyerPayController {
 
     @Resource
     private PayOrderService payOrderService;

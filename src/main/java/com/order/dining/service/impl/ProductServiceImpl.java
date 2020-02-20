@@ -9,6 +9,7 @@ import com.order.dining.enums.*;
 import com.order.dining.exception.DiningException;
 import com.order.dining.service.ProductService;
 import com.order.dining.utils.PageUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +22,7 @@ import java.util.List;
  * @Date: 2020/2/6 17:08
  */
 @Service
+@Slf4j
 public class ProductServiceImpl implements ProductService {
 
     @Resource
@@ -78,6 +80,44 @@ public class ProductServiceImpl implements ProductService {
             productInfo.setUpdateTime(new Date());
             productInfoMapper.updateByPrimaryKeySelective(productInfo);
         }
+    }
+
+    @Override
+    public ProductInfo onLine(String productId) {
+        ProductInfo productInfo = productInfoMapper.selectByPrimaryKey(productId);
+
+        if (null == productInfo) {
+            log.error("【商品上架】查询不到指定商品，productId=【{}】",productId);
+            throw new DiningException(EResultError.PRODUCT_NOT_EXIST);
+        }
+
+        if (productInfo.getProductStatus().equals(EProductInfo.ON_LINE.getCode().byteValue())) {
+            log.error("【商品上架】指定商品已经上架，productId=【{}】",productId);
+            throw new DiningException(EResultError.PRODUCT_STATUS_ERROR);
+        }
+        productInfo.setProductStatus(EProductInfo.ON_LINE.getCode().byteValue());
+        productInfo.setUpdateTime(new Date());
+        productInfoMapper.updateByPrimaryKeySelective(productInfo);
+        return productInfo;
+    }
+
+    @Override
+    public ProductInfo offLine(String productId) {
+        ProductInfo productInfo = productInfoMapper.selectByPrimaryKey(productId);
+
+        if (null == productInfo) {
+            log.error("【商品下架】查询不到指定商品，productId=【{}】",productId);
+            throw new DiningException(EResultError.PRODUCT_NOT_EXIST);
+        }
+
+        if (productInfo.getProductStatus().equals(EProductInfo.OFF_LINE.getCode().byteValue())) {
+            log.error("【商品下架】指定商品已经下架，productId=【{}】",productId);
+            throw new DiningException(EResultError.PRODUCT_STATUS_ERROR);
+        }
+        productInfo.setProductStatus(EProductInfo.OFF_LINE.getCode().byteValue());
+        productInfo.setUpdateTime(new Date());
+        productInfoMapper.updateByPrimaryKeySelective(productInfo);
+        return productInfo;
     }
 
     /**
