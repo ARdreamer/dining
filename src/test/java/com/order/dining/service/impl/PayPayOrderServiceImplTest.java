@@ -1,8 +1,8 @@
 package com.order.dining.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.order.dining.common.PageRequest;
-import com.order.dining.common.PageResult;
+import com.order.dining.common.page.PageRequest;
+import com.order.dining.common.page.PageResult;
 import com.order.dining.dao.domain.OrderDetail;
 import com.order.dining.dto.OrderDTO;
 import com.order.dining.service.PayOrderService;

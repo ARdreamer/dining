@@ -1,8 +1,8 @@
 package com.order.dining.controller.buyer;
 
 import com.alibaba.fastjson.JSON;
-import com.order.dining.common.PageRequest;
-import com.order.dining.common.PageResult;
+import com.order.dining.common.page.PageRequest;
+import com.order.dining.common.page.PageResult;
 import com.order.dining.common.Result;
 import com.order.dining.converter.OrderForm2OrderDTOConverter;
 import com.order.dining.dto.OrderDTO;

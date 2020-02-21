@@ -2,14 +2,8 @@ package com.order.dining.utils;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
-import com.order.dining.common.PageRequest;
-import com.order.dining.common.PageResult;
-import com.order.dining.converter.PayOrder2OrderDtoConverter;
-import com.order.dining.dao.domain.PayOrder;
-import com.order.dining.dto.OrderDTO;
+import com.order.dining.common.page.PageResult;
 import lombok.extern.slf4j.Slf4j;
-
-import java.util.List;
 
 /**
  * @Author: baojx

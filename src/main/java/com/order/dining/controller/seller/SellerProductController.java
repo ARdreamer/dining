@@ -1,6 +1,7 @@
 package com.order.dining.controller.seller;
 
-import com.order.dining.common.*;
+import com.order.dining.common.page.PageRequest;
+import com.order.dining.common.page.PageResult;
 import com.order.dining.dao.domain.*;
 import com.order.dining.exception.DiningException;
 import com.order.dining.form.ProductForm;

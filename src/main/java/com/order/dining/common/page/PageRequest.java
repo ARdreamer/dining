@@ -1,4 +1,4 @@
-package com.order.dining.common;
+package com.order.dining.common.page;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

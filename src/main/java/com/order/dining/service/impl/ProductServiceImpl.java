@@ -1,7 +1,8 @@
 package com.order.dining.service.impl;
 
 import com.github.pagehelper.*;
-import com.order.dining.common.*;
+import com.order.dining.common.page.PageRequest;
+import com.order.dining.common.page.PageResult;
 import com.order.dining.dao.domain.*;
 import com.order.dining.dao.mappers.*;
 import com.order.dining.dto.CartDTO;
