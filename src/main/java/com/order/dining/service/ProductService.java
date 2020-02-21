@@ -45,4 +45,6 @@ public interface ProductService {
     ProductInfo onLine(String productId);
 
     ProductInfo offLine(String productId);
+
+    Integer update(ProductInfo productInfo);
 }

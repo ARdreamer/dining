@@ -17,4 +17,6 @@ public interface CategoryService {
     public List<Category> selectByCategoryNo(List<Integer> categoryTypeList);
 
     public Integer insert(Category category);
+
+    public Integer update(Category category);
 }

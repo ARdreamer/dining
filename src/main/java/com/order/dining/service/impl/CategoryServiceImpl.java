@@ -6,6 +6,7 @@ import com.order.dining.service.CategoryService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -35,6 +36,14 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Integer insert(Category category) {
+        category.setCreateTime(new Date());
+        category.setUpdateTime(new Date());
         return categoryMapper.insert(category);
+    }
+
+    @Override
+    public Integer update(Category category) {
+        category.setUpdateTime(new Date());
+        return categoryMapper.updateByPrimaryKeySelective(category);
     }
 }

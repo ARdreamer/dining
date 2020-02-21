@@ -45,6 +45,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Integer insert(ProductInfo productInfo) {
+        productInfo.setCreateTime(new Date());
+        productInfo.setUpdateTime(new Date());
+
         return productInfoMapper.insert(productInfo);
     }
 
@@ -87,12 +90,12 @@ public class ProductServiceImpl implements ProductService {
         ProductInfo productInfo = productInfoMapper.selectByPrimaryKey(productId);
 
         if (null == productInfo) {
-            log.error("【商品上架】查询不到指定商品，productId=【{}】",productId);
+            log.error("【商品上架】查询不到指定商品，productId=【{}】", productId);
             throw new DiningException(EResultError.PRODUCT_NOT_EXIST);
         }
 
         if (productInfo.getProductStatus().equals(EProductInfo.ON_LINE.getCode().byteValue())) {
-            log.error("【商品上架】指定商品已经上架，productId=【{}】",productId);
+            log.error("【商品上架】指定商品已经上架，productId=【{}】", productId);
             throw new DiningException(EResultError.PRODUCT_STATUS_ERROR);
         }
         productInfo.setProductStatus(EProductInfo.ON_LINE.getCode().byteValue());
@@ -106,18 +109,24 @@ public class ProductServiceImpl implements ProductService {
         ProductInfo productInfo = productInfoMapper.selectByPrimaryKey(productId);
 
         if (null == productInfo) {
-            log.error("【商品下架】查询不到指定商品，productId=【{}】",productId);
+            log.error("【商品下架】查询不到指定商品，productId=【{}】", productId);
             throw new DiningException(EResultError.PRODUCT_NOT_EXIST);
         }
 
         if (productInfo.getProductStatus().equals(EProductInfo.OFF_LINE.getCode().byteValue())) {
-            log.error("【商品下架】指定商品已经下架，productId=【{}】",productId);
+            log.error("【商品下架】指定商品已经下架，productId=【{}】", productId);
             throw new DiningException(EResultError.PRODUCT_STATUS_ERROR);
         }
         productInfo.setProductStatus(EProductInfo.OFF_LINE.getCode().byteValue());
         productInfo.setUpdateTime(new Date());
         productInfoMapper.updateByPrimaryKeySelective(productInfo);
         return productInfo;
+    }
+
+    @Override
+    public Integer update(ProductInfo productInfo) {
+        productInfo.setUpdateTime(new Date());
+        return productInfoMapper.updateByPrimaryKeySelective(productInfo);
     }
 
     /**
