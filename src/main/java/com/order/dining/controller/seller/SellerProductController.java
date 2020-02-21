@@ -1,23 +1,17 @@
 package com.order.dining.controller.seller;
 
-import com.order.dining.common.PageRequest;
-import com.order.dining.common.PageResult;
-import com.order.dining.dao.domain.Category;
-import com.order.dining.dao.domain.ProductInfo;
+import com.order.dining.common.*;
+import com.order.dining.dao.domain.*;
 import com.order.dining.exception.DiningException;
 import com.order.dining.form.ProductForm;
-import com.order.dining.service.CategoryService;
-import com.order.dining.service.ProductService;
+import com.order.dining.service.*;
 import com.order.dining.utils.KeyUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
