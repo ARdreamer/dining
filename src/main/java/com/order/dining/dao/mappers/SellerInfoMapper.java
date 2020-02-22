@@ -50,4 +50,7 @@ public interface SellerInfoMapper {
      * @mbg.generated
      */
     int updateByPrimaryKey(SellerInfo record);
+
+    SellerInfo selectByOpenId(String openId);
+
 }
