@@ -31,7 +31,7 @@ public class WeChatController {
     public String authorize(@RequestParam("returnUrl") String returnUrl) {
         log.info("【微信网页授权】returnUrl:{}", returnUrl);
 
-        //todo 用户url
+        //todo 用户url natapp域名 前端修改URL opt/code//config
         String url = "http://z46fge.natappfree.cc/sell/wechat/userInfo";
         String result = null;
         try {

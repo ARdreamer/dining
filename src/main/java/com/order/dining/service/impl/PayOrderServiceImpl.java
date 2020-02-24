@@ -2,6 +2,7 @@ package com.order.dining.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.*;
+import com.order.dining.common.WebSocket;
 import com.order.dining.common.page.PageRequest;
 import com.order.dining.common.page.PageResult;
 import com.order.dining.converter.PayOrder2OrderDtoConverter;
@@ -45,6 +46,12 @@ public class PayOrderServiceImpl implements PayOrderService {
 
     @Resource
     private PayService payService;
+
+    @Resource
+    private PushMessageService pushMessageService;
+
+    @Resource
+    private WebSocket webSocket;
 
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
@@ -91,6 +98,10 @@ public class PayOrderServiceImpl implements PayOrderService {
                 .map(e -> new CartDTO(e.getProductId(), e.getProductNum()))
                 .collect(Collectors.toList());
         productService.decrStock(cartDTOList);
+
+        //发送WebSocket
+        webSocket.sendMessage("有新的订单");
+
         return orderDTO;
     }
 
@@ -213,6 +224,11 @@ public class PayOrderServiceImpl implements PayOrderService {
             log.error("【支付订单】更新订单状态失败，order:{}", JSON.toJSONString(payOrder, true));
             throw new DiningException(EResultError.ORDER_UPDATE_FAIL);
         }
+
+        //todo 待增加线程池
+        new Thread(() -> {
+            pushMessageService.orderStatus(orderDTO);
+        }).start();
 
         return orderDTO;
     }
