@@ -1,9 +1,10 @@
 package com.order.dining.controller.buyer;
 
+import com.order.dining.beans.vo.ProductInfoVO;
+import com.order.dining.beans.vo.ProductVO;
 import com.order.dining.common.Result;
 import com.order.dining.dao.domain.*;
 import com.order.dining.service.*;
-import com.order.dining.vo.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.*;
 

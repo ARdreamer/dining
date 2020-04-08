@@ -1,4 +1,4 @@
-package com.order.dining.form;
+package com.order.dining.beans.form;
 
 import lombok.Data;
 

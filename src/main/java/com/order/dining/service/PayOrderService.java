@@ -2,7 +2,7 @@ package com.order.dining.service;
 
 import com.order.dining.common.page.PageRequest;
 import com.order.dining.common.page.PageResult;
-import com.order.dining.dto.OrderDTO;
+import com.order.dining.beans.dto.OrderDTO;
 
 
 /**

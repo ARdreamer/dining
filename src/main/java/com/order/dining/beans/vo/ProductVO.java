@@ -1,4 +1,4 @@
-package com.order.dining.vo;
+package com.order.dining.beans.vo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

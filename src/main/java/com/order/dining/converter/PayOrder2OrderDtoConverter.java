@@ -1,7 +1,7 @@
 package com.order.dining.converter;
 
 import com.order.dining.dao.domain.PayOrder;
-import com.order.dining.dto.OrderDTO;
+import com.order.dining.beans.dto.OrderDTO;
 import org.springframework.beans.BeanUtils;
 
 import java.util.List;

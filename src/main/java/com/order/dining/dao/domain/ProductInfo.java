@@ -2,8 +2,7 @@ package com.order.dining.dao.domain;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.order.dining.enums.EPayStatus;
-import com.order.dining.enums.EProductInfo;
+import com.order.dining.common.enums.EProductInfo;
 import lombok.Data;
 
 import java.math.BigDecimal;

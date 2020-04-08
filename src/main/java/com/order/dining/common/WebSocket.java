@@ -26,7 +26,6 @@ public class WebSocket {
     private static CopyOnWriteArraySet<WebSocket> webSockets = new CopyOnWriteArraySet<>();
 
     @OnOpen
-
     public void onOpen(Session session) {
         this.session = session;
         webSockets.add(this);

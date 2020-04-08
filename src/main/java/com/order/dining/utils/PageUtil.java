@@ -25,7 +25,7 @@ public class PageUtil {
         pageResult.setTotalSize(pageInfo.getTotal());
         pageResult.setTotalPages(pageInfo.getPages());
         pageResult.setContent(pageInfo.getList());
-        log.info("【分页结果展示】PageResult={}", JSON.toJSONString(pageResult, true));
+//        log.info("【分页结果展示】PageResult={}", JSON.toJSONString(pageResult, true));
         return pageResult;
     }
 

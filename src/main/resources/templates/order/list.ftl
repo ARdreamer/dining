@@ -12,7 +12,7 @@
         <div class="container-fluid">
             <div class="row clearfix">
                 <div class="col-md-12 column">
-                    <table class="table table-bordered table-condensed">
+                    <table class="table table-bordered table-condensed" align="center">
                         <thead>
                         <tr>
                             <th>订单id</th>
@@ -35,9 +35,21 @@
                                 <td>${orderDTO.buyerPhone}</td>
                                 <td>${orderDTO.buyerAddress}</td>
                                 <td>${orderDTO.orderAmount}</td>
-                                <td>${orderDTO.getOrderStatusEnum().desc}</td>
-                                <td>${orderDTO.getPayStatusEnum().desc}</td>
-                                <td>${orderDTO.createTime?date}</td>
+                                <#if orderDTO.getOrderStatusEnum().desc == "新订单">
+                                    <td bgcolor="#adff2f">${orderDTO.getOrderStatusEnum().desc}</td>
+                                <#elseif orderDTO.getOrderStatusEnum().desc == "完成">
+                                    <td bgcolor="red">${orderDTO.getOrderStatusEnum().desc}</td>
+                                <#else>
+                                    <td bgcolor="#663399">${orderDTO.getOrderStatusEnum().desc}</td>
+                                </#if>
+
+                                <#if orderDTO.getPayStatusEnum().desc == "未支付">
+                                    <td bgcolor="#4169e1">${orderDTO.getPayStatusEnum().desc}</td>
+                                <#else>
+                                    <td bgcolor="red">${orderDTO.getPayStatusEnum().desc}</td>
+                                </#if>
+
+                                <td>${orderDTO.createTime?datetime}</td>
                                 <td><a href="/sell/seller/order/detail?orderId=${orderDTO.orderId}">详情</a></td>
                                 <td>
                                     <#if orderDTO.getOrderStatusEnum().desc == "新订单">
@@ -106,7 +118,7 @@
 
 <#--播放音乐-->
 <audio id="notice" loop="loop">
-    <source src="/sell/mp3/song.mp3" type="audio/mpeg"/>
+    <source src="/sell/mp3/demo.mp3" type="audio/mpeg"/>
 </audio>
 
 <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
@@ -114,20 +126,23 @@
 <script>
     var websocket = null;
     if ('WebSocket' in window) {
-        websocket = new WebSocket('ws://todo待增加netApp域名/sell/webSocket');
+        websocket = new WebSocket('ws://dining.natapp1.cc/sell/webSocket');
     } else {
         alert('该浏览器不支持websocket!');
     }
 
     websocket.onopen = function (event) {
+        heartCheck.reset().start();
         console.log('建立连接');
     }
 
     websocket.onclose = function (event) {
+        websocket = null;
         console.log('连接关闭');
     }
 
     websocket.onmessage = function (event) {
+        heartCheck.reset().start();
         console.log('收到消息:' + event.data)
         //弹窗提醒, 播放音乐
         $('#myModal').modal('show');
@@ -142,9 +157,29 @@
     window.onbeforeunload = function () {
         websocket.close();
     }
+    var heartCheck = {
+        timeout: 60000,        //1分钟发一次
+        timeoutObj: null,
+        serverTimeoutObj: null,
+        reset: function () {
+            clearTimeout(this.timeoutObj);
+            clearTimeout(this.serverTimeoutObj);
+            return this;
+        },
+        start: function () {
+            var self = this;
+            this.timeoutObj = setTimeout(function () {
+                //这里发送一个心跳，后端收到后，返回一个心跳消息，
+                //onmessage拿到返回的心跳就说明连接正常
+                websocket.send("发送维持连接消息");
+                console.log("发送维持连接消息！");
+                self.serverTimeoutObj = setTimeout(function () {//如果超过一定时间还没重置，说明后端主动断开了
+                    websocket.close();     //如果onclose会执行reconnect，我们执行ws.close()就行了.如果直接执行reconnect 会触发onclose导致重连两次
+                }, self.timeout)
+            }, this.timeout)
+        }
+    }
 
 </script>
-
-
 </body>
 </html>

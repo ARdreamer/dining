@@ -1,8 +1,10 @@
 package com.order.dining.controller.seller;
 
+import com.order.dining.common.page.PageRequest;
+import com.order.dining.common.page.PageResult;
 import com.order.dining.dao.domain.Category;
 import com.order.dining.exception.DiningException;
-import com.order.dining.form.CategoryForm;
+import com.order.dining.beans.form.CategoryForm;
 import com.order.dining.service.CategoryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -31,9 +33,14 @@ public class SellerCategoryController {
     private CategoryService categoryService;
 
     @GetMapping("/list")
-    public ModelAndView list(Map<String, Object> map) {
-        List<Category> categoryList = categoryService.selectAll();
-        map.put("categoryList", categoryList);
+    public ModelAndView list(@RequestParam(value = "page", defaultValue = "1") Integer page,
+                             @RequestParam(value = "size", defaultValue = "10") Integer size,
+                             Map<String, Object> map) {
+        PageRequest pageRequest = new PageRequest(page, size);
+        PageResult pageResult = categoryService.selectAll(pageRequest);
+        map.put("categoryPage", pageResult);
+        map.put("currentPage", page);
+        map.put("size", size);
 
         return new ModelAndView("category/list", map);
     }

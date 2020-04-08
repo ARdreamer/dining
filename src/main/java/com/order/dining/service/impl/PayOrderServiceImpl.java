@@ -8,9 +8,9 @@ import com.order.dining.common.page.PageResult;
 import com.order.dining.converter.PayOrder2OrderDtoConverter;
 import com.order.dining.dao.domain.*;
 import com.order.dining.dao.mappers.*;
-import com.order.dining.dto.CartDTO;
-import com.order.dining.dto.OrderDTO;
-import com.order.dining.enums.*;
+import com.order.dining.beans.dto.CartDTO;
+import com.order.dining.beans.dto.OrderDTO;
+import com.order.dining.common.enums.*;
 import com.order.dining.exception.DiningException;
 import com.order.dining.service.*;
 import com.order.dining.utils.*;
@@ -79,6 +79,7 @@ public class PayOrderServiceImpl implements PayOrderService {
             orderDetail.setUpdateTime(new Date());
             orderDetailMapper.insert(orderDetail);
             log.info("【订单详情插入】:{}", JSON.toJSONString(orderDetail, true));
+
         }
 
         //2. 写数据库（order和orderDetail）
@@ -86,10 +87,10 @@ public class PayOrderServiceImpl implements PayOrderService {
         orderDTO.setOrderId(orderId);
         orderDTO.setCreateTime(new Date());
         orderDTO.setUpdateTime(new Date());
+        orderDTO.setOrderAmount(orderAmount);
+        orderDTO.setPayStatus(EPayStatus.NO_PAY.getCode().byteValue());
+        orderDTO.setOrderStatus(EOrderStatus.NEW.getCode().byteValue());
         BeanUtils.copyProperties(orderDTO, payOrder);
-        payOrder.setOrderAmount(orderAmount);
-        payOrder.setOrderStatus(EOrderStatus.NEW.getCode().byteValue());
-        payOrder.setPayStatus(EPayStatus.NO_PAY.getCode().byteValue());
         log.error("【插入订单】:{}", JSON.toJSONString(payOrder, true));
         payOrderMapper.insert(payOrder);
 
@@ -101,6 +102,11 @@ public class PayOrderServiceImpl implements PayOrderService {
 
         //发送WebSocket
         webSocket.sendMessage("有新的订单");
+
+        //TODO 待增加线程池
+        new Thread(() -> {
+            pushMessageService.orderStatus(orderDTO);
+        }).start();
 
         return orderDTO;
     }
@@ -225,7 +231,7 @@ public class PayOrderServiceImpl implements PayOrderService {
             throw new DiningException(EResultError.ORDER_UPDATE_FAIL);
         }
 
-        //todo 待增加线程池
+        //TODO 待增加线程池
         new Thread(() -> {
             pushMessageService.orderStatus(orderDTO);
         }).start();
@@ -250,7 +256,7 @@ public class PayOrderServiceImpl implements PayOrderService {
         } else {
             payOrderList = payOrderMapper.selectByBuyerOpenId(openId);
         }
-        log.error("【分页查询】：{}", JSON.toJSONString(payOrderList, true));
+//        log.error("【分页查询】：{}", JSON.toJSONString(payOrderList, true));
         PageInfo pageInfo = new PageInfo(payOrderList);
         List<OrderDTO> convert = PayOrder2OrderDtoConverter.convert(payOrderList);
         pageInfo.setList(convert);

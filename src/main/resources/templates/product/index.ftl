@@ -1,4 +1,5 @@
 <html>
+
 <#include "../common/header.ftl">
 
 <body>
@@ -12,7 +13,7 @@
         <div class="container-fluid">
             <div class="row clearfix">
                 <div class="col-md-12 column">
-                    <form role="form" method="post" action="/sell/seller/product/save">
+                    <form method="post" action="/sell/seller/product/save" enctype="multipart/form-data">
                         <div class="form-group">
                             <label>名称</label>
                             <input name="productName" type="text" class="form-control" value="${(productInfo.productName)!''}"/>
@@ -27,20 +28,16 @@
                         </div>
                         <div class="form-group">
                             <label>描述</label>
-                            <input name="productDescription" type="text" class="form-control" value="${(productInfo.productDesc)!''}"/>
+                            <input name="productDesc" type="text" class="form-control" value="${(productInfo.productDesc)!''}"/>
                         </div>
                         <div class="form-group">
                             <label>图片</label>
                             <input id="productIcon" name="productIcon" type="text" hidden="hidden" value="${(productInfo.productIcon)!''}"/>
-
-                            <div class="file-loading">
-                                <input id="input-id" type="file">
-                                <p class="help-block">支持jpg、jpeg、png、gif格式，大小不超过1M</p>
-                            </div>
+                            <input type="file"  name="multipartFile" />
                         </div>
                         <div class="form-group">
                             <label>类目</label>
-                            <select name="categoryType" class="form-control">
+                            <select name="categoryNo" class="form-control">
                                 <#list categoryList as category>
                                     <option value="${category.categoryNo}"
                                             <#if (productInfo.categoryNo)?? && productInfo.categoryNo == category.categoryNo>

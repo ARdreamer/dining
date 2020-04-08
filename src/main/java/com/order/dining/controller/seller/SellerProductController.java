@@ -1,18 +1,23 @@
 package com.order.dining.controller.seller;
 
+import com.alibaba.fastjson.JSON;
+import com.order.dining.beans.dto.ProductDto;
+import com.order.dining.common.Constants;
 import com.order.dining.common.page.PageRequest;
 import com.order.dining.common.page.PageResult;
 import com.order.dining.dao.domain.*;
 import com.order.dining.exception.DiningException;
-import com.order.dining.form.ProductForm;
+import com.order.dining.beans.form.ProductForm;
 import com.order.dining.service.*;
 import com.order.dining.utils.KeyUtil;
+import com.order.dining.utils.UploadUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
@@ -51,7 +56,7 @@ public class SellerProductController {
         return new ModelAndView(("product/list"), map);
     }
 
-    @GetMapping("/on_sale")
+    @GetMapping("/onLine")
     public ModelAndView onLine(@RequestParam("productId") String productId, Map<String, Object> map) {
         try {
             productService.onLine(productId);
@@ -64,7 +69,7 @@ public class SellerProductController {
         return new ModelAndView("common/success", map);
     }
 
-    @GetMapping("/off_sale")
+    @GetMapping("/offLine")
     public ModelAndView offLine(@RequestParam("productId") String productId, Map<String, Object> map) {
         try {
             productService.offLine(productId);
@@ -90,16 +95,22 @@ public class SellerProductController {
     }
 
     @PostMapping("/save")
-    public ModelAndView save(@Valid ProductForm productForm, BindingResult bindingResult, Map<String, Object> map) {
+    public ModelAndView save(@Valid ProductDto productDto, BindingResult bindingResult, Map<String, Object> map) {
         if (bindingResult.hasErrors()) {
             map.put("msg", Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
             map.put("url", "/sell/seller/product/index");
             return new ModelAndView("common/error", map);
         }
+        MultipartFile multipartFile = productDto.getMultipartFile();
+        String imageName = UploadUtil.uploadImage(multipartFile);
+        if (StringUtils.isNotBlank(imageName)) {
+            productDto.setProductIcon(Constants.Image.PATH + imageName);
+        }
 
         //保存和更新同一个接口，通过productId判断调用方法
         ProductInfo productInfo = new ProductInfo();
-        BeanUtils.copyProperties(productForm, productInfo);
+        BeanUtils.copyProperties(productDto, productInfo);
+        System.out.println(JSON.toJSONString(productInfo));
         try {
             //判断productId,是否为新增
             if (StringUtils.isBlank(productInfo.getProductId())) {
@@ -118,4 +129,5 @@ public class SellerProductController {
         map.put("url", "/sell/seller/product/list");
         return new ModelAndView("common/success", map);
     }
+
 }

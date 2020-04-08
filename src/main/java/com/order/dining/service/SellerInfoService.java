@@ -1,7 +1,7 @@
 package com.order.dining.service;
 
-import com.order.dining.dao.domain.SellerInfo;
 
+import com.order.dining.dao.domain.SellerInfo;
 
 /**
  * @Author: baojx
@@ -10,7 +10,8 @@ import com.order.dining.dao.domain.SellerInfo;
  */
 public interface SellerInfoService {
 
-    SellerInfo selectByOpenId(String openId);
 
     Integer insert(SellerInfo sellerInfo);
+
+    SellerInfo login(String username, String pwd);
 }

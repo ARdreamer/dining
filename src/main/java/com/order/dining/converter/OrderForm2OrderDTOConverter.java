@@ -2,11 +2,11 @@ package com.order.dining.converter;
 
 import com.alibaba.fastjson.JSON;
 import com.order.dining.dao.domain.OrderDetail;
-import com.order.dining.dto.CartDTO;
-import com.order.dining.dto.OrderDTO;
-import com.order.dining.enums.EResultError;
+import com.order.dining.beans.dto.CartDTO;
+import com.order.dining.beans.dto.OrderDTO;
+import com.order.dining.common.enums.EResultError;
 import com.order.dining.exception.DiningException;
-import com.order.dining.form.OrderForm;
+import com.order.dining.beans.form.OrderForm;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;

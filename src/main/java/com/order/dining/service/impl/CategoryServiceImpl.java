@@ -1,8 +1,14 @@
 package com.order.dining.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.order.dining.common.page.PageRequest;
+import com.order.dining.common.page.PageResult;
 import com.order.dining.dao.domain.Category;
+import com.order.dining.dao.domain.ProductInfo;
 import com.order.dining.dao.mappers.CategoryMapper;
 import com.order.dining.service.CategoryService;
+import com.order.dining.utils.PageUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -25,9 +31,13 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<Category> selectAll() {
-        return categoryMapper.selectAll();
+    public PageResult selectAll(PageRequest pageRequest) {
+        return PageUtil.getPageResult(getPageInfo(pageRequest));
     }
+
+    @Override
+    public List<Category> selectAll() {
+        return categoryMapper.selectAll();    }
 
     @Override
     public List<Category> selectByCategoryNo(List<Integer> categoryNoList) {
@@ -46,4 +56,19 @@ public class CategoryServiceImpl implements CategoryService {
         category.setUpdateTime(new Date());
         return categoryMapper.updateByPrimaryKeySelective(category);
     }
+
+    /**
+     * 调用分页插件完成分页
+     *
+     * @param pageRequest 分页请求
+     * @return 分页结果
+     */
+    private PageInfo<Category> getPageInfo(PageRequest pageRequest) {
+        int pageNum = pageRequest.getPageNum();
+        int pageSize = pageRequest.getPageSize();
+        PageHelper.startPage(pageNum, pageSize);
+        List<Category> categoryList = categoryMapper.selectAll();
+        return new PageInfo<>(categoryList);
+    }
+
 }

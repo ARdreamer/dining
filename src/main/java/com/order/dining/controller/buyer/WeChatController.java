@@ -1,6 +1,6 @@
 package com.order.dining.controller.buyer;
 
-import com.order.dining.enums.EResultError;
+import com.order.dining.common.enums.EResultError;
 import com.order.dining.exception.DiningException;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.api.WxConsts;
@@ -31,8 +31,7 @@ public class WeChatController {
     public String authorize(@RequestParam("returnUrl") String returnUrl) {
         log.info("【微信网页授权】returnUrl:{}", returnUrl);
 
-        //todo 用户url natapp域名 前端修改URL opt/code//config
-        String url = "http://z46fge.natappfree.cc/sell/wechat/userInfo";
+        String url = "http://dining.natapp1.cc/sell/wechat/userInfo";
         String result = null;
         try {
             result = wxMpService.oauth2buildAuthorizationUrl(url, WxConsts.OAUTH2_SCOPE_BASE, URLEncoder.encode(returnUrl, "utf-8"));

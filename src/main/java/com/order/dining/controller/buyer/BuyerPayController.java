@@ -1,8 +1,8 @@
 package com.order.dining.controller.buyer;
 
 import com.lly835.bestpay.model.PayResponse;
-import com.order.dining.dto.OrderDTO;
-import com.order.dining.enums.EResultError;
+import com.order.dining.beans.dto.OrderDTO;
+import com.order.dining.common.enums.EResultError;
 import com.order.dining.exception.DiningException;
 import com.order.dining.service.PayOrderService;
 import com.order.dining.service.PayService;
@@ -45,12 +45,15 @@ public class BuyerPayController {
         map.put("payResponse", payResponse);
         map.put("returnUrl", returnUrl);
 
+        //TODO 为了完整流程，所以在create中重定向一次
         return new ModelAndView("pay/create", map);
     }
 
     @PostMapping("notify")
-    public ModelAndView notify(@RequestBody String data) {
-        payService.notify(data);
+//    public ModelAndView notify(@RequestBody String data) {
+    public ModelAndView notify(@RequestParam("orderId") String orderId,
+                               @RequestParam("orderAmount") Double orderAmount) {
+        payService.notify(orderId, orderAmount);
 
         return new ModelAndView("pay/success");
     }

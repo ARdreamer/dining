@@ -1,4 +1,4 @@
-package com.order.dining.enums;
+package com.order.dining.common.enums;
 
 import lombok.Getter;
 
@@ -16,6 +16,9 @@ public enum EOrderStatus {
     /**
      * 订单完成状态
      * 订单终态
+     * <p>
+     * 因为订餐系统，所以可以在做一个task
+     * 在支付成功状态两小时后，可以进行扫表，将订单状态置为完成（也就是不能取消，不能退款了）
      */
     CLOSE(1, "完成"),
     /**
@@ -35,7 +38,7 @@ public enum EOrderStatus {
 
     public static EOrderStatus getEOrderStatus(Integer code) {
         for (EOrderStatus orderStatus : EOrderStatus.values()) {
-            if (orderStatus.getCode().equals(code)){
+            if (orderStatus.getCode().equals(code)) {
                 return orderStatus;
             }
         }

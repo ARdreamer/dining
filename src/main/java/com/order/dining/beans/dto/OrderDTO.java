@@ -1,13 +1,12 @@
-package com.order.dining.dto;
+package com.order.dining.beans.dto;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.alibaba.fastjson.annotation.JSONType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.order.dining.converter.Date2LongSerializer;
 import com.order.dining.dao.domain.OrderDetail;
-import com.order.dining.enums.EOrderStatus;
-import com.order.dining.enums.EPayStatus;
+import com.order.dining.common.enums.EOrderStatus;
+import com.order.dining.common.enums.EPayStatus;
 import lombok.Data;
 
 import java.math.BigDecimal;

@@ -1,4 +1,4 @@
-package com.order.dining.enums;
+package com.order.dining.common.enums;
 
 import lombok.Getter;
 

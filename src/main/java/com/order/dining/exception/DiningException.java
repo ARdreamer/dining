@@ -1,6 +1,6 @@
 package com.order.dining.exception;
 
-import com.order.dining.enums.EResultError;
+import com.order.dining.common.enums.EResultError;
 import lombok.Getter;
 
 /**

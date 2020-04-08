@@ -1,4 +1,4 @@
-package com.order.dining.dto;
+package com.order.dining.beans.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -6,10 +6,17 @@ spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
-    password: 123456
-    url: jdbc:mysql://192.168.0.105:3306/order_dining?characterEncoding=utf-8&useSSL=false
+    password: 111
+    url: jdbc:mysql://127.0.0.1:3306/sell_dining?characterEncoding=utf-8&useSSL=false
   jackson:
     default-property-inclusion: non_null
+  redis:
+    host: 127.0.0.1
+    port: 6379
+  resources:
+    static-locations: file:G:\JavaSource\dining\src\main\resources\static\
+  mvc:
+    static-path-pattern: /**
 mybatis:
   mapper-locations: classpath:com.order.dining.dao.mappers/*Mapper.xml
   type-aliases-package: com.order.dining.domain
@@ -22,7 +29,7 @@ pagehelper:
 wechat:
   mpAppId: wx4a51c29bfe2ee580
   mpAppSecret: 2ba2b15193247c0e28fff1b4fa985fa1
-  mchId:
-  mchKey:
-  keyPath:
-  notifyUrl:
+  mchId: todo
+  mchKey: todo
+  keyPath: todo
+  notifyUrl: todo

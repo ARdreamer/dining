@@ -1,6 +1,6 @@
 package com.order.dining.service;
 
-import com.order.dining.dto.OrderDTO;
+import com.order.dining.beans.dto.OrderDTO;
 
 /**
  * @Author: baojx

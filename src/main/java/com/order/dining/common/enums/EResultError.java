@@ -1,4 +1,4 @@
-package com.order.dining.enums;
+package com.order.dining.common.enums;
 
 import lombok.Getter;
 
@@ -49,13 +49,17 @@ public enum EResultError {
     LOGIN_FAIL(26, "登录失败, 登录信息不正确"),
 
     LOGOUT_SUCCESS(27, "登出成功"),
+
+    REGISTER_ERROR(28, "注册失败，用户名重复"),
+
+    AUTHORIZE_ERROR(29, "权限校验失败，你没有该页面访问权限！"),
     ;
 
     private Integer code;
 
     private String desc;
 
-    EResultError(Integer code, String dsce) {
+    EResultError(Integer code, String desc) {
         this.code = code;
         this.desc = desc;
     }

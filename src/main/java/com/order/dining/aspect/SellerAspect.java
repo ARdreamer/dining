@@ -1,15 +1,26 @@
 package com.order.dining.aspect;
 
+import com.order.dining.common.Constants;
+import com.order.dining.common.enums.EResultError;
+import com.order.dining.exception.DiningException;
+import com.order.dining.exception.SellerAuthorizeException;
+import com.order.dining.utils.CookieUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * @Author: baojx
@@ -21,17 +32,50 @@ import javax.servlet.http.HttpServletRequest;
 @Slf4j
 public class SellerAspect {
 
+    @Resource
+    private StringRedisTemplate stringRedisTemplate;
+
     @Pointcut("execution(public * com.order.dining.controller.seller.Seller*.*(..))" +
             "&& !execution(public * com.order.dining.controller.seller.SellerInfoController.*(..))")
     public void verify() {
     }
 
+    @Pointcut("execution(public * com.order.dining.controller.seller.SellerInfoController.*(..))")
+    public void index() {
+    }
+
     @Before("verify()")
-    public void doVerify(){
-        ServletRequestAttributes requestAttributes = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
+    public void doVerify() {
+        ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = requestAttributes.getRequest();
 
-        //todo 增加CookieUtil 查询cookie
-        Cookie[] cookies = request.getCookies();
+        Cookie cookie = CookieUtil.get(request, Constants.Cookie.TOKEN);
+        if (cookie == null) {
+            log.warn("【登录校验】Cookie中查不到token");
+            throw new DiningException(EResultError.AUTHORIZE_ERROR);
+        }
+
+        //去redis里查询
+        String tokenValue = stringRedisTemplate.opsForValue().get(Constants.Redis.PREFIX + cookie.getValue());
+        if (StringUtils.isBlank(tokenValue)) {
+            log.warn("【登录校验】Redis中查不到token");
+            throw new DiningException(EResultError.AUTHORIZE_ERROR);
+        }
+    }
+
+    @Before("index()")
+    public void indexAOP() throws IOException {
+        HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
+        ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        HttpServletRequest request = requestAttributes.getRequest();
+        Cookie cookie = CookieUtil.get(request, Constants.Cookie.TOKEN);
+        if (cookie != null) {
+            //去redis里查询
+            String tokenValue = stringRedisTemplate.opsForValue().get(Constants.Redis.PREFIX + cookie.getValue());
+            if (StringUtils.isNotBlank(tokenValue)) {
+                response.sendRedirect("/sell/seller/order/list");
+            }
+        }
+//        response.sendRedirect("/sell/user/index");
     }
 }

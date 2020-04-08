@@ -1,8 +1,8 @@
 package com.order.dining.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.order.dining.dto.OrderDTO;
-import com.order.dining.enums.EResultError;
+import com.order.dining.beans.dto.OrderDTO;
+import com.order.dining.common.enums.EResultError;
 import com.order.dining.exception.DiningException;
 import com.order.dining.service.BuyerService;
 import com.order.dining.service.PayOrderService;

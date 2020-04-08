@@ -1,7 +1,7 @@
 package com.order.dining.dao.domain;
 
-import com.order.dining.enums.EOrderStatus;
-import com.order.dining.enums.EPayStatus;
+import com.order.dining.common.enums.EOrderStatus;
+import com.order.dining.common.enums.EPayStatus;
 import lombok.Data;
 
 import java.math.BigDecimal;
