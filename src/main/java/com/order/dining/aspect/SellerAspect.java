@@ -3,14 +3,12 @@ package com.order.dining.aspect;
 import com.order.dining.common.Constants;
 import com.order.dining.common.enums.EResultError;
 import com.order.dining.exception.DiningException;
-import com.order.dining.exception.SellerAuthorizeException;
 import com.order.dining.utils.CookieUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -48,13 +46,17 @@ public class SellerAspect {
     public void doVerify() {
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = requestAttributes.getRequest();
-
+        final HttpServletResponse response = requestAttributes.getResponse();
         Cookie cookie = CookieUtil.get(request, Constants.Cookie.TOKEN);
         if (cookie == null) {
             log.warn("【登录校验】Cookie中查不到token");
             throw new DiningException(EResultError.AUTHORIZE_ERROR);
         }
-
+//        if (!StringUtils.equals(cookie.getValue(), request.getSession().getId())) {
+//            log.warn("【登录校验】登录重复");
+//            CookieUtil.removeAll(request, response, Constants.Cookie.TOKEN);
+//            throw new DiningException(EResultError.LOGIN_COOKIE_REPEAT_ERROR);
+//        }
         //去redis里查询
         String tokenValue = stringRedisTemplate.opsForValue().get(Constants.Redis.PREFIX + cookie.getValue());
         if (StringUtils.isBlank(tokenValue)) {
@@ -76,6 +78,5 @@ public class SellerAspect {
                 response.sendRedirect("/sell/seller/order/list");
             }
         }
-//        response.sendRedirect("/sell/user/index");
     }
 }

@@ -7,4 +7,8 @@
     <link type="text/css" rel="stylesheet" href="/sell/css/fileinput.css" rel="external nofollow" />
     <script type="text/javascript" src="/sell/js/fileinput.js"></script>
     <script type="text/javascript" src="/sell/js/fileinput_locale_zh.js"></script>
+    <link rel="stylesheet" href="/sell/css/dateTime.css">
+    <script type="text/javascript" src="/sell/js/DatePicker.js"></script>
+
+
 </head>

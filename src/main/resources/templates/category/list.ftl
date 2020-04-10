@@ -17,7 +17,7 @@
                         <tr>
                             <th>类目id</th>
                             <th>名字</th>
-                            <th>type</th>
+                            <th>no</th>
                             <th>创建时间</th>
                             <th>修改时间</th>
                             <th>操作</th>

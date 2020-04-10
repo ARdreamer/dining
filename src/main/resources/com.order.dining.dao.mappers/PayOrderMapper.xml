@@ -200,7 +200,7 @@
     -->
     select
     <include refid="Base_Column_List" />
-    from pay_order
+    from pay_order order by create_time desc
   </select>
 
 </mapper>

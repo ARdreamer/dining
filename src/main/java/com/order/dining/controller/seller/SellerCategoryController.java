@@ -29,6 +29,8 @@ import java.util.Objects;
 @Slf4j
 public class SellerCategoryController {
 
+    //todo category_no唯一，并且添加删除，如果当前category_no删除，那么对应商品修改为下架
+    //todo 如果修改了type，那么也是下架
     @Resource
     private CategoryService categoryService;
 
@@ -47,8 +49,9 @@ public class SellerCategoryController {
 
     @GetMapping("/index")
     public ModelAndView index(@RequestParam(value = "categoryId", required = false) Integer categoryId, Map<String, Object> map) {
+        Category category = null;
         if (categoryId != null) {
-            Category category = categoryService.selectOne(categoryId);
+            category = categoryService.selectOne(categoryId);
             map.put("category", category);
         }
 
@@ -78,8 +81,11 @@ public class SellerCategoryController {
             map.put("msg", e.getMessage());
             map.put("url", "/sell/seller/category/index");
             return new ModelAndView("common/error", map);
+        } catch (Exception e) {
+            map.put("msg", " <font color=\"#FF0000\">no</font> 重复，请您再次修改");
+            map.put("url", "/sell/seller/category/list");
+            return new ModelAndView("common/error", map);
         }
-
         map.put("url", "/sell/seller/category/list");
         return new ModelAndView("common/success", map);
     }

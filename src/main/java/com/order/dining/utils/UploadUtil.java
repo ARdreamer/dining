@@ -14,18 +14,19 @@ import java.util.UUID;
 public class UploadUtil {
     public static String uploadImage(MultipartFile imageFile) {
         String newImageName = "";
-        if (!imageFile.isEmpty()) {    //(1)
-            String realPath = "G:\\JavaSource\\dining\\src\\main\\resources\\static\\image\\upload\\";  //(2)
-            String originalName = imageFile.getOriginalFilename();  //(3)
-            String uuidName = UUID.randomUUID().toString();  //(4)
-            newImageName = uuidName + originalName.substring(originalName.lastIndexOf("."));  //(4)
-            File file = new File(realPath + newImageName);  //(5)
+        if (!imageFile.isEmpty()) {
+            //TODO 页面待配置
+            String realPath = "G:\\JavaSource\\dining\\src\\main\\resources\\static\\image\\upload\\";
+            String originalName = imageFile.getOriginalFilename();
+            String uuidName = UUID.randomUUID().toString();
+            newImageName = uuidName + originalName.substring(originalName.lastIndexOf("."));
+            File file = new File(realPath + newImageName);
             try {
-                imageFile.transferTo(file);  //(6)
+                imageFile.transferTo(file);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        return newImageName;  //(7)
+        return newImageName;
     }
 }

@@ -1,5 +1,7 @@
 package com.order.dining.controller.seller;
 
+import com.alibaba.fastjson.JSON;
+import com.order.dining.beans.form.SearchForm;
 import com.order.dining.common.page.PageRequest;
 import com.order.dining.common.page.PageResult;
 import com.order.dining.beans.dto.OrderDTO;
@@ -9,6 +11,7 @@ import com.order.dining.service.PayOrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -26,6 +29,8 @@ import java.util.Map;
 @Slf4j
 public class SellerPayOrderController {
 
+    //TODO 通过姓名 手机号 查找用户订单
+    //todo 查询当天，当月，当季度订单
     @Resource
     private PayOrderService payOrderService;
 
@@ -100,4 +105,12 @@ public class SellerPayOrderController {
 
         return new ModelAndView("common/success", map);
     }
+
+    @PostMapping("/search")
+    public ModelAndView search(SearchForm searchForm, Map<String, Object> map) {
+        log.info(JSON.toJSONString(searchForm, true));
+        map.put("url", "/sell/seller/order/list");
+        return new ModelAndView("common/success", map);
+    }
+
 }

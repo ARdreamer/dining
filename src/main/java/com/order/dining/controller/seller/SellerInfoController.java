@@ -30,7 +30,7 @@ import java.util.concurrent.TimeUnit;
  * @Desc: 卖家信息
  */
 @Controller
-@RequestMapping("/user")
+@RequestMapping("")
 @Slf4j
 public class SellerInfoController {
 
@@ -45,12 +45,12 @@ public class SellerInfoController {
         return new ModelAndView("common/index");
     }
 
-    @GetMapping(value = {"/registerPage"})
+    @GetMapping(value = {"/user/registerPage"})
     public ModelAndView registerPage() {
         return new ModelAndView("common/register");
     }
 
-    @PostMapping(value = {"/login"})
+    @PostMapping(value = {"/user/login"})
     public ModelAndView login(@RequestParam("username") String username, @RequestParam("pwd") String pwd,
                               HttpServletResponse response, HttpSession session, Map<String, Object> map) {
         SellerInfo user = sellerInfoService.login(username, pwd);
@@ -63,11 +63,11 @@ public class SellerInfoController {
             return new ModelAndView("common/success");
         }
         map.put("msg", "登录失败，请检查您的用户名及密码是否正确");
-        map.put("url", "/sell/user/index");
+        map.put("url", "/sell/index");
         return new ModelAndView("common/error", map);
     }
 
-    @PostMapping(value = {"/register"})
+    @PostMapping(value = {"/user/register"})
     public ModelAndView register(@Valid SellerInfo sellerInfo, BindingResult bindingResult, Map<String, Object> map) {
         log.error(JSON.toJSONString(sellerInfo));
         if (bindingResult.hasErrors()) {
@@ -76,17 +76,16 @@ public class SellerInfoController {
             return new ModelAndView("common/error", map);
         }
         sellerInfoService.insert(sellerInfo);
-        map.put("url", "/sell/user/index");
+        map.put("url", "/sell/index");
         return new ModelAndView("common/success", map);
     }
 
-    @GetMapping(value = {"/logout"})
+    @GetMapping(value = {"/user/logout"})
     public ModelAndView logout(HttpServletRequest request, HttpServletResponse response, HttpSession session, Map<String, Object> map) {
-        CookieUtil.remove(request, response, Constants.Cookie.TOKEN);
-        stringRedisTemplate.delete(Constants.Redis.PREFIX + session.getId());
-        System.out.println("移除:" + Constants.Redis.PREFIX + session.getId());
+        CookieUtil.removeAll(request, response, Constants.Cookie.TOKEN);
+//        stringRedisTemplate.delete(Constants.Redis.PREFIX + session.getId());
         map.put("msg", "登出成功!");
-        map.put("url", "/sell/user/index");
+        map.put("url", "/sell/index");
         return new ModelAndView("common/success", map);
     }
 }

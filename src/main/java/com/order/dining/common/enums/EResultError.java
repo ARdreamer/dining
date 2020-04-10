@@ -53,6 +53,8 @@ public enum EResultError {
     REGISTER_ERROR(28, "注册失败，用户名重复"),
 
     AUTHORIZE_ERROR(29, "权限校验失败，你没有该页面访问权限！"),
+
+    LOGIN_COOKIE_REPEAT_ERROR(30, "请您重新登录"),
     ;
 
     private Integer code;

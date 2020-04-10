@@ -30,7 +30,7 @@ public class WeChatController {
     @GetMapping("/authorize")
     public String authorize(@RequestParam("returnUrl") String returnUrl) {
         log.info("【微信网页授权】returnUrl:{}", returnUrl);
-
+        //TODO 待配置
         String url = "http://dining.natapp1.cc/sell/wechat/userInfo";
         String result = null;
         try {
@@ -46,7 +46,7 @@ public class WeChatController {
 
     @GetMapping("/userInfo")
     public String userInfo(@RequestParam("code") String code, @RequestParam("state") String returnUrl) {
-        WxMpOAuth2AccessToken wxMpOAuth2AccessToken = new WxMpOAuth2AccessToken();
+        WxMpOAuth2AccessToken wxMpOAuth2AccessToken;
         try {
             wxMpOAuth2AccessToken = wxMpService.oauth2getAccessToken(code);
         } catch (WxErrorException e) {
@@ -55,6 +55,7 @@ public class WeChatController {
         }
         String openId = wxMpOAuth2AccessToken.getOpenId();
         log.info("【微信用户信息】用户openId=【{}】", openId);
+        log.info("【微信用户信息】redirect=【{}】", "redirect:" + returnUrl + "?openid=" + openId);
         return "redirect:" + returnUrl + "?openid=" + openId;
 
     }

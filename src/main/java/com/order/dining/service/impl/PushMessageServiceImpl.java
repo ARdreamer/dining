@@ -29,6 +29,7 @@ public class PushMessageServiceImpl implements PushMessageService {
     @Override
     public void orderStatus(OrderDTO orderDTO) {
         WxMpTemplateMessage wxMpTemplateMessage = new WxMpTemplateMessage();
+        //TODO 待配置
         wxMpTemplateMessage.setTemplateId("iHoP7bZODHafCEd01hEsSRNaXDNzXIYHcgyRGo4XMb4");
         wxMpTemplateMessage.setToUser(orderDTO.getBuyerOpenid());
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日 HH时mm分");

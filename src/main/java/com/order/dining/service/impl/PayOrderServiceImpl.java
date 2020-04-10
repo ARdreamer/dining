@@ -253,6 +253,7 @@ public class PayOrderServiceImpl implements PayOrderService {
         List<PayOrder> payOrderList;
         if (StringUtils.isBlank(openId)) {
             payOrderList = payOrderMapper.selectAll();
+//        log.error("【分页查询】：{}", JSON.toJSONString(payOrderList, true));
         } else {
             payOrderList = payOrderMapper.selectByBuyerOpenId(openId);
         }

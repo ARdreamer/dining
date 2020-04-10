@@ -7,7 +7,6 @@ import com.order.dining.common.page.PageRequest;
 import com.order.dining.common.page.PageResult;
 import com.order.dining.dao.domain.*;
 import com.order.dining.exception.DiningException;
-import com.order.dining.beans.form.ProductForm;
 import com.order.dining.service.*;
 import com.order.dining.utils.KeyUtil;
 import com.order.dining.utils.UploadUtil;
@@ -129,5 +128,4 @@ public class SellerProductController {
         map.put("url", "/sell/seller/product/list");
         return new ModelAndView("common/success", map);
     }
-
 }

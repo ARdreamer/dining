@@ -6,7 +6,29 @@
 
     <#--边栏sidebar-->
     <#include "../common/nav.ftl">
-
+    <br>
+    <br>
+    <form method="post" action="/sell/seller/order/search">
+        <div class="container">
+            <div class="row clearfix">
+                <div class="col-md-6 column">
+                    <input class="form-control" name="orderId" type="text" placeholder="订单id（选填）"><br>
+                    <input class="form-control" name="username" type="text" placeholder="用户名（选填）"><br>
+                    <input class="form-control" name="phone" type="text" placeholder="手机号（选填）"><br>
+                </div>
+                <div class="col-md-6 column">
+                    <input class="form-control" type="text" placeholder="请选择日期（选填）" id="date" name="dateDay"><br>
+                    <input id="begintime" class="form-control" type="text" onclick="setmonth(this)"
+                           name="dateMonth"/><br>
+                    <div class="row clearfix">
+                        <div class="col-md-12 column">
+                            <input type="submit" class="btn btn-default btn-success btn-block" value="搜索">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
     <#--主要内容content-->
     <div id="page-content-wrapper">
         <div class="container-fluid">
@@ -179,7 +201,37 @@
             }, this.timeout)
         }
     }
+</script>
+<script type="text/javascript" src="/sell/js/jquery.min.js"></script>
+<script type="text/javascript" src="/sell/js/dateTime.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/sell/css/jquery.monthpicker.css">
+<script type="text/javascript">
+    $("#date").datetime({
+        type: "date",
+        value: [2019, 9, 31],
+        success: function (res) {
+            console.log(res)
+        }
+    })
 
+    $("#time").datetime({
+        type: "time",
+        value: [12, 28]
+    })
+
+    $("#datetime").datetime({
+        type: "datetime",
+        value: [2019, 7, 15, 15, 30]
+    })
+</script>
+<script type="text/javascript" src="/sell/js/jquery.monthpicker.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('#monthly').monthpicker({
+            years: [2030, 2029, 2028, 2027, 2026, 2025, 2024, 2023, 2022, 2021, 2020, 2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010, 2009, 2008, 2007, 2006, 2005, 2004, 2003, 2002, 2001, 2000],
+            topOffset: 6
+        })
+    });
 </script>
 </body>
 </html>

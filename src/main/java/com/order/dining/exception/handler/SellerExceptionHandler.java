@@ -26,7 +26,6 @@ public class SellerExceptionHandler {
     @ExceptionHandler(value = SellerAuthorizeException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public ModelAndView handlerAuthorizeException() {
-        //todo 增加跳转链接
         return new ModelAndView("redirect:"
                 .concat("http://dining.natapp1.cc/sell/wechat/qrAuthorize")
                 .concat("?returnUrl=")
@@ -39,7 +38,7 @@ public class SellerExceptionHandler {
     public ModelAndView handlerDiningException(DiningException e) {
         Map<String, String> map = new HashMap<>();
         map.put("msg", e.getMessage());
-        map.put("url", "/sell/user/index");
+        map.put("url", "/sell/index");
         return new ModelAndView("common/error", map);
     }
 
@@ -47,9 +46,9 @@ public class SellerExceptionHandler {
 //    @ExceptionHandler(value = Exception.class)
 //    public ModelAndView handleException(Exception e) {
 //        Map<String, String> map = new HashMap<>();
-//        map.put("msg", e.getMessage());
-//        map.put("url", "/sell/user/index");
+//        map.put("msg", "不可预知的错误，即将为您返回主页！");
+//        map.put("url", "/sell/index");
 //        return new ModelAndView("common/error", map);
 //    }
-
+//
 }
