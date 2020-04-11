@@ -14,6 +14,5 @@ public class CartDTO {
 
     private String productId;
 
-    //todo productNum
     private Integer productQuantity;
 }

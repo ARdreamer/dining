@@ -26,5 +26,5 @@
     // }else{
     //     onBridgeReady();
     // }
-    location.href = "http://dining.natapp1.cc/sell/pay/notify?orderId=${payResponse.orderId}&orderId=${payResponse.orderAmount}";
+    location.href = "http://sell.com/#/order/${payResponse.orderId}";
 </script>

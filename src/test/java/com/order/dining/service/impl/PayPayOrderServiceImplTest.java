@@ -43,7 +43,7 @@ public class PayPayOrderServiceImplTest {
 //
 //            OrderDetail orderDetail = new OrderDetail();
 //            orderDetail.setProductId(i % 5 + 1 + "");
-//            orderDetail.setProductNum(2);
+//            orderDetail.setProductQuantity(2);
 //            orderDetailList.add(orderDetail);
 //            orderDTO.setOrderDetailList(orderDetailList);
 //
@@ -61,7 +61,7 @@ public class PayPayOrderServiceImplTest {
 
         OrderDetail orderDetail = new OrderDetail();
         orderDetail.setProductId("3");
-        orderDetail.setProductNum(2);
+        orderDetail.setProductQuantity(2);
         orderDetailList.add(orderDetail);
         orderDTO.setOrderDetailList(orderDetailList);
 

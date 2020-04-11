@@ -34,6 +34,7 @@ public class BuyerPayController {
     public ModelAndView create(@RequestParam("orderId") String orderId,
                                @RequestParam("returnUrl") String returnUrl,
                                Map<String, Object> map) {
+//        log.info("=================================create");
         //1. 查询订单
         OrderDTO orderDTO = payOrderService.selectOne(orderId);
         if (null == orderDTO) {
@@ -45,11 +46,14 @@ public class BuyerPayController {
         map.put("payResponse", payResponse);
         map.put("returnUrl", returnUrl);
 
+        //TODO 为了模拟支付，所以把回调的逻辑放在了这了，因为微信默认实时是不准确的，所以我们应该依靠回调，而不是自己去修改订单状态
+        payService.notify(orderId, payResponse.getOrderAmount());
+
         //TODO 为了完整流程，所以在create中重定向一次
         return new ModelAndView("pay/create", map);
     }
 
-    @PostMapping("notify")
+    @GetMapping("notify")
 //    public ModelAndView notify(@RequestBody String data) {
     public ModelAndView notify(@RequestParam("orderId") String orderId,
                                @RequestParam("orderAmount") Double orderAmount) {

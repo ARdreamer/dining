@@ -68,7 +68,7 @@ public class PayOrderServiceImpl implements PayOrderService {
 
             //计算总价
             orderAmount = productInfo.getProductPrice()
-                    .multiply(new BigDecimal(orderDetail.getProductNum()))
+                    .multiply(new BigDecimal(orderDetail.getProductQuantity()))
                     .add(orderAmount);
 
             //订单详情入库
@@ -96,7 +96,7 @@ public class PayOrderServiceImpl implements PayOrderService {
 
         //3. 扣库存
         List<CartDTO> cartDTOList = orderDTO.getOrderDetailList().stream()
-                .map(e -> new CartDTO(e.getProductId(), e.getProductNum()))
+                .map(e -> new CartDTO(e.getProductId(), e.getProductQuantity()))
                 .collect(Collectors.toList());
         productService.decrStock(cartDTOList);
 
@@ -171,7 +171,7 @@ public class PayOrderServiceImpl implements PayOrderService {
             throw new DiningException(EResultError.ORDER_DETAIL_EMPTY);
         }
         List<CartDTO> cartDTOList = orderDTO.getOrderDetailList().stream()
-                .map(e -> new CartDTO(e.getProductId(), e.getProductNum()))
+                .map(e -> new CartDTO(e.getProductId(), e.getProductQuantity()))
                 .collect(Collectors.toList());
         productService.incrStock(cartDTOList);
 
@@ -209,6 +209,7 @@ public class PayOrderServiceImpl implements PayOrderService {
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
     public OrderDTO payOrder(OrderDTO orderDTO) {
+//        log.info("===============================payorder");
         //1. 判断订单状态
         if (!orderDTO.getOrderStatus().equals(EOrderStatus.NEW.getCode().byteValue())) {
             log.error("【支付订单】订单状态不正确，orderId={}, orderSts={}", orderDTO.getOrderId(), orderDTO.getOrderStatus());

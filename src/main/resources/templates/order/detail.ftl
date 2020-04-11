@@ -47,8 +47,8 @@
                             <td>${orderDetail.productId}</td>
                             <td>${orderDetail.productName}</td>
                             <td>${orderDetail.productPrice}</td>
-                            <td>${orderDetail.productNum}</td>
-                            <td>${orderDetail.productNum * orderDetail.productPrice}</td>
+                            <td>${orderDetail.productQuantity}</td>
+                            <td>${orderDetail.productQuantity * orderDetail.productPrice}</td>
                         </tr>
                         </#list>
                         </tbody>

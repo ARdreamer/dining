@@ -19,7 +19,7 @@
                 <div class="col-md-6 column">
                     <input class="form-control" type="text" placeholder="请选择日期（选填）" id="date" name="dateDay"><br>
                     <input id="begintime" class="form-control" type="text" onclick="setmonth(this)"
-                           name="dateMonth"/><br>
+                           name="dateMonth" placeholder="请选择月份（选填）" readonly="readonly" /><br>
                     <div class="row clearfix">
                         <div class="col-md-12 column">
                             <input type="submit" class="btn btn-default btn-success btn-block" value="搜索">
