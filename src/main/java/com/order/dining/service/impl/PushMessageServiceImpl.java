@@ -32,7 +32,7 @@ public class PushMessageServiceImpl implements PushMessageService {
         //TODO 待配置
         wxMpTemplateMessage.setTemplateId("iHoP7bZODHafCEd01hEsSRNaXDNzXIYHcgyRGo4XMb4");
         wxMpTemplateMessage.setToUser(orderDTO.getBuyerOpenid());
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日 HH时mm分");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒");
         List<WxMpTemplateData> data = Arrays.asList(new WxMpTemplateData("first", "请查收您的订单哦!"),
                 new WxMpTemplateData("keyword1", orderDTO.getOrderId()),
                 new WxMpTemplateData("keyword2", orderDTO.getOrderAmount().toString()),

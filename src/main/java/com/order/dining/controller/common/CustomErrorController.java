@@ -1,4 +1,4 @@
-package com.order.dining.controller;
+package com.order.dining.controller.common;
 
 import com.alibaba.fastjson.JSON;
 import org.springframework.boot.web.servlet.error.ErrorController;
@@ -25,10 +25,18 @@ public class CustomErrorController implements ErrorController {
     @GetMapping(ERROR_PATH)
     @ResponseBody
     public ModelAndView getErrorPath(HttpServletRequest request) {
+        int index = request.getRequestURI().indexOf("sell.com");
         Map<String, String> map = new HashMap<>();
-        map.put("msg", "不可预知的错误，即将为您返回主页！");
-        map.put("url", "/sell/index");
+        if (index >= 0) {
+            map.put("msg", "不可预知的错误，即将为您返回主页！");
+            map.put("url", "/sell/index");
+        } else {
+            map.put("msg", "不可预知的错误，即将为您返回主页！");
+            //todo 删除http://sell.com/#
+            map.put("url", "http://sell.com/#");
+        }
         return new ModelAndView("common/error", map);
+
     }
 
     @Override

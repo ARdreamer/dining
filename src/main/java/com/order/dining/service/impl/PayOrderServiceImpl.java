@@ -222,10 +222,10 @@ public class PayOrderServiceImpl implements PayOrderService {
             throw new DiningException(EResultError.ORDER_PAY_STATUS_ERROR);
         }
         //3. 修改支付状态
+        orderDTO.setUpdateTime(new Date());
         orderDTO.setPayStatus(EPayStatus.SUCCESS.getCode().byteValue());
         PayOrder payOrder = new PayOrder();
         BeanUtils.copyProperties(orderDTO, payOrder);
-        payOrder.setUpdateTime(new Date());
         int i = payOrderMapper.updateByPrimaryKeySelective(payOrder);
         if (i <= 0) {
             log.error("【支付订单】更新订单状态失败，order:{}", JSON.toJSONString(payOrder, true));

@@ -1,4 +1,4 @@
-package com.order.dining.controller.buyer;
+package com.order.dining.controller.common;
 
 import com.order.dining.common.enums.EResultError;
 import com.order.dining.exception.DiningException;

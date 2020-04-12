@@ -20,7 +20,7 @@
                         </div>
                         <div class="form-group">
                             <label>价格</label>
-                            <input name="productPrice" type="text" class="form-control" value="${(productInfo.productPrice)!''}"/>
+                            <input name="productPrice" type="text" class="form-control" value="${(productInfo.productPrice?c)!''}"/>
                         </div>
                         <div class="form-group">
                             <label>库存</label>

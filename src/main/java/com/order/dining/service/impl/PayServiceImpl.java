@@ -63,7 +63,7 @@ public class PayServiceImpl implements PayService {
         //log.info("【微信：异步回调】payRsp={}", JSON.toJSONString(payResponse, true));
         try {
             //模拟数据的延时
-            Thread.sleep(1000);
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

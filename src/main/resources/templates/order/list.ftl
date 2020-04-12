@@ -143,8 +143,9 @@
     <source src="/sell/mp3/demo.mp3" type="audio/mpeg"/>
 </audio>
 
-<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
-<script src="https://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script src="/sell/js/jquery.min.js"></script>
+<script src="/sell/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/sell/js/dateTime.min.js"></script>
 <script>
     var websocket = null;
     if ('WebSocket' in window) {
@@ -202,8 +203,6 @@
         }
     }
 </script>
-<script type="text/javascript" src="/sell/js/jquery.min.js"></script>
-<script type="text/javascript" src="/sell/js/dateTime.min.js"></script>
 <script type="text/javascript">
     $("#date").datetime({
         type: "date",
