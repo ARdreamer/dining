@@ -22,6 +22,7 @@
                             <th>库存</th>
                             <th>描述</th>
                             <th>类目</th>
+                            <th>售出数量</th>
                             <th>创建时间</th>
                             <th>修改时间</th>
                             <th colspan="2">操作</th>
@@ -38,6 +39,7 @@
                             <td>${productInfo.productStock}</td>
                             <td>${productInfo.productDesc}</td>
                             <td>${productInfo.categoryNo}</td>
+                            <td>${productInfo.sellCount!"0"}</td>
                             <td>${productInfo.createTime?datetime}</td>
                             <td>${productInfo.updateTime?datetime}</td>
                             <td><a href="/sell/seller/product/index?productId=${productInfo.productId}">修改</a></td>

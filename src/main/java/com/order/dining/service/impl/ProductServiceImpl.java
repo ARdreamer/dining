@@ -61,6 +61,7 @@ public class ProductServiceImpl implements ProductService {
                 throw new DiningException(EResultError.PRODUCT_NOT_EXIST);
             }
             int result = productInfo.getProductStock() + cartDTO.getProductQuantity();
+            productInfo.setSellCount(productInfo.getSellCount() - cartDTO.getProductQuantity());
             productInfo.setProductStock(result);
             productInfo.setUpdateTime(new Date());
             productInfoMapper.updateByPrimaryKeySelective(productInfo);
@@ -81,6 +82,7 @@ public class ProductServiceImpl implements ProductService {
                 throw new DiningException(EResultError.PRODUCT_STOCK_ERROR);
             }
             productInfo.setProductStock(result);
+            productInfo.setSellCount(productInfo.getSellCount() + cartDTO.getProductQuantity());
             productInfo.setUpdateTime(new Date());
             productInfoMapper.updateByPrimaryKeySelective(productInfo);
         }

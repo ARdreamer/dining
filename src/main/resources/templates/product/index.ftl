@@ -36,6 +36,10 @@
                             <input type="file"  name="multipartFile" />
                         </div>
                         <div class="form-group">
+                            <label>售出数量</label>
+                            <input name="sellCount" type="text" class="form-control" value="${(productInfo.sellCount)!''}"/>
+                        </div>
+                        <div class="form-group">
                             <label>类目</label>
                             <select name="categoryNo" class="form-control">
                                 <#list categoryList as category>

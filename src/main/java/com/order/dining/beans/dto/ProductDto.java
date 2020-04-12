@@ -27,4 +27,6 @@ public class ProductDto {
     private String productIcon;
 
     private Integer categoryNo;
+
+    private Integer sellCount;
 }

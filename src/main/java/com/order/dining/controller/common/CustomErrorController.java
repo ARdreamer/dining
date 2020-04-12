@@ -29,11 +29,10 @@ public class CustomErrorController implements ErrorController {
         Map<String, String> map = new HashMap<>();
         if (index >= 0) {
             map.put("msg", "不可预知的错误，即将为您返回主页！");
-            map.put("url", "/sell/index");
+            map.put("url", "http://sell.com/#");
         } else {
             map.put("msg", "不可预知的错误，即将为您返回主页！");
-            //todo 删除http://sell.com/#
-            map.put("url", "http://sell.com/#");
+            map.put("url", "/sell/index");
         }
         return new ModelAndView("common/error", map);
 

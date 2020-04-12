@@ -19,7 +19,7 @@
                 <div class="col-md-6 column">
                     <input class="form-control" type="text" placeholder="请选择日期（选填）" id="date" name="dateDay"><br>
                     <input id="begintime" class="form-control" type="text" onclick="setmonth(this)"
-                           name="dateMonth" placeholder="请选择月份（选填）" readonly="readonly" /><br>
+                           name="dateMonth" placeholder="请选择月份（选填）" readonly="readonly"/><br>
                     <div class="row clearfix">
                         <div class="col-md-12 column">
                             <input type="submit" class="btn btn-default btn-success btn-block" value="搜索">
@@ -55,7 +55,13 @@
                                 <td>${orderDTO.orderId}</td>
                                 <td>${orderDTO.buyerName}</td>
                                 <td>${orderDTO.buyerPhone}</td>
-                                <td>${orderDTO.buyerAddress}</td>
+
+                                <#if orderDTO.buyerAddress == "堂食">
+                                    <td bgcolor="#green">${orderDTO.buyerAddress}</td>
+                                <#else>
+                                    <td>${orderDTO.buyerAddress}</td>
+                                </#if>
+
                                 <td>${orderDTO.orderAmount}</td>
                                 <#if orderDTO.getOrderStatusEnum().desc == "新订单">
                                     <td bgcolor="#adff2f">${orderDTO.getOrderStatusEnum().desc}</td>

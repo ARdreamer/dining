@@ -5,7 +5,6 @@ import com.github.pagehelper.PageInfo;
 import com.order.dining.common.page.PageRequest;
 import com.order.dining.common.page.PageResult;
 import com.order.dining.dao.domain.Category;
-import com.order.dining.dao.domain.ProductInfo;
 import com.order.dining.dao.mappers.CategoryMapper;
 import com.order.dining.service.CategoryService;
 import com.order.dining.utils.PageUtil;
