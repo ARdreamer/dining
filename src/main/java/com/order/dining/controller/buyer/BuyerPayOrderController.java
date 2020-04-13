@@ -7,6 +7,7 @@ import com.order.dining.common.Result;
 import com.order.dining.converter.OrderForm2OrderDTOConverter;
 import com.order.dining.beans.dto.OrderDTO;
 import com.order.dining.common.enums.EResultError;
+import com.order.dining.dao.mappers.OrderDetailMapper;
 import com.order.dining.exception.DiningException;
 import com.order.dining.beans.form.OrderForm;
 import com.order.dining.service.BuyerService;
@@ -65,19 +66,15 @@ public class BuyerPayOrderController {
     public Result<List<OrderDTO>> list(@RequestParam("openid") String openId,
                                        @RequestParam(value = "page", defaultValue = "0") Integer page,
                                        @RequestParam(value = "size", defaultValue = "10") Integer size) {
+//        log.error("【查询订单列表】openid：{}", openId);
         if (StringUtils.isBlank(openId)) {
             log.error("【查询订单列表】openId为空");
             throw new DiningException(EResultError.PARAM_ERROR);
         }
 
         PageRequest pageRequest = new PageRequest(page, size);
-        PageResult pageResult = payOrderService.selectByBuyerOpenId(pageRequest, openId);
-        List<OrderDTO> orderDTOList = null;
-        try {
-            orderDTOList = (List<OrderDTO>) pageResult.getContent();
-        } catch (Exception e) {
-            log.error("【查询订单列表】格式转换失败");
-        }
+        List<OrderDTO> orderDTOList = payOrderService.selectByBuyerOpenId(pageRequest, openId);
+
         return new Result<>(orderDTOList);
     }
 

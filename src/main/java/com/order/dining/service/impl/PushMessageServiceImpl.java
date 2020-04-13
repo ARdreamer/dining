@@ -30,14 +30,15 @@ public class PushMessageServiceImpl implements PushMessageService {
     public void orderStatus(OrderDTO orderDTO) {
         WxMpTemplateMessage wxMpTemplateMessage = new WxMpTemplateMessage();
         //TODO 待配置
-        wxMpTemplateMessage.setTemplateId("iHoP7bZODHafCEd01hEsSRNaXDNzXIYHcgyRGo4XMb4");
+        wxMpTemplateMessage.setTemplateId("k3Q3ri6yFKwcFYKKb3ddLKmKQqOwHL6Hd5WfMi0l4Ho");
         wxMpTemplateMessage.setToUser(orderDTO.getBuyerOpenid());
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒");
         List<WxMpTemplateData> data = Arrays.asList(new WxMpTemplateData("first", "请查收您的订单哦!"),
                 new WxMpTemplateData("keyword1", orderDTO.getOrderId()),
-                new WxMpTemplateData("keyword2", orderDTO.getOrderAmount().toString()),
-                new WxMpTemplateData("keyword3", orderDTO.getPayStatusEnum().getDesc()),
-                new WxMpTemplateData("keyword4", simpleDateFormat.format(orderDTO.getUpdateTime())),
+                new WxMpTemplateData("keyword2", orderDTO.getOrderStatusEnum().getDesc()),
+                new WxMpTemplateData("keyword3", orderDTO.getOrderAmount().toString()),
+                new WxMpTemplateData("keyword4", orderDTO.getPayStatusEnum().getDesc()),
+                new WxMpTemplateData("keyword5", simpleDateFormat.format(orderDTO.getUpdateTime())),
                 new WxMpTemplateData("remark", "期待您的下次光临!"));
         wxMpTemplateMessage.setData(data);
         try {

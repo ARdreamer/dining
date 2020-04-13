@@ -77,8 +77,8 @@ public class PayPayOrderServiceImplTest {
     @Test
     public void selectByBuyerOpenId() {
         PageRequest pageRequest = new PageRequest(0, 2);
-        PageResult pageResult = payOrderService.selectByBuyerOpenId(pageRequest, "1234");
-        System.out.println(pageResult);
+//        PageResult pageResult = payOrderService.selectByBuyerOpenId(pageRequest, "1234");
+//        System.out.println(pageResult);
     }
 
     @Test

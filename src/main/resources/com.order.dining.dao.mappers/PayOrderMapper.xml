@@ -191,6 +191,7 @@
     <include refid="Base_Column_List" />
     from pay_order
     where buyer_openid = #{openId,jdbcType=VARCHAR}
+    order by create_time desc
   </select>
 
   <select id="selectAll" resultMap="BaseResultMap">

@@ -5,6 +5,8 @@ import com.order.dining.common.page.PageRequest;
 import com.order.dining.common.page.PageResult;
 import com.order.dining.beans.dto.OrderDTO;
 
+import java.util.List;
+
 
 /**
  * @Author: baojx
@@ -35,7 +37,7 @@ public interface PayOrderService {
      * @param openId      buyerOpenId
      * @return 分页结果
      */
-    PageResult selectByBuyerOpenId(PageRequest pageRequest, String openId);
+    List<OrderDTO> selectByBuyerOpenId(PageRequest pageRequest, String openId);
 
     /**
      * 查找订单并分页

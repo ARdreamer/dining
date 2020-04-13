@@ -133,8 +133,14 @@ public class PayOrderServiceImpl implements PayOrderService {
     }
 
     @Override
-    public PageResult selectByBuyerOpenId(PageRequest pageRequest, String openId) {
-        return PageUtil.getPageResult(getPageInfo(pageRequest, openId));
+    public List<OrderDTO> selectByBuyerOpenId(PageRequest pageRequest, String openId) {
+        List<PayOrder> payOrderList = payOrderMapper.selectByBuyerOpenId(openId);
+        List<OrderDTO> convert = PayOrder2OrderDtoConverter.convert(payOrderList);
+        for (OrderDTO dto : convert) {
+            List<OrderDetail> orderDetails = orderDetailMapper.selectByOrderId(dto.getOrderId());
+            dto.setOrderDetailList(orderDetails);
+        }
+        return convert;
     }
 
     @Override
@@ -279,26 +285,17 @@ public class PayOrderServiceImpl implements PayOrderService {
     }
 
     private PageInfo<OrderDTO> getPageInfo(PageRequest pageRequest) {
-        return getPageInfo(pageRequest, null, null);
-    }
-
-    private PageInfo<OrderDTO> getPageInfo(PageRequest pageRequest, String openId) {
-        return getPageInfo(pageRequest, openId, null);
-    }
-
-    private PageInfo<OrderDTO> getPageInfo(PageRequest pageRequest, SearchForm searchForm) {
-        return getPageInfo(pageRequest, null, searchForm);
+        return getPageInfo(pageRequest, null);
     }
 
     /**
      * 调用分页插件完成分页
      *
      * @param pageRequest 分页请求
-     * @param openId      用户openId
+     * @param searchForm 查找表单
      * @return 分页信息
      */
-    //todo 重构 暂时写这样，有时间再写
-    private PageInfo<OrderDTO> getPageInfo(PageRequest pageRequest, String openId, SearchForm searchForm) {
+    private PageInfo<OrderDTO> getPageInfo(PageRequest pageRequest, SearchForm searchForm) {
         //1. 获取分页请求
         int pageNum = pageRequest.getPageNum();
         int pageSize = pageRequest.getPageSize();
@@ -307,17 +304,18 @@ public class PayOrderServiceImpl implements PayOrderService {
         List<PayOrder> payOrderList;
         if (searchForm != null) {
             payOrderList = payOrderMapper.searchByForm(searchForm);
-        } else if (StringUtils.isBlank(openId)) {
-            payOrderList = payOrderMapper.selectAll();
-//        log.error("【分页查询】：{}", JSON.toJSONString(payOrderList, true));
         } else {
-            payOrderList = payOrderMapper.selectByBuyerOpenId(openId);
+            payOrderList = payOrderMapper.selectAll();
         }
 //        log.error("【分页查询】：{}", JSON.toJSONString(payOrderList, true));
         //3. 包装分页结果，并进行DTO转换
         PageInfo pageInfo = new PageInfo(payOrderList);
         List<OrderDTO> convert = PayOrder2OrderDtoConverter.convert(payOrderList);
 //        log.error("================{}", convert);
+        for (OrderDTO dto : convert) {
+            List<OrderDetail> orderDetails = orderDetailMapper.selectByOrderId(dto.getOrderId());
+            dto.setOrderDetailList(orderDetails);
+        }
         pageInfo.setList(convert);
         return pageInfo;
     }
