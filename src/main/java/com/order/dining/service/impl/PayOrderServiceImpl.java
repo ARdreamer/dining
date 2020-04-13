@@ -104,11 +104,7 @@ public class PayOrderServiceImpl implements PayOrderService {
         //发送WebSocket
         webSocket.sendMessage("有新的订单");
 
-        //TODO 待增加线程池
-        new Thread(() -> {
-            pushMessageService.orderStatus(orderDTO);
-        }).start();
-
+        ThreadPoolUtil.addTask(new Thread(() -> pushMessageService.orderStatus(orderDTO)));
         return orderDTO;
     }
 
@@ -233,10 +229,7 @@ public class PayOrderServiceImpl implements PayOrderService {
             throw new DiningException(EResultError.ORDER_UPDATE_FAIL);
         }
 
-        //TODO 待增加线程池
-        new Thread(() -> {
-            pushMessageService.orderStatus(orderDTO);
-        }).start();
+        ThreadPoolUtil.addTask(new Thread(() -> pushMessageService.orderStatus(orderDTO)));
 
         return orderDTO;
     }
