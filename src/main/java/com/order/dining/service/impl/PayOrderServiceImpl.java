@@ -177,6 +177,7 @@ public class PayOrderServiceImpl implements PayOrderService {
             payService.refund(orderDTO);
         }
 
+        ThreadPoolUtil.addTask(new Thread(() -> pushMessageService.orderStatus(orderDTO)));
         return orderDTO;
     }
 
