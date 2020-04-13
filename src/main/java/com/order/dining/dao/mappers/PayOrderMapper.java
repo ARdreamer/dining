@@ -1,5 +1,6 @@
 package com.order.dining.dao.mappers;
 
+import com.order.dining.beans.form.SearchForm;
 import com.order.dining.dao.domain.PayOrder;
 
 import java.util.List;
@@ -67,4 +68,6 @@ public interface PayOrderMapper {
      * @return
      */
     List<PayOrder> selectAll();
+
+    List<PayOrder> searchByForm(SearchForm searchForm);
 }

@@ -203,4 +203,30 @@
     from pay_order order by create_time desc
   </select>
 
+  <select id="searchByForm" parameterType="com.order.dining.beans.form.SearchForm" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from pay_order
+    <where>
+      <if test="orderId != null">
+        order_id = #{orderId}
+      </if>
+      <if test="username != null">
+        AND buyer_name = #{username}
+      </if>
+      <if test="phone != null">
+        AND buyer_phone = #{phone}
+      </if>
+      <if test="dateDay != null">
+        AND create_time >= #{dateDay}
+        AND create_time &lt;= #{dateDayEnd}
+      </if>
+      <if test="dateMonth != null">
+        AND create_time >= #{dateMonth}
+        AND create_time &lt;= #{dateMonthEnd}
+      </if>
+    </where>
+    order by create_time desc
+  </select>
+
 </mapper>

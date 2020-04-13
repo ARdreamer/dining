@@ -29,8 +29,6 @@ import java.util.Map;
 @Slf4j
 public class SellerPayOrderController {
 
-    //TODO 通过姓名 手机号 查找用户订单
-    //todo 查询当天，当月，当季度订单
     @Resource
     private PayOrderService payOrderService;
 
@@ -42,16 +40,20 @@ public class SellerPayOrderController {
      * @return 视图
      */
     @GetMapping("/list")
-    public ModelAndView list(@RequestParam(value = "page", defaultValue = "1") Integer page,
+    public ModelAndView list(SearchForm searchForm,
+                             @RequestParam(value = "page", defaultValue = "1") Integer page,
                              @RequestParam(value = "size", defaultValue = "10") Integer size,
                              Map<String, Object> map) {
         PageRequest pageRequest = new PageRequest(page, size);
-        PageResult pageResult = payOrderService.selectAll(pageRequest);
+        PageResult pageResult = payOrderService.search(pageRequest, searchForm);
+        log.info(JSON.toJSONString(searchForm, true));
 
+        map.put("searchForm", searchForm);
         map.put("orderDTOPage", pageResult);
         map.put("currentPage", page);
         map.put("size", size);
         return new ModelAndView(("order/list"), map);
+
     }
 
     @GetMapping("/cancel")
@@ -106,11 +108,20 @@ public class SellerPayOrderController {
         return new ModelAndView("common/success", map);
     }
 
-    @PostMapping("/search")
-    public ModelAndView search(SearchForm searchForm, Map<String, Object> map) {
+    @GetMapping("/search")
+    public ModelAndView search(SearchForm searchForm,
+                               @RequestParam(value = "page", defaultValue = "1") Integer page,
+                               @RequestParam(value = "size", defaultValue = "10") Integer size,
+                               Map<String, Object> map) {
+        PageRequest pageRequest = new PageRequest(page, size);
+        PageResult pageResult = payOrderService.search(pageRequest, searchForm);
         log.info(JSON.toJSONString(searchForm, true));
-        map.put("url", "/sell/seller/order/list");
-        return new ModelAndView("common/success", map);
+
+        map.put("searchForm", searchForm);
+        map.put("orderDTOPage", pageResult);
+        map.put("currentPage", page);
+        map.put("size", size);
+        return new ModelAndView(("order/list"), map);
     }
 
 }

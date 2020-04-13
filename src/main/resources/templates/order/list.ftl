@@ -8,21 +8,28 @@
     <#include "../common/nav.ftl">
     <br>
     <br>
-    <form method="post" action="/sell/seller/order/search">
+    <form method="get" action="/sell/seller/order/search">
         <div class="container">
             <div class="row clearfix">
                 <div class="col-md-6 column">
-                    <input class="form-control" name="orderId" type="text" placeholder="订单id（选填）"><br>
-                    <input class="form-control" name="username" type="text" placeholder="用户名（选填）"><br>
-                    <input class="form-control" name="phone" type="text" placeholder="手机号（选填）"><br>
+                    <input class="form-control" name="orderId" id="orderId" type="text" placeholder="订单id（选填）"
+                           value="${searchForm.orderId!""}"><br>
+                    <input class="form-control" name="username" id="username" type="text" placeholder="用户名（选填）"
+                           value="${searchForm.username!""}"><br>
+                    <input class="form-control" name="phone" id="phone" type="text" placeholder="手机号（选填）"
+                           value="${searchForm.phone!""}"><br>
                 </div>
                 <div class="col-md-6 column">
-                    <input class="form-control" type="text" placeholder="请选择日期（选填）" id="date" name="dateDay"><br>
+                    <input class="form-control" type="text" placeholder="请选择日期（选填）" id="date" name="dateDay"
+                           readonly="readonly" value="${searchForm.dateDay!""}"><br>
                     <input id="begintime" class="form-control" type="text" onclick="setmonth(this)"
-                           name="dateMonth" placeholder="请选择月份（选填）" readonly="readonly"/><br>
+                           name="dateMonth" placeholder="请选择月份（选填）" readonly="readonly"
+                           value="${searchForm.dateMonth!""}"/><br>
                     <div class="row clearfix">
                         <div class="col-md-12 column">
                             <input type="submit" class="btn btn-default btn-success btn-block" value="搜索">
+                            <input type="button" class="btn btn-default btn-success btn-block" value="清空"
+                                   onclick="clearText();">
                         </div>
                     </div>
                 </div>
@@ -89,31 +96,58 @@
                         </tbody>
                     </table>
                 </div>
+<#--                <#if searchForm.orderId?? || searchForm.username?? || searchForm.phone?? || searchForm.dateDay?? || searchForm.dateMonth?? >-->
+                    <div class="col-md-12 column">
+                        <ul class="pagination pull-right">
+                            <#if currentPage lte 1>
+                                <li class="disabled"><a href="#">上一页</a></li>
+                            <#else>
+                                <li><a href="/sell/seller/order/list?page=${currentPage - 1}&size=${size}&orderId=${searchForm.orderId!""}&username=${searchForm.username!""}&phone=${searchForm.phone!""}&dateDay=${searchForm.dateDay!""}&dateMonth=${searchForm.dateMonth!""}">上一页</a></li>
+                            </#if>
+
+                            <#list 1..orderDTOPage.getTotalPages() as index>
+                                <#if currentPage == index>
+                                    <li class="disabled"><a href="#">${index}</a></li>
+                                <#else>
+                                    <li><a href="/sell/seller/order/list?page=${index}&size=${size}&orderId=${searchForm.orderId!""}&username=${searchForm.username!""}&phone=${searchForm.phone!""}&dateDay=${searchForm.dateDay!""}&dateMonth=${searchForm.dateMonth!""}">${index}</a></li>
+                                </#if>
+                            </#list>
+
+                            <#if currentPage gte orderDTOPage.getTotalPages()>
+                                <li class="disabled"><a href="#">下一页</a></li>
+                            <#else>
+                                <li><a href="/sell/seller/order/list?page=${currentPage + 1}&size=${size}&orderId=${searchForm.orderId!""}&username=${searchForm.username!""}&phone=${searchForm.phone!""}&dateDay=${searchForm.dateDay!""}&dateMonth=${searchForm.dateMonth!""}">下一页</a></li>
+                            </#if>
+                        </ul>
+                    </div>
+<#--                <#else>-->
+<#--                    <div class="col-md-12 column">-->
+<#--                        <ul class="pagination pull-right">-->
+<#--                            <#if currentPage lte 1>-->
+<#--                                <li class="disabled"><a href="#">上一页</a></li>-->
+<#--                            <#else>-->
+<#--                                <li><a href="/sell/seller/order/list?page=${currentPage - 1}&size=${size}">上一页</a></li>-->
+<#--                            </#if>-->
+
+<#--                            <#list 1..orderDTOPage.getTotalPages() as index>-->
+<#--                                <#if currentPage == index>-->
+<#--                                    <li class="disabled"><a href="#">${index}</a></li>-->
+<#--                                <#else>-->
+<#--                                    <li><a href="/sell/seller/order/list?page=${index}&size=${size}">${index}</a></li>-->
+<#--                                </#if>-->
+<#--                            </#list>-->
+
+<#--                            <#if currentPage gte orderDTOPage.getTotalPages()>-->
+<#--                                <li class="disabled"><a href="#">下一页</a></li>-->
+<#--                            <#else>-->
+<#--                                <li><a href="/sell/seller/order/list?page=${currentPage + 1}&size=${size}">下一页</a></li>-->
+<#--                            </#if>-->
+<#--                        </ul>-->
+<#--                    </div>-->
+
+<#--                </#if>-->
 
                 <#--分页-->
-                <div class="col-md-12 column">
-                    <ul class="pagination pull-right">
-                        <#if currentPage lte 1>
-                            <li class="disabled"><a href="#">上一页</a></li>
-                        <#else>
-                            <li><a href="/sell/seller/order/list?page=${currentPage - 1}&size=${size}">上一页</a></li>
-                        </#if>
-
-                        <#list 1..orderDTOPage.getTotalPages() as index>
-                            <#if currentPage == index>
-                                <li class="disabled"><a href="#">${index}</a></li>
-                            <#else>
-                                <li><a href="/sell/seller/order/list?page=${index}&size=${size}">${index}</a></li>
-                            </#if>
-                        </#list>
-
-                        <#if currentPage gte orderDTOPage.getTotalPages()>
-                            <li class="disabled"><a href="#">下一页</a></li>
-                        <#else>
-                            <li><a href="/sell/seller/order/list?page=${currentPage + 1}&size=${size}">下一页</a></li>
-                        </#if>
-                    </ul>
-                </div>
             </div>
         </div>
     </div>
@@ -212,7 +246,7 @@
 <script type="text/javascript">
     $("#date").datetime({
         type: "date",
-        value: [2019, 9, 31],
+        value: [2020, 1, 1],
         success: function (res) {
             console.log(res)
         }
@@ -227,6 +261,22 @@
         type: "datetime",
         value: [2019, 7, 15, 15, 30]
     })
+
+    function clearText() {
+        searchFlag()
+        $("#username").val("")
+        $("#phone").val("")
+        $("#orderId").val("")
+        $("#date").val("")
+        $("#begintime").val("")
+    }
+
+    function searchFlag() {
+        if ($("#username").val() != "" || $("#phone").val() != "" || $("#orderId").val() != "" || $("#date").val() != "" || $("#begintime").val() != ""){
+            return true;
+        }
+        return false;
+    }
 </script>
 </body>
 </html>

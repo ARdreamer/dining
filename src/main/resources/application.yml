@@ -11,7 +11,7 @@ spring:
   jackson:
     default-property-inclusion: non_null
   redis:
-    host: 127.0.0.1
+    host: 119.3.180.22
     port: 6379
   resources:
     static-locations: file:G:\JavaSource\dining\src\main\resources\static\,classpath:/static/

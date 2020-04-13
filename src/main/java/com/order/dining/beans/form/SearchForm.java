@@ -13,5 +13,7 @@ public class SearchForm {
     private String username;
     private String phone;
     private String dateDay;
+    private String dateDayEnd;
     private String dateMonth;
+    private String dateMonthEnd;
 }

@@ -1,5 +1,6 @@
 package com.order.dining.service;
 
+import com.order.dining.beans.form.SearchForm;
 import com.order.dining.common.page.PageRequest;
 import com.order.dining.common.page.PageResult;
 import com.order.dining.beans.dto.OrderDTO;
@@ -68,4 +69,11 @@ public interface PayOrderService {
      */
     OrderDTO payOrder(OrderDTO orderDTO);
 
+    /**
+     * 通过条件查询
+     * @param pageRequest 分页请求
+     * @param searchForm 查询条件
+     * @return 分页结果
+     */
+    PageResult search(PageRequest pageRequest, SearchForm searchForm);
 }
