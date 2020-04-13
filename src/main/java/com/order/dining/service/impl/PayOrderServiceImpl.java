@@ -275,7 +275,6 @@ public class PayOrderServiceImpl implements PayOrderService {
             searchForm.setUsername(null);
         }
         if (StringUtils.isNotBlank(dateDay)) {
-            ;
             searchForm.setDateDay(dateDay + " 00:00:00");
             searchForm.setDateDayEnd(dateDay + " 23:59:59");
             searchForm.setDateMonth(null);
