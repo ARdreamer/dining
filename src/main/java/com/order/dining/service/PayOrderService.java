@@ -78,4 +78,7 @@ public interface PayOrderService {
      * @return 分页结果
      */
     PageResult search(PageRequest pageRequest, OrderSearchForm orderSearchForm);
+
+    public Integer closeOrder(String orderId);
+
 }

@@ -2,6 +2,7 @@ package com.order.dining.dao.mappers;
 
 import com.order.dining.beans.form.OrderSearchForm;
 import com.order.dining.dao.domain.PayOrder;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -70,4 +71,6 @@ public interface PayOrderMapper {
     List<PayOrder> selectAll();
 
     List<PayOrder> searchByForm(OrderSearchForm orderSearchForm);
+
+    List<PayOrder> selectClose(@Param("beginTime") String beginTime, @Param("endTime") String endTime, @Param("orderStatus") Byte orderStatus);
 }

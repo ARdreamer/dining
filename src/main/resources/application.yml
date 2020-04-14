@@ -35,5 +35,9 @@ wechat:
   notifyUrl: todo
   templateId: k3Q3ri6yFKwcFYKKb3ddLKmKQqOwHL6Hd5WfMi0l4Ho
   userInfoUrl: http://dining.natapp1.cc/sell/wechat/userInfo
+
 image:
   realPath: G:\JavaSource\dining\src\main\resources\static\image\upload\
+
+time:
+  closeCron: 0 0 0/2 * * ?

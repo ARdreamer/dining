@@ -288,6 +288,9 @@ public class PayOrderServiceImpl implements PayOrderService {
         return getPageInfo(pageRequest, null);
     }
 
+    public Integer closeOrder(String orderId){
+        return null;
+    }
     /**
      * 调用分页插件完成分页
      *
