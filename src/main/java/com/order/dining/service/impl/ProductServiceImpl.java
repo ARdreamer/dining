@@ -180,7 +180,7 @@ public class ProductServiceImpl implements ProductService {
         int pageSize = pageRequest.getPageSize();
         PageHelper.startPage(pageNum, pageSize);
         List<ProductInfo> productInfoList = productInfoMapper.searchByForm(productSearchForm);
-        log.error("{}",productInfoList);
+//        log.error("{}",productInfoList);
         return new PageInfo<>(productInfoList);
     }
 

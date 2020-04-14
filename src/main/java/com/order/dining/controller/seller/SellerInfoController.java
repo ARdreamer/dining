@@ -69,7 +69,7 @@ public class SellerInfoController {
 
     @PostMapping(value = {"/user/register"})
     public ModelAndView register(@Valid SellerInfo sellerInfo, BindingResult bindingResult, Map<String, Object> map) {
-        log.error(JSON.toJSONString(sellerInfo));
+//        log.error(JSON.toJSONString(sellerInfo));
         if (bindingResult.hasErrors()) {
             map.put("msg", Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
             map.put("url", "/sell/user/registerPage");
