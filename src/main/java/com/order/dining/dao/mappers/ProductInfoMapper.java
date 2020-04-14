@@ -1,5 +1,6 @@
 package com.order.dining.dao.mappers;
 
+import com.order.dining.beans.form.ProductSearchForm;
 import com.order.dining.dao.domain.ProductInfo;
 
 import java.util.List;
@@ -57,4 +58,7 @@ public interface ProductInfoMapper {
 
     List<ProductInfo> selectAll();
 
+    List<ProductInfo> selectByCategoryNo(Integer categoryNo);
+
+    List<ProductInfo> searchByForm(ProductSearchForm productSearchForm);
 }

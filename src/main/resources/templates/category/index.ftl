@@ -18,7 +18,7 @@
                             <input name="categoryName" type="text" class="form-control" value="${(category.categoryName)!''}"/>
                         </div>
                         <div class="form-group">
-                            <label>no</label>
+                            <label>类型no</label>
                             <input name="categoryNo" type="number" class="form-control" value="${(category.categoryNo?c)!''}"/>
                         </div>
                         <input hidden type="text" name="categoryId" value="${(category.categoryId?c)!''}">

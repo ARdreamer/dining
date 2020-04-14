@@ -29,10 +29,9 @@ import java.util.Objects;
 @Slf4j
 public class SellerCategoryController {
 
-    //todo category_no唯一，并且添加删除，如果当前category_no删除，那么对应商品修改为下架
-    //todo 如果修改了type，那么也是下架
     @Resource
     private CategoryService categoryService;
+
 
     @GetMapping("/list")
     public ModelAndView list(@RequestParam(value = "page", defaultValue = "1") Integer page,
@@ -89,4 +88,13 @@ public class SellerCategoryController {
         map.put("url", "/sell/seller/category/list");
         return new ModelAndView("common/success", map);
     }
+
+    @GetMapping("/delete")
+    public ModelAndView delete(@RequestParam(value = "categoryId") Integer categoryId, @RequestParam(value = "categoryNo") Integer categoryNo, Map<String, Object> map) {
+        Integer i = categoryService.delete(categoryId, categoryNo);
+        map.put("msg", "删除成功");
+        map.put("url", "/sell/seller/category/list");
+        return new ModelAndView("common/success", map);
+    }
+
 }

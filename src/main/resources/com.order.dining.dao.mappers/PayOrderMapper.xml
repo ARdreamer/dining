@@ -204,7 +204,7 @@
     from pay_order order by create_time desc
   </select>
 
-  <select id="searchByForm" parameterType="com.order.dining.beans.form.SearchForm" resultMap="BaseResultMap">
+  <select id="searchByForm" parameterType="com.order.dining.beans.form.OrderSearchForm" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from pay_order

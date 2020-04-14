@@ -1,7 +1,7 @@
 package com.order.dining.controller.seller;
 
 import com.alibaba.fastjson.JSON;
-import com.order.dining.beans.form.SearchForm;
+import com.order.dining.beans.form.OrderSearchForm;
 import com.order.dining.common.page.PageRequest;
 import com.order.dining.common.page.PageResult;
 import com.order.dining.beans.dto.OrderDTO;
@@ -11,7 +11,6 @@ import com.order.dining.service.PayOrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -40,15 +39,15 @@ public class SellerPayOrderController {
      * @return 视图
      */
     @GetMapping("/list")
-    public ModelAndView list(SearchForm searchForm,
+    public ModelAndView list(OrderSearchForm orderSearchForm,
                              @RequestParam(value = "page", defaultValue = "1") Integer page,
                              @RequestParam(value = "size", defaultValue = "10") Integer size,
                              Map<String, Object> map) {
         PageRequest pageRequest = new PageRequest(page, size);
-        PageResult pageResult = payOrderService.search(pageRequest, searchForm);
-        log.info(JSON.toJSONString(searchForm, true));
+        PageResult pageResult = payOrderService.search(pageRequest, orderSearchForm);
+        log.info(JSON.toJSONString(orderSearchForm, true));
 
-        map.put("searchForm", searchForm);
+        map.put("orderSearchForm", orderSearchForm);
         map.put("orderDTOPage", pageResult);
         map.put("currentPage", page);
         map.put("size", size);
@@ -106,22 +105,6 @@ public class SellerPayOrderController {
         map.put("url", "/sell/seller/order/list");
 
         return new ModelAndView("common/success", map);
-    }
-
-    @GetMapping("/search")
-    public ModelAndView search(SearchForm searchForm,
-                               @RequestParam(value = "page", defaultValue = "1") Integer page,
-                               @RequestParam(value = "size", defaultValue = "10") Integer size,
-                               Map<String, Object> map) {
-        PageRequest pageRequest = new PageRequest(page, size);
-        PageResult pageResult = payOrderService.search(pageRequest, searchForm);
-        log.info(JSON.toJSONString(searchForm, true));
-
-        map.put("searchForm", searchForm);
-        map.put("orderDTOPage", pageResult);
-        map.put("currentPage", page);
-        map.put("size", size);
-        return new ModelAndView(("order/list"), map);
     }
 
 }

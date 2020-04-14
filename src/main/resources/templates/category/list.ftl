@@ -17,23 +17,25 @@
                         <tr>
                             <th>类目id</th>
                             <th>名字</th>
-                            <th>no</th>
+                            <th>类型no</th>
                             <th>创建时间</th>
                             <th>修改时间</th>
-                            <th>操作</th>
+                            <th colspan="2">操作</th>
                         </tr>
                         </thead>
                         <tbody>
 
                         <#list categoryPage.content as category>
-                        <tr>
-                            <td>${category.categoryId}</td>
-                            <td>${category.categoryName}</td>
-                            <td>${category.categoryNo}</td>
-                            <td>${category.createTime?datetime}</td>
-                            <td>${category.updateTime?datetime}</td>
-                            <td><a href="/sell/seller/category/index?categoryId=${category.categoryId}">修改</a></td>
-                        </tr>
+                            <tr>
+                                <td>${category.categoryId}</td>
+                                <td>${category.categoryName}</td>
+                                <td>${category.categoryNo}</td>
+                                <td>${category.createTime?datetime}</td>
+                                <td>${category.updateTime?datetime}</td>
+                                <td><a href="/sell/seller/category/index?categoryId=${category.categoryId}">修改</a></td>
+                                <td><a href="/sell/seller/category/delete?categoryId=${category.categoryId}&categoryNo=${category.categoryNo}"
+                                       onclick="return deleteConfirm()">删除</a></td>
+                            </tr>
                         </#list>
                         </tbody>
                     </table>
@@ -68,5 +70,10 @@
     </div>
 
 </div>
+<script>
+    function deleteConfirm() {
+        return confirm("确定要删除吗？(若删除该类目，对应类目下的商品也将下架！)")
+    }
+</script>
 </body>
 </html>

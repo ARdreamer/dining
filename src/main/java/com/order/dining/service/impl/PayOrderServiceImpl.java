@@ -2,7 +2,7 @@ package com.order.dining.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.*;
-import com.order.dining.beans.form.SearchForm;
+import com.order.dining.beans.form.OrderSearchForm;
 import com.order.dining.common.WebSocket;
 import com.order.dining.common.page.PageRequest;
 import com.order.dining.common.page.PageResult;
@@ -242,10 +242,10 @@ public class PayOrderServiceImpl implements PayOrderService {
     }
 
     @Override
-    public PageResult search(PageRequest pageRequest, SearchForm searchForm) {
+    public PageResult search(PageRequest pageRequest, OrderSearchForm orderSearchForm) {
         //1. 处理表单中时间格式，如果精确到天，则使用天，否则使用月份,防止bean对象被更改,后面还要用到
-        SearchForm toSearch = new SearchForm();
-        BeanUtils.copyProperties(searchForm, toSearch);
+        OrderSearchForm toSearch = new OrderSearchForm();
+        BeanUtils.copyProperties(orderSearchForm, toSearch);
         doVerifyDate(toSearch);
         //2. 返回查询结果
         return PageUtil.getPageResult(getPageInfo(pageRequest, toSearch));
@@ -254,33 +254,33 @@ public class PayOrderServiceImpl implements PayOrderService {
     /**
      * 对前端传来的时间进行包装
      *
-     * @param searchForm 查询表单
+     * @param orderSearchForm 查询表单
      */
-    private void doVerifyDate(SearchForm searchForm) {
-        String dateDay = searchForm.getDateDay();
-        String dateMonth = searchForm.getDateMonth();
-        if (StringUtils.isBlank(searchForm.getDateDay())) {
-            searchForm.setDateDay(null);
+    private void doVerifyDate(OrderSearchForm orderSearchForm) {
+        String dateDay = orderSearchForm.getDateDay();
+        String dateMonth = orderSearchForm.getDateMonth();
+        if (StringUtils.isBlank(orderSearchForm.getDateDay())) {
+            orderSearchForm.setDateDay(null);
         }
-        if (StringUtils.isBlank(searchForm.getDateMonth())) {
-            searchForm.setDateMonth(null);
+        if (StringUtils.isBlank(orderSearchForm.getDateMonth())) {
+            orderSearchForm.setDateMonth(null);
         }
-        if (StringUtils.isBlank(searchForm.getOrderId())) {
-            searchForm.setOrderId(null);
+        if (StringUtils.isBlank(orderSearchForm.getOrderId())) {
+            orderSearchForm.setOrderId(null);
         }
-        if (StringUtils.isBlank(searchForm.getPhone())) {
-            searchForm.setPhone(null);
+        if (StringUtils.isBlank(orderSearchForm.getPhone())) {
+            orderSearchForm.setPhone(null);
         }
-        if (StringUtils.isBlank(searchForm.getUsername())) {
-            searchForm.setUsername(null);
+        if (StringUtils.isBlank(orderSearchForm.getUsername())) {
+            orderSearchForm.setUsername(null);
         }
         if (StringUtils.isNotBlank(dateDay)) {
-            searchForm.setDateDay(dateDay + " 00:00:00");
-            searchForm.setDateDayEnd(dateDay + " 23:59:59");
-            searchForm.setDateMonth(null);
+            orderSearchForm.setDateDay(dateDay + " 00:00:00");
+            orderSearchForm.setDateDayEnd(dateDay + " 23:59:59");
+            orderSearchForm.setDateMonth(null);
         } else if (StringUtils.isNotBlank(dateMonth)) {
-            searchForm.setDateMonth(dateMonth + "-01 00:00:00");
-            searchForm.setDateMonthEnd(dateMonth + "-31 23:59:59");
+            orderSearchForm.setDateMonth(dateMonth + "-01 00:00:00");
+            orderSearchForm.setDateMonthEnd(dateMonth + "-31 23:59:59");
         }
     }
 
@@ -291,22 +291,17 @@ public class PayOrderServiceImpl implements PayOrderService {
     /**
      * 调用分页插件完成分页
      *
-     * @param pageRequest 分页请求
-     * @param searchForm 查找表单
+     * @param pageRequest     分页请求
+     * @param orderSearchForm 查找表单
      * @return 分页信息
      */
-    private PageInfo<OrderDTO> getPageInfo(PageRequest pageRequest, SearchForm searchForm) {
+    private PageInfo<OrderDTO> getPageInfo(PageRequest pageRequest, OrderSearchForm orderSearchForm) {
         //1. 获取分页请求
         int pageNum = pageRequest.getPageNum();
         int pageSize = pageRequest.getPageSize();
         PageHelper.startPage(pageNum, pageSize);
         //2. 查询数据库
-        List<PayOrder> payOrderList;
-        if (searchForm != null) {
-            payOrderList = payOrderMapper.searchByForm(searchForm);
-        } else {
-            payOrderList = payOrderMapper.selectAll();
-        }
+        List<PayOrder> payOrderList = payOrderMapper.searchByForm(orderSearchForm);
 //        log.error("【分页查询】：{}", JSON.toJSONString(payOrderList, true));
         //3. 包装分页结果，并进行DTO转换
         PageInfo pageInfo = new PageInfo(payOrderList);

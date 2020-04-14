@@ -18,9 +18,13 @@ public interface CategoryService {
 
     public List<Category> selectAll();
 
-    public List<Category> selectByCategoryNo(List<Integer> categoryTypeList);
+    public List<Category> selectByCategoryNo(List<Integer> categoryNoList);
 
     public Integer insert(Category category);
 
     public Integer update(Category category);
+
+    public Integer delete(Integer categoryId, Integer categoryNo);
+
+
 }

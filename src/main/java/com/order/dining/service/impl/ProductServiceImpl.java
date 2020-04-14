@@ -1,6 +1,8 @@
 package com.order.dining.service.impl;
 
 import com.github.pagehelper.*;
+import com.order.dining.beans.form.OrderSearchForm;
+import com.order.dining.beans.form.ProductSearchForm;
 import com.order.dining.common.page.PageRequest;
 import com.order.dining.common.page.PageResult;
 import com.order.dining.dao.domain.*;
@@ -11,6 +13,8 @@ import com.order.dining.exception.DiningException;
 import com.order.dining.service.ProductService;
 import com.order.dining.utils.PageUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,8 +44,35 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public PageResult selectAll(PageRequest pageRequest) {
-        return PageUtil.getPageResult(getPageInfo(pageRequest));
+    public PageResult selectAll(PageRequest pageRequest, ProductSearchForm productSearchForm) {
+        ProductSearchForm productSearchForm1 = new ProductSearchForm();
+        BeanUtils.copyProperties(productSearchForm, productSearchForm1);
+
+        doVerifyDate(productSearchForm1);
+
+        return PageUtil.getPageResult(getPageInfo(pageRequest, productSearchForm1));
+    }
+    /**
+     * 对前端传来的数据
+     *
+     * @param productSearchForm 查询表单
+     */
+    private void doVerifyDate(ProductSearchForm productSearchForm) {
+        if (StringUtils.isNotBlank(productSearchForm.getProductName())) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("%");
+            sb.append(productSearchForm.getProductName());
+            sb.append("%");
+            productSearchForm.setProductName(sb.toString());
+        }else {
+            productSearchForm.setProductName(null);
+        }
+        if (StringUtils.isBlank(productSearchForm.getCategoryNo())) {
+            productSearchForm.setCategoryNo(null);
+        }
+        if (StringUtils.isBlank(productSearchForm.getProductId())) {
+            productSearchForm.setProductId(null);
+        }
     }
 
     @Override
@@ -97,10 +128,10 @@ public class ProductServiceImpl implements ProductService {
             throw new DiningException(EResultError.PRODUCT_NOT_EXIST);
         }
 
-        if (productInfo.getProductStatus().equals(EProductInfo.ON_LINE.getCode().byteValue())) {
-            log.error("【商品上架】指定商品已经上架，productId=【{}】", productId);
-            throw new DiningException(EResultError.PRODUCT_STATUS_ERROR);
-        }
+//        if (productInfo.getProductStatus().equals(EProductInfo.ON_LINE.getCode().byteValue())) {
+//            log.error("【商品上架】指定商品已经上架，productId=【{}】", productId);
+//            throw new DiningException(EResultError.PRODUCT_STATUS_ERROR);
+//        }
         productInfo.setProductStatus(EProductInfo.ON_LINE.getCode().byteValue());
         productInfo.setUpdateTime(new Date());
         productInfoMapper.updateByPrimaryKeySelective(productInfo);
@@ -116,10 +147,10 @@ public class ProductServiceImpl implements ProductService {
             throw new DiningException(EResultError.PRODUCT_NOT_EXIST);
         }
 
-        if (productInfo.getProductStatus().equals(EProductInfo.OFF_LINE.getCode().byteValue())) {
-            log.error("【商品下架】指定商品已经下架，productId=【{}】", productId);
-            throw new DiningException(EResultError.PRODUCT_STATUS_ERROR);
-        }
+//        if (productInfo.getProductStatus().equals(EProductInfo.OFF_LINE.getCode().byteValue())) {
+//            log.error("【商品下架】指定商品已经下架，productId=【{}】", productId);
+//            throw new DiningException(EResultError.PRODUCT_STATUS_ERROR);
+//        }
         productInfo.setProductStatus(EProductInfo.OFF_LINE.getCode().byteValue());
         productInfo.setUpdateTime(new Date());
         productInfoMapper.updateByPrimaryKeySelective(productInfo);
@@ -132,17 +163,24 @@ public class ProductServiceImpl implements ProductService {
         return productInfoMapper.updateByPrimaryKeySelective(productInfo);
     }
 
+    @Override
+    public Integer delete(String productId) {
+        return productInfoMapper.deleteByPrimaryKey(productId);
+    }
+
     /**
      * 调用分页插件完成分页
      *
-     * @param pageRequest 分页请求
+     * @param pageRequest       分页请求
+     * @param productSearchForm 搜索请求
      * @return 分页结果
      */
-    private PageInfo<ProductInfo> getPageInfo(PageRequest pageRequest) {
+    private PageInfo<ProductInfo> getPageInfo(PageRequest pageRequest, ProductSearchForm productSearchForm) {
         int pageNum = pageRequest.getPageNum();
         int pageSize = pageRequest.getPageSize();
         PageHelper.startPage(pageNum, pageSize);
-        List<ProductInfo> productInfoList = productInfoMapper.selectAll();
+        List<ProductInfo> productInfoList = productInfoMapper.searchByForm(productSearchForm);
+        log.error("{}",productInfoList);
         return new PageInfo<>(productInfoList);
     }
 

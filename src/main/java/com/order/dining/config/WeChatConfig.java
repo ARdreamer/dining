@@ -15,6 +15,16 @@ import org.springframework.stereotype.Component;
 public class WeChatConfig {
 
     /**
+     * 用户信息url
+     */
+    private String userInfoUrl;
+
+    /**
+     * 模板id
+     */
+    private String templateId;
+
+    /**
      * appId
      */
     private String mpAppId;

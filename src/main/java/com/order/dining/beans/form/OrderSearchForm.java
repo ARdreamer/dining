@@ -8,7 +8,7 @@ import lombok.Data;
  * @Desc: 搜索
  */
 @Data
-public class SearchForm {
+public class OrderSearchForm {
     private String orderId;
     private String username;
     private String phone;

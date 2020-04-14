@@ -1,6 +1,7 @@
 package com.order.dining.controller.common;
 
 import com.order.dining.common.enums.EResultError;
+import com.order.dining.config.WeChatConfig;
 import com.order.dining.exception.DiningException;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.api.WxConsts;
@@ -26,12 +27,13 @@ public class WeChatController {
 
     @Resource
     private WxMpService wxMpService;
+    @Resource
+    private WeChatConfig weChatConfig;
 
     @GetMapping("/authorize")
     public String authorize(@RequestParam("returnUrl") String returnUrl) {
         log.info("【微信网页授权】returnUrl:{}", returnUrl);
-        //TODO 待配置
-        String url = "http://dining.natapp1.cc/sell/wechat/userInfo";
+        String url = weChatConfig.getUserInfoUrl();
         String result = null;
         try {
             result = wxMpService.oauth2buildAuthorizationUrl(url, WxConsts.OAUTH2_SCOPE_BASE, URLEncoder.encode(returnUrl, "utf-8"));

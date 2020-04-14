@@ -1,5 +1,6 @@
 package com.order.dining.service;
 
+import com.order.dining.beans.form.ProductSearchForm;
 import com.order.dining.common.page.PageRequest;
 import com.order.dining.common.page.PageResult;
 import com.order.dining.beans.dto.CartDTO;
@@ -32,9 +33,10 @@ public interface ProductService {
      * 分页查询商品列表
      *
      * @param pageRequest 查询请求
+     * @param productSearchForm
      * @return 查询结果
      */
-    PageResult selectAll(PageRequest pageRequest);
+    PageResult selectAll(PageRequest pageRequest, ProductSearchForm productSearchForm);
 
     Integer insert(ProductInfo productInfo);
 
@@ -47,4 +49,6 @@ public interface ProductService {
     ProductInfo offLine(String productId);
 
     Integer update(ProductInfo productInfo);
+
+    Integer delete(String productId);
 }

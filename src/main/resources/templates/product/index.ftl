@@ -37,7 +37,7 @@
                         </div>
                         <div class="form-group">
                             <label>售出数量</label>
-                            <input name="sellCount" type="text" class="form-control" value="${(productInfo.sellCount)!''}"/>
+                            <input name="sellCount" type="text" class="form-control" value="${(productInfo.sellCount)!"0"}"/>
                         </div>
                         <div class="form-group">
                             <label>类目</label>

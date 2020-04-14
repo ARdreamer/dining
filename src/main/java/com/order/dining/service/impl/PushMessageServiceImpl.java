@@ -1,6 +1,7 @@
 package com.order.dining.service.impl;
 
 import com.order.dining.beans.dto.OrderDTO;
+import com.order.dining.config.WeChatConfig;
 import com.order.dining.service.PushMessageService;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.exception.WxErrorException;
@@ -25,12 +26,13 @@ public class PushMessageServiceImpl implements PushMessageService {
 
     @Resource
     private WxMpService wxMpService;
+    @Resource
+    private WeChatConfig weChatConfig;
 
     @Override
     public void orderStatus(OrderDTO orderDTO) {
         WxMpTemplateMessage wxMpTemplateMessage = new WxMpTemplateMessage();
-        //TODO 待配置
-        wxMpTemplateMessage.setTemplateId("k3Q3ri6yFKwcFYKKb3ddLKmKQqOwHL6Hd5WfMi0l4Ho");
+        wxMpTemplateMessage.setTemplateId(weChatConfig.getTemplateId());
         wxMpTemplateMessage.setToUser(orderDTO.getBuyerOpenid());
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒");
         List<WxMpTemplateData> data = Arrays.asList(new WxMpTemplateData("first", "请查收您的订单哦!"),

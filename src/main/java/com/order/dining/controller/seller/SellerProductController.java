@@ -2,6 +2,7 @@ package com.order.dining.controller.seller;
 
 import com.alibaba.fastjson.JSON;
 import com.order.dining.beans.dto.ProductDto;
+import com.order.dining.beans.form.ProductSearchForm;
 import com.order.dining.common.Constants;
 import com.order.dining.common.page.PageRequest;
 import com.order.dining.common.page.PageResult;
@@ -42,12 +43,14 @@ public class SellerProductController {
     private CategoryService categoryService;
 
     @GetMapping("/list")
-    public ModelAndView list(@RequestParam(value = "page", defaultValue = "1") Integer page,
+    public ModelAndView list(ProductSearchForm productSearchForm,
+                             @RequestParam(value = "page", defaultValue = "1") Integer page,
                              @RequestParam(value = "size", defaultValue = "10") Integer size,
                              Map<String, Object> map) {
         PageRequest pageRequest = new PageRequest(page, size);
-        PageResult pageResult = productService.selectAll(pageRequest);
+        PageResult pageResult = productService.selectAll(pageRequest, productSearchForm);
 
+        map.put("productSearchForm", productSearchForm);
         map.put("productInfoPage", pageResult);
         map.put("currentPage", page);
         map.put("size", size);
@@ -128,4 +131,13 @@ public class SellerProductController {
         map.put("url", "/sell/seller/product/list");
         return new ModelAndView("common/success", map);
     }
+
+    @GetMapping("/delete")
+    public ModelAndView delete(@RequestParam(value = "productId") String productId, Map<String, Object> map) {
+        productService.delete(productId);
+        map.put("msg", "删除成功！");
+        map.put("url", "/sell/seller/product/list");
+        return new ModelAndView("common/success", map);
+    }
+
 }

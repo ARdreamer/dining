@@ -69,7 +69,7 @@ public class ProductInfo {
      *
      * @mbg.generated
      */
-    private Byte productStatus;
+    private Byte productStatus = EProductInfo.ON_LINE.getCode().byteValue();;
 
     /**
      *
