@@ -40,7 +40,8 @@ public class SellerInfoServiceImpl implements SellerInfoService {
     }
 
     @Override
-    public boolean pwdReset(SellerInfo user) {
+    public boolean pwdReset(SellerInfo user, String nowPwd) {
+        user.setPwd(nowPwd);
         user.setUpdateTime(new Date());
         return sellerInfoMapper.updateByPrimaryKeySelective(user) > 0;
     }

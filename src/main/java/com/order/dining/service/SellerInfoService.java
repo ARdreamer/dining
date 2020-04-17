@@ -15,5 +15,5 @@ public interface SellerInfoService {
 
     SellerInfo login(String username, String pwd);
 
-    boolean pwdReset(SellerInfo user);
+    boolean pwdReset(SellerInfo user, String nowPwd);
 }

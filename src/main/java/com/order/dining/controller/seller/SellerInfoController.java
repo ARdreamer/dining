@@ -117,8 +117,7 @@ public class SellerInfoController {
         SellerInfo sellerInfo = JSON.parseObject(stringRedisTemplate.opsForValue().get(Constants.Redis.PREFIX + cookie.getValue()), SellerInfo.class);
         assert sellerInfo != null;
         if (StringUtils.equals(sellerInfo.getPwd(), oriPwd)) {
-            sellerInfo.setPwd(nowPwd);
-            sellerInfoService.pwdReset(sellerInfo);
+            sellerInfoService.pwdReset(sellerInfo,nowPwd);
         } else {
             map.put("msg", "原密码错误，请重试");
             map.put("url", "/sell/user/pwdResetPage");
