@@ -6,6 +6,7 @@ import com.order.dining.dao.domain.SellerInfo;
 import com.order.dining.service.SellerInfoService;
 import com.order.dining.utils.CookieUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -87,5 +89,46 @@ public class SellerInfoController {
         map.put("msg", "登出成功!");
         map.put("url", "/sell/index");
         return new ModelAndView("common/success", map);
+    }
+
+    @GetMapping(value = {"/user/pwdResetPage"})
+    public ModelAndView pwdResetPage() {
+        return new ModelAndView("common/pwdReset");
+    }
+
+    @PostMapping(value = {"/user/pwdReset"})
+    public ModelAndView pwdReset(@RequestParam(value = "oriPwd", defaultValue = "") String oriPwd,
+                                 @RequestParam(value = "nowPwd", defaultValue = "") String nowPwd,
+                                 Map<String, Object> map, HttpServletRequest request, HttpServletResponse response) {
+        //1. 判断密码是否相同
+        if (StringUtils.equals(oriPwd, nowPwd)) {
+            map.put("msg", "修改密码失败，现密码与原密码相同");
+            map.put("url", "/sell/user/pwdResetPage");
+            return new ModelAndView("common/error", map);
+        }
+        //2. 获取cookie
+        Cookie cookie = CookieUtil.get(request, Constants.Cookie.TOKEN);
+        if (cookie == null) {
+            map.put("msg", "登录异常，请重新登录");
+            map.put("url", "/sell/user/logout");
+            return new ModelAndView("common/error", map);
+        }
+        //3. Redis中获取用户信息
+        SellerInfo sellerInfo = JSON.parseObject(stringRedisTemplate.opsForValue().get(Constants.Redis.PREFIX + cookie.getValue()), SellerInfo.class);
+        assert sellerInfo != null;
+        if (StringUtils.equals(sellerInfo.getPwd(), oriPwd)) {
+            sellerInfo.setPwd(nowPwd);
+            sellerInfoService.pwdReset(sellerInfo);
+        } else {
+            map.put("msg", "原密码错误，请重试");
+            map.put("url", "/sell/user/pwdResetPage");
+            return new ModelAndView("common/error", map);
+        }
+        //4. 修改成功，移除cookie
+        CookieUtil.removeAll(request, response, Constants.Cookie.TOKEN);
+        map.put("msg", "修改密码成功,请重新登录");
+        map.put("url", "/sell/index");
+        return new ModelAndView("common/success");
+
     }
 }

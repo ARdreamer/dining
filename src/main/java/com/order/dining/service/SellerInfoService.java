@@ -14,4 +14,6 @@ public interface SellerInfoService {
     Integer insert(SellerInfo sellerInfo);
 
     SellerInfo login(String username, String pwd);
+
+    boolean pwdReset(SellerInfo user);
 }

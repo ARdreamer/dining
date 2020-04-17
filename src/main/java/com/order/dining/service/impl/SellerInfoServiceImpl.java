@@ -39,4 +39,10 @@ public class SellerInfoServiceImpl implements SellerInfoService {
         return sellerInfoMapper.selectByUsernameAndPwd(username, pwd);
     }
 
+    @Override
+    public boolean pwdReset(SellerInfo user) {
+        user.setUpdateTime(new Date());
+        return sellerInfoMapper.updateByPrimaryKeySelective(user) > 0;
+    }
+
 }

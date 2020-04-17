@@ -38,7 +38,9 @@ public class SellerAspect {
     public void verify() {
     }
 
-    @Pointcut("execution(public * com.order.dining.controller.seller.SellerInfoController.*(..))")
+    @Pointcut("execution(public * com.order.dining.controller.seller.SellerInfoController.*(..))" +
+            "&& !execution(public * com.order.dining.controller.seller.SellerInfoController.pwd*(..))" +
+            "&& !execution(public * com.order.dining.controller.seller.SellerInfoController.logout(..))")
     public void index() {
     }
 

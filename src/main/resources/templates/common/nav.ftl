@@ -26,6 +26,9 @@
         </li>
 
         <li>
+            <a href="/sell/user/pwdResetPage"><i class="fa fa-fw fa-list-alt"></i> 修改密码</a>
+        </li>
+        <li>
             <a href="/sell/user/logout"><i class="fa fa-fw fa-list-alt"></i> 登出</a>
         </li>
     </ul>
