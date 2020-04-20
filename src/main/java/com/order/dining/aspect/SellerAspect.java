@@ -19,6 +19,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * @Author: baojx
@@ -35,7 +36,7 @@ public class SellerAspect {
 
     @Pointcut("execution(public * com.order.dining.controller.seller.Seller*.*(..))" +
             "&& !execution(public * com.order.dining.controller.seller.SellerInfoController.*(..))")
-    public void verify() {
+    public void userLoginVerify() {
     }
 
     @Pointcut("execution(public * com.order.dining.controller.seller.SellerInfoController.*(..))" +
@@ -44,11 +45,11 @@ public class SellerAspect {
     public void index() {
     }
 
-    @Before("verify()")
+    @Before("userLoginVerify()")
     public void doVerify() {
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        assert requestAttributes != null;
         HttpServletRequest request = requestAttributes.getRequest();
-        final HttpServletResponse response = requestAttributes.getResponse();
         Cookie cookie = CookieUtil.get(request, Constants.Cookie.TOKEN);
         if (cookie == null) {
             log.warn("【登录校验】Cookie中查不到token");
@@ -69,7 +70,7 @@ public class SellerAspect {
 
     @Before("index()")
     public void indexAOP() throws IOException {
-        HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
+        HttpServletResponse response = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getResponse();
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = requestAttributes.getRequest();
         Cookie cookie = CookieUtil.get(request, Constants.Cookie.TOKEN);
@@ -77,6 +78,7 @@ public class SellerAspect {
             //去redis里查询
             String tokenValue = stringRedisTemplate.opsForValue().get(Constants.Redis.PREFIX + cookie.getValue());
             if (StringUtils.isNotBlank(tokenValue)) {
+                assert response != null;
                 response.sendRedirect("/sell/seller/order/list");
             }
         }

@@ -281,6 +281,7 @@
     var regPasswordAlpha = /[a-zA-Z]/;
     var regPasswordNum = /[0-9]/;
     var password;
+    var repassword;
     var check = [false, false, false, false];
 
     //校验成功函数
@@ -334,14 +335,20 @@
         if ($(this).val().length < 8) {
             fail($(this), 1, '密码太短，不能少于8个字符');
         } else {
-
-
             if (atLeastTwo($(this).val()) < 2) {
                 fail($(this), 1, '密码中至少包含字母、数字、特殊字符的两种')
             } else {
                 success($(this), 1);
             }
         }
+
+        if ($('#passwordConfirm').val() == password) {
+            success($('#passwordConfirm'), 2);
+        } else {
+            fail($('#passwordConfirm'), 2, '两次输入的密码不一致');
+            return;
+        }
+
     });
 
 
