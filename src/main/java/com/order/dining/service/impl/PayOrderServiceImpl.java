@@ -207,6 +207,18 @@ public class PayOrderServiceImpl implements PayOrderService {
             throw new DiningException(EResultError.ORDER_UPDATE_FAIL);
         }
 
+        //3. 当支付状态为NO_PAY时，修改库存
+        if (orderDTO.getPayStatus() == EPayStatus.NO_PAY.getCode().byteValue()) {
+            if (CollectionUtils.isEmpty(orderDTO.getOrderDetailList())) {
+                log.error("【关闭订单】订单中无商品详情，orderDTO:{}", JSON.toJSONString(orderDTO, true));
+                throw new DiningException(EResultError.ORDER_DETAIL_EMPTY);
+            }
+            List<CartDTO> cartDTOList = orderDTO.getOrderDetailList().stream()
+                    .map(e -> new CartDTO(e.getProductId(), e.getProductQuantity()))
+                    .collect(Collectors.toList());
+            productService.incrStock(cartDTOList);
+        }
+
         return orderDTO;
     }
 
@@ -288,9 +300,10 @@ public class PayOrderServiceImpl implements PayOrderService {
         return getPageInfo(pageRequest, null);
     }
 
-    public Integer closeOrder(String orderId){
+    public Integer closeOrder(String orderId) {
         return null;
     }
+
     /**
      * 调用分页插件完成分页
      *
