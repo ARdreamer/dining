@@ -41,8 +41,8 @@
                 <div class="col-sm-6 col-sm-offset-3 form-box">
                     <div class="form-top">
                         <div class="form-top-left">
-                            <h3>Login to our site</h3>
-                            <p>Enter your username and password to log on:</p>
+                            <h3>欢迎登陆本网站</h3>
+                            <p>请输入您的用户名及密码:</p>
                         </div>
                         <div class="form-top-right">
                             <i class="fa fa-key"></i>
