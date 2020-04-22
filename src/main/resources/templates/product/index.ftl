@@ -20,7 +20,7 @@
                         </div>
                         <div class="form-group">
                             <label>价格</label>
-                            <input name="productPrice" type="text" class="form-control" value="${(productInfo.productPrice?c)!''}"/>
+                            <input name="productPrice" type="number" class="form-control" value="${(productInfo.productPrice?c)!''}"/>
                         </div>
                         <div class="form-group">
                             <label>库存</label>
@@ -37,7 +37,7 @@
                         </div>
                         <div class="form-group">
                             <label>售出数量</label>
-                            <input name="sellCount" type="text" class="form-control" value="${(productInfo.sellCount)!"0"}"/>
+                            <input name="sellCount" type="number" class="form-control" value="${(productInfo.sellCount)!"0"}"/>
                         </div>
                         <div class="form-group">
                             <label>类目</label>

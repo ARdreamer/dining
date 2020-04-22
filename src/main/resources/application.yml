@@ -40,4 +40,4 @@ image:
   realPath: G:\JavaSource\dining\src\main\resources\static\image\upload\
 
 time:
-  closeCron: 0 0 0/2 * * ?
+  closeCron: 0 0/1 * * * ?
